@@ -113,7 +113,6 @@ theme = {
 	}
 
 
-
 rootLayout = html.Div([
 		html.Div(id='SERVER-container', children=[
 			html.H1("All Servers"),

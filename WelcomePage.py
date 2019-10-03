@@ -7,19 +7,8 @@ from datetime import datetime
 #import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
-from fakeData import FactoryData
-from fakeBinary import FakeKeywordValues
 from keywords import Keywords
 
-process_names = [
-    'cycle_time',
-    'time_to_complete',
-    'precursor_level',
-    'reagent_level',
-    'catalyst_level',
-    'packaging_level',
-    'production_levels',
-]
 
 
 def get_keyword(server, keyword):
@@ -53,15 +42,6 @@ for i in ['A','B','C']:
 		binary_keywords.append('PWSTAT'+str(j)+i)
 	for j in range(1,9):
 		binary_keywords.append('PWNAME'+str(j)+i)
-#for i in range(0,3):
-#	binary_keywords.append('LMP'+str(i)+'SHST')
-#	binary_keywords.append('LMP'+str(i)+'STAT')
-#binary_keywords.append('LMP3STAT')
-#for i in ['BRANGE', 'RRANGE']:
-#	for j in range(1,3):
-#		binary_keywords.append(i+str(j))
-#binary_keywords.append('BROCHM')
-#binary_keywords.append('BVHVON')
 
 binary_keywords[0] = binary_keywords[0] +'kt1s'
 binary_keywords[1] = binary_keywords[1] +'kt2s'
@@ -100,27 +80,21 @@ for i in range(1,4):
 	for j in range(1,17):
 		server.append('kp'+str(i)+'s')
 
-
-#print(server)
-#print(binary_keywords)
-fdata = FactoryData(process_names)
 binVals = Keywords(server, binary_keywords)
 histKeys = Keywords()
-#print(binVals.get_keyword())
 
-
-
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__)
 
 app.config.suppress_callback_exceptions = True
 
-app.layout = html.Div([
+
+
+app.layout = html.Div(id='full-page', children=[
     dcc.Location(id='url', refresh=False),
     html.Div(id='testing-plotly')
 ])
+
 
 theme = {
 		'dark': False,
@@ -129,7 +103,6 @@ theme = {
 		'secondary': '#6E6E6E'
 	}
 
-light_vs_dark = {'Light' : 'indicator-box', 'Dark' : 'indicator-box-dark'}
 
 
 rootLayout = html.Div([
@@ -267,83 +240,20 @@ rootLayout1 = html.Div([
 				)
 			])
 		]),
-		html.Br(),
-		html.Div(className='indicator-box', id='pgpress-container', children=[
-			html.H4('Blue Pressure Gauge'),
-			daq.Gauge(
-				id='pgpress-status',
-				min=0, max=1,
-				showCurrentValue=True,
-				color={
-					"gradient": True,
-					"ranges": {
-						"green": [0, 0.3],
-						"yellow": [0.3, 0.7],
-						"red": [0.7, 1]
-					}
-				},
-			),
-			html.P('Order of 1000')
-		]),
-		html.Div(className='indicator-box', id='time-container', children=[
-			html.H4('Time to completion (hours)'),
-			daq.Gauge(
-				id='time-to-completion',
-				min=0, max=10,
-				showCurrentValue=True,
-				color='blue'
-			)
-		]),
-		html.Div(className='indicator-box', id='substance-container', children=[
-			html.H4('Substance levels'),
-			daq.GraduatedBar(
-				id='precursor-levels',
-				min=0, max=100,
-				step=5,
-				color={
-						"gradient": True,
-						"ranges": {
-							"green": [0,35],
-							"yellow": [36,65],
-							"red": [66,100]
-						}
-				},
-				label='Precursor'
-			),
-			daq.GraduatedBar(
-				id='reagent-levels',
-				min=0, max=100,
-				step=5,
-				color='blue',
-				label='Reagent'
-			),
-			daq.GraduatedBar(
-				id='catalyst-levels',
-				min=0, max=100,
-				step=5,
-				color='blue',
-				label='Catalyst'
-			),
-			daq.GraduatedBar(
-				id='packaging-levels',
-				min=0, max=100,
-				step=5,
-				color='blue',
-				label='Packaging materials'
-			)
-		]),
-		html.Div(className='indicator-box', id='temperature-container', children=[
+		html.Br()
+	])
+
+
+
+temperatureRoot2 = html.Div([
+	html.Div(className='indicator-box', id='temperature-container', children=[
 			html.H4("tmp1"),
 			daq.Thermometer(id='manufacturing-temp',
 				min=0, max=273,
 				value=100,
 				color='blue')
-		])
 	])
-
-
-
-temperatureRoot2 = html.Div()
+])
 
 powerRoot2 = html.Div([
 	html.Div(id='PWSTATA-container', children=[
@@ -504,123 +414,10 @@ powerRoot2 = html.Div([
 				label='Port 8'
 			)
 		])
-	]),
-	html.Div(id='LMP0-container', children=[
-		html.Div(className='indicator-box', id='lmp0stat-status', children=[
-			html.H4("CAL Lamp 0"),
-			daq.Indicator(
-				id='lmp0-shutter',
-				value=True,
-				color='green',
-				label='Shutter'
-			),
-			daq.Indicator(
-				id='lmp0-status',
-				value=True,
-				color='green',
-				label='Status'
-			)
-		])
-	]),
-	html.Div(id='LMP1-container', children=[
-		html.Div(className='indicator-box', id='lmp1stat-status', children=[
-			html.H4("CAL Lamp 1"),
-			daq.Indicator(
-				id='lmp1-shutter',
-				value=True,
-				color='green',
-				label='Shutter'
-			),
-			daq.Indicator(
-				id='lmp1-status',
-				value=True,
-				color='green',
-				label='Status'
-			)
-		])
-	]),
-	html.Div(id='LMP2-container', children=[
-		html.Div(className='indicator-box', id='lmp2stat-status', children=[
-			html.H4("CAL Lamp 2"),
-			daq.Indicator(
-				id='lmp2-shutter',
-				value=True,
-				color='green',
-				label='Shutter'
-			),
-			daq.Indicator(
-				id='lmp2-status',
-				value=True,
-				color='green',
-				label='Status'
-			)
-		])
-	]),
-	html.Div(id='LMP3-container', children=[
-		html.Div(className='indicator-box', id='lmp3stat-status', children=[
-			html.H4("CAL Lamp 3"),
-			daq.Indicator(
-				id='lmp3-status',
-				value=True,
-				color='green',
-				label='Status'
-			)
-		])
-	]),
-	html.Div(id='BRANGE-container', children=[
-		html.Div(className='indicator-box', id='brange-status', children=[
-			html.H4("Blue Heater Power Range"),
-			daq.Indicator(
-				id='br1-status',
-				value=True,
-				color='green',
-				label='Heater 1'
-			),
-			daq.Indicator(
-				id='br2-status',
-				value=True,
-				color='green',
-				label='Heater 2'
-			)
-		])
-	]),
-	html.Div(id='RRANGE-container', children=[
-		html.Div(className='indicator-box', id='rrange-status', children=[
-			html.H4("Red Heater Power Range"),
-			daq.Indicator(
-				id='rr1-status',
-				value=True,
-				color='green',
-				label='Heater 1'
-			),
-			daq.Indicator(
-				id='rr2-status',
-				value=True,
-				color='green',
-				label='Heater 2'
-			)
-		])
-	]),
-	html.Div(id='MISC-container', children=[
-		html.Div(className='indicator-box', id='misc-status', children=[
-			html.H4("Misc."),
-			daq.Indicator(
-				id='bfochm-status',
-				value=True,
-				color='green',
-				label='Blue Focus Stage Homed'
-			),
-			daq.Indicator(
-				id='bvhvon-status',
-				value=True,
-				color='green',
-				label='Blue Vac-Ion HV'
-			)
-		])
 	])
 ])
 
-layout_dark = go.Layout(
+pressure_layout_dark = go.Layout(
     yaxis=dict(
         title='\'Pressure\' (Torr)',
         range=[0, 0.001],
@@ -637,7 +434,7 @@ layout_dark = go.Layout(
     plot_bgcolor="#313336",
     paper_bgcolor="#303030"
 )
-layout = go.Layout(
+pressure_layout = go.Layout(
     yaxis=dict(
         title='\'Pressure\' (Torr)',
         range=[0, 0.001],
@@ -654,10 +451,10 @@ pressureRoot2 = html.Div([
     html.Div(className='indicator-box', id='graph-container', children=[
         html.H4(get_keyword('kbvs', 'prname')),
         dcc.Graph(
-            id='production-graph',
+            id='pressure-graph',
             figure=go.Figure({
                 'data': [{'x': [], 'y':[]}],
-                'layout': layout
+                'layout': pressure_layout
             }),
         )
     ]),
@@ -666,7 +463,7 @@ pressureRoot2 = html.Div([
             html.H4('Pressure History'),
             html.Div(className='dropdown-theme', id='dropdown', children=[
                 dcc.Dropdown(
-                    id='graph-dropdown',
+                    id='pressure-graph-dropdown',
                     options=[
                         {'label': '1 Day Ago', 'value': 'day'},
                         {'label': '1 Week Ago', 'value': 'week'},
@@ -677,19 +474,34 @@ pressureRoot2 = html.Div([
                     style=theme
                 )
             ])
-        ])
+        ]),
+        html.Div(className='indicator-box', id='pgpress-container', children=[
+			html.H4('Blue Pressure Gauge'),
+			daq.Gauge(
+				id='pgpress-status',
+				min=0, max=1,
+				showCurrentValue=True,
+				color={
+					"gradient": True,
+					"ranges": {
+						"green": [0, 0.3],
+						"yellow": [0.3, 0.7],
+						"red": [0.7, 1]
+					}
+				},
+			),
+			html.P('Order of 1000')
+		])
     ])
 ])
 
-detectorRoot2 = html.Div()
-
-mechanismsRoot2 = html.Div()
+serverRoot2 = html.Div([rootLayout])
 
 
 
 page1 = [
     dcc.Tabs(id="tabs", value='tab-1', children=[
-        dcc.Tab(id='tab1', label='Factory Data', value='tabs1', className='custom-tab',
+        dcc.Tab(id='tab1', label='KCWI Settings', value='tabs1', className='custom-tab',
                 selected_className='custom-tab--selected', children=[
 			html.Br(),
 			daq.ToggleSwitch(
@@ -704,29 +516,26 @@ page1 = [
 			dcc.Interval(id='polling-interval',
 				n_intervals=0,
 				interval=1*1000,
-				disabled=True
+				disabled=False
 			),
 			dcc.Store(id='annotations-storage',
 				data=[]
 			)
         ]),
-        dcc.Tab(id='tab2', label='All Servers', value='tab2', className='custom-tab',
+        dcc.Tab(id='tab2', label='KCWI Servers', value='tab2', className='custom-tab',
                 selected_className='custom-tab--selected', children=[
 			html.Div(id='dark-theme-component-demo2',
 				children=daq.DarkThemeProvider(theme=theme, children=[
 					dcc.Tabs(id='subtabs', value='subtabs1', children=[
+						dcc.Tab(id='subtab4', label='All Servers', value='subtab4', className='custom-tab',
+                			selected_className='custom-tab--selected', children=serverRoot2),
 						dcc.Tab(id='subtab1', label='Temperature Servers', value='subtab1',className='custom-tab',
                 			selected_className='custom-tab--selected', children=temperatureRoot2),
 						dcc.Tab(id='subtab2', label='Power Servers', value='subtab2', className='custom-tab',
                 			selected_className='custom-tab--selected', children=powerRoot2),
 						dcc.Tab(id='subtab3', label='Pressure Servers', value='subtab3', className='custom-tab',
                 			selected_className='custom-tab--selected', children=pressureRoot2),
-						dcc.Tab(id='subtab4', label='Detector Servers', value='subtab4', className='custom-tab',
-                			selected_className='custom-tab--selected', children=detectorRoot2),
-						dcc.Tab(id='subtab5', label='Mechanisms Servers', value='subtab5', className='custom-tab',
-                			selected_className='custom-tab--selected', children=mechanismsRoot2)
-					]),
-					rootLayout
+					])
 				])),
 			dcc.Interval(id='polling-interval2',
 				n_intervals=0,
@@ -740,55 +549,6 @@ page1 = [
     ]),
     html.Div(id='tabs-content')
 ]
-
-
-index_page = html.Div([
-    dcc.Link('Go to Page 1', href='/page-1'),
-    html.Br(),
-    dcc.Link('Go to Page 2', href='/page-2'),
-])
-
-page_1_layout = html.Div([
-    html.H1('Page 1'),
-    dcc.Dropdown(
-        id='page-1-dropdown',
-        options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
-        value='LA'
-    ),
-    html.Div(id='page-1-content'),
-    html.Br(),
-    dcc.Link('Go to Page 2', href='/page-2'),
-    html.Br(),
-    dcc.Link('Go back to home', href='/'),
-])
-
-@app.callback(dash.dependencies.Output('page-1-content', 'children'),
-              [dash.dependencies.Input('page-1-dropdown', 'value')])
-def page_1_dropdown(value):
-    return 'You have selected "{}"'.format(value)
-
-
-page_2_layout = html.Div([
-    html.H1('Page 2'),
-    dcc.RadioItems(
-        id='page-2-radios',
-        options=[{'label': i, 'value': i} for i in ['Orange', 'Blue', 'Red']],
-        value='Orange'
-    ),
-    html.Div(id='page-2-content'),
-    html.Br(),
-    dcc.Link('Go to Page 1', href='/page-1'),
-    html.Br(),
-    dcc.Link('Go back to home', href='/')
-])
-
-@app.callback(dash.dependencies.Output('page-2-content', 'children'),
-              [dash.dependencies.Input('page-2-radios', 'value')])
-def page_2_radios(value):
-    return 'You have selected "{}"'.format(value)
-
-
-#app.layout = html.Div(id='testing-plotly', children=page1)
 
 
 
@@ -827,18 +587,18 @@ def stop_production(_, current):
 	Output('global-servers', 'className'),
     Output('dropdown-container', 'className'),
     Output('dropdown', 'className'),
-    Output('production-graph', 'figure')],
+    Output('pressure-graph', 'figure')],
 	[Input('daq-light-dark-theme', 'value'),
-    Input('graph-dropdown', 'value')],
-    state=[State('production-graph', 'figure')]
+    Input('pressure-graph-dropdown', 'value')],
+    state=[State('pressure-graph', 'figure')]
 )
 def change_class_name(dark_theme, value, current_fig):
     bVw = list()
     temp = ''
-    current_fig['layout'] = layout
+    current_fig['layout'] = pressure_layout
     if(dark_theme):
         temp = '-dark'
-        current_fig['layout'] = layout_dark
+        current_fig['layout'] = pressure_layout_dark
     for x in range(0,23):
         bVw.append('indicator-box'+temp)
     bVw.append('dropdown-theme'+temp)
@@ -897,48 +657,28 @@ def turn_dark(dark_theme):
 
 
 @app.callback(
-    Output('testing-plotly', 'style'),
+	[Output('full-page', 'style'),
+    Output('testing-plotly', 'style')],
     [Input('daq-light-dark-theme', 'value')]
 )
 def change_bg(dark_theme):
 	if(dark_theme):
-		return {'background-color': '#303030', 'color': 'white'}
+		return [{'backgroundColor': '#303030', 'color': 'white'}, {'backgroundColor': '#303030', 'color': 'white'}]
 	else:
-		return {'background-color': 'white', 'color': 'black'}
+		return [{'background-color': 'white', 'color': 'black'}, {'background-color': 'white', 'color': 'black'}]
 
+    
 
 @app.callback(
     [Output('pgpress-status', 'value'),
-     Output('time-to-completion', 'value'),
-     Output('precursor-levels', 'value'),
-     Output('reagent-levels', 'value'),
-     Output('catalyst-levels', 'value'),
-     Output('packaging-levels', 'value'),
      Output('manufacturing-temp', 'value')],
     [Input('polling-interval', 'n_intervals')]
 )
 def update_stats(n_intervals):
-
-    stats = [fdata.get_data()[pname] for pname in process_names]
-    stats[0] = float(get_keyword('kbgs', 'pgpress'))*10**3
-    # current_data = current_fig['data'][0]
-    # if n_intervals%30 == 0:
-    # 	new_data = [{'x': current_data['x'].append(n_intervals/60),
-    # 	'y': current_data['y'].append(get_keyword('kbvs', 'pressure'))}]
-    #
-    #
-    # #current_fig['layout'].update(annotations=current_annotations)
-    # #current_fig.update(
-    # #    figure=go.Figure(
-    # #        data=new_data
-    # #    )
-    # #)
-    #
-    stats = stats[:-1]
-    # stats.append(current_fig)
-    stats.append(float(get_keyword('kt1s', 'tmp1')))
-
-    return stats
+	stats = []
+	stats.append(float(get_keyword('kbgs', 'pgpress'))*10**3)
+	stats.append(float(get_keyword('kt1s', 'tmp1')))
+	return stats
 
 @app.callback(
 	[Output('kt1s-status', 'color'),
@@ -1031,6 +771,53 @@ def update(n_intervals, tab, current_annotations):
 				color_list.append(val)
 		counter = counter + 1
 	return color_list
+
+
+
+index_page = html.Div([
+    dcc.Link('Go to Page 1', href='/page-1'),
+    html.Br(),
+    dcc.Link('Go to Page 2', href='/page-2'),
+])
+
+page_1_layout = html.Div([
+    html.H1('Page 1'),
+    dcc.Dropdown(
+        id='page-1-dropdown',
+        options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
+        value='LA'
+    ),
+    html.Div(id='page-1-content'),
+    html.Br(),
+    dcc.Link('Go to Page 2', href='/page-2'),
+    html.Br(),
+    dcc.Link('Go back to home', href='/'),
+])
+
+@app.callback(dash.dependencies.Output('page-1-content', 'children'),
+              [dash.dependencies.Input('page-1-dropdown', 'value')])
+def page_1_dropdown(value):
+    return 'You have selected "{}"'.format(value)
+
+
+page_2_layout = html.Div([
+    html.H1('Page 2'),
+    dcc.RadioItems(
+        id='page-2-radios',
+        options=[{'label': i, 'value': i} for i in ['Orange', 'Blue', 'Red']],
+        value='Orange'
+    ),
+    html.Div(id='page-2-content'),
+    html.Br(),
+    dcc.Link('Go to Page 1', href='/page-1'),
+    html.Br(),
+    dcc.Link('Go back to home', href='/')
+])
+
+@app.callback(dash.dependencies.Output('page-2-content', 'children'),
+              [dash.dependencies.Input('page-2-radios', 'value')])
+def page_2_radios(value):
+    return 'You have selected "{}"'.format(value)
 
 
 # Update the index
