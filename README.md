@@ -20,7 +20,7 @@ You should then see
  * Debug mode: off
  * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
 ```
-open a browser and go to the link specified (for me that was `http://127.0.0.1:8050/`).
+open a browser and go to the link specified (for me that is `http://127.0.0.1:8050/`).
 
 ### Troubleshooting
 
