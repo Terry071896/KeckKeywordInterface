@@ -22,7 +22,8 @@ Error in getting data from the server
 ```
 over and over, then there is a problem with the script "simple_server.py", which should be running from "kroot".
 
-Given that it is not running, then it can be run from the home directory "vm-history-1".
+Given that it is not running, then it can be ran from the home directory "vm-history-1".
+
 Once logged in, then
 ```
 cd KeckKeywords/keyword_server/
