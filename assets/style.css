@@ -1,3 +1,19 @@
+body {
+  background-color: white;
+}
+
+#page-content {
+  position:absolute;
+    top:0;
+    left:0;
+    width: 100% !important;
+    height: 150% !important;
+    z-index: 100 !important;
+}
+.page-content-class > div {
+    margin: 15px;
+}
+
 .indicator-box {
     vertical-align: top;
     display: inline-block;
@@ -8,6 +24,7 @@
     width: 260px;
     border-radius: 10px;
     border: solid 1px #dddddd;
+    float: left;
 }
 
 .indicator-box h4 {
@@ -45,7 +62,11 @@
     margin: 10px;
 }
 
-#status-container, #status-container1 {
+.indicator-box-dark > div {
+    margin: 10px;
+}
+
+#legend-container, #legend-container1, #legend-container2 {
     display: inline-block;
     width: calc(25% - 50px);
     min-width: 140px;
@@ -56,7 +77,7 @@
 #cycle-time, #time-to-completion {
     margin-bottom: -25px;
 }
-#graph-container {
+#graph-container, #graph-container1 {
     width: 75%;
     min-width: 600px;
 }
@@ -81,29 +102,45 @@
 #manufacturing-temp {
     padding-bottom: 20px;
 }
+#pgpress-container, #thePressure-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 47%;
+}
+#thePressure-status, #thePressure-status1, #pgpress-status, #pgpress-status1 {
+  float: left;
+  width: 45%;
+}
 #pwstata-status, #pwstatb-status, #pwstatc-status {
-	display: inline-block;
-	text-align: center;
-	float: left;
-	width: 30%;
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 30%;
 }
 #lmp0stat-status, #lmp1stat-status, #lmp2stat-status, #lmp3stat-status {
-	display: inline-block;
-	text-align: center;
-	float: left;
-	width: 22%;
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 22%;
 }
-#brange-status, #rrange-status {
-	display: inline-block;
-	text-align: center;
-	float: left;
-	width: 33%;
+#tmp1-container, #tmp7-container, #tmp8-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 24%;
+}
+#settings-container1, #settings-container2, #settings-container3 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 32%;
 }
 #temperature-servers, #power-servers, #pressure-servers, #detector-servers, #mechanism-servers, #global-servers {
-	display: inline-block;
-	text-align: center;
-	float: left;
-	width: 14.5%;
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 14.5%;
 }
 .custom-tab {
     color:#586069;
@@ -119,6 +156,9 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 .custom-tab--selected {
     color: black;
@@ -126,6 +166,9 @@
     border-left: 1px solid lightgrey !important;
     border-right: 1px solid lightgrey !important;
     border-top: 3px solid #e36209 !important;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 .custom-tab-dark {
     color:lightgrey !important;
@@ -141,6 +184,9 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 .custom-tab--selected-dark {
     color: white !important;
@@ -149,6 +195,9 @@
     border-left: 1px solid black !important;
     border-right: 1px solid black !important;
     border-top: 3px solid #e36209 !important;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .dropdown-theme-dark .Select-control {
