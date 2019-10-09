@@ -24,7 +24,7 @@ body {
     width: 260px;
     border-radius: 10px;
     border: solid 1px #dddddd;
-    float: left;
+    text-align: center;
 }
 
 .indicator-box h4 {
@@ -46,6 +46,7 @@ body {
     width: 260px;
     border-radius: 10px;
     border: solid 1px #585656;
+    text-align: center;
 }
 
 .indicator-box-dark h4 {

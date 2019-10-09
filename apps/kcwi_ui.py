@@ -14,27 +14,6 @@ from keywords import Keywords
 from app import app
 
 
-def get_keyword(server, keyword):
-    if mode == 'local':
-        proc = subprocess.Popen("show -terse -s %s %s " % (server, keyword), stdout=subprocess.PIPE, shell=True)
-        result = proc.communicate()
-    elif mode == 'ktlpython':
-        proc = ktl.cache(server, keyword)
-        result = proc.read()
-    elif mode == 'web':
-        url = 'http://localhost:5002/show?server=%s&keyword=%s' % (server, keyword)
-        try:
-            response = requests.get(url)
-            ##print(response.json())
-        except requests.exceptions.RequestException as e:
-            #print("Error in getting data from the server")
-            return
-        result = response.json()
-    elif mode == 'simulate':
-        return 164
-    return result
-
-mode = 'web'
 
 binary_keywords = []
 for i in range(0,13):
@@ -83,7 +62,7 @@ for i in range(1,4):
     for j in range(1,17):
         server.append('kp'+str(i)+'s')
 
-binVals = Keywords(server, binary_keywords)
+kcwiKeywords = Keywords(server, binary_keywords)
 histKeys = Keywords()
 
 
@@ -269,7 +248,8 @@ rootLayout1 = html.Div([
             )
         ])
     ]),
-    html.Br()
+    html.Br(),
+    dcc.Link('Go to Welcome Page', href='/', className='indicator-box', id='welcome-link')
 ])
 
 temperature_layout_dark = go.Layout(
@@ -597,7 +577,7 @@ pressure_layout = go.Layout(
 
 pressureRoot2 = html.Div([
     html.Div(className='indicator-box', id='graph-container', children=[
-        html.H4(get_keyword('kbvs', 'prname')),
+        html.H4(kcwiKeywords.get_keyword('kbvs', 'prname')),
         dcc.Graph(
             id='pressure-graph',
             figure=go.Figure({
@@ -806,6 +786,7 @@ def change_class_name_tab(dark_theme):
     Output('thePressure-container', 'className'),
     Output('time-container', 'className'),
     Output('substance-container', 'className'),
+    Output('welcome-link', 'className'),
     Output('tmp1-container', 'className'),
     Output('tmp7-container', 'className'),
     Output('tmp8-container', 'className'),
@@ -843,7 +824,7 @@ def change_class_name(dark_theme, valueP, valueT, current_figP, current_figT):
         temp = '-dark'
         current_figT['layout'] = temperature_layout_dark
         current_figP['layout'] = pressure_layout_dark
-    for x in range(0,24):
+    for x in range(0,25):
         bVw.append('indicator-box'+temp)
     bVw.append('dropdown-theme'+temp)
     bVw.append('dropdown-theme'+temp)
@@ -889,15 +870,15 @@ def change_bg(dark_theme):
 )
 def update_stats2(n_intervals):
     stats=[]
-    pgpress = float(get_keyword('kbgs', 'pgpress'))
+    pgpress = float(kcwiKeywords.get_keyword('kbgs', 'pgpress'))
     stats.append(pgpress)
     stats.append(pgpress*10**4)
-    pressure = float(get_keyword('kbvs', 'pressure'))
+    pressure = float(kcwiKeywords.get_keyword('kbvs', 'pressure'))
     stats.append(pressure)
     stats.append(pressure*10**7)
-    tmp1 = round(float(get_keyword('kt1s', 'tmp1')),3)
-    tmp7 = round(float(get_keyword('kt2s', 'tmp7')),3)
-    tmp8 = round(float(get_keyword('kt2s', 'tmp8')),3)
+    tmp1 = round(float(kcwiKeywords.get_keyword('kt1s', 'tmp1')),3)
+    tmp7 = round(float(kcwiKeywords.get_keyword('kt2s', 'tmp7')),3)
+    tmp8 = round(float(kcwiKeywords.get_keyword('kt2s', 'tmp8')),3)
 
     for tmp in [tmp1, tmp7, tmp8]:
         stats.append(tmp)
@@ -917,7 +898,7 @@ def update_stats2(n_intervals):
 )
 def update_stats1(n_intervals):
     stats=[]
-    tmp1 = float(get_keyword('kt1s', 'tmp1'))
+    tmp1 = float(kcwiKeywords.get_keyword('kt1s', 'tmp1'))
     if 161 <= tmp1 <= 165:
         stats.append('green')
         stats.append('Good')
@@ -925,8 +906,8 @@ def update_stats1(n_intervals):
         stats.append('red')
         stats.append('OFF')
 
-    vals = [get_keyword('kbds', 'ccdpower'),
-        get_keyword('kbvs', 'hvon')]
+    vals = [kcwiKeywords.get_keyword('kbds', 'ccdpower'),
+        kcwiKeywords.get_keyword('kbvs', 'hvon')]
     for val in vals:
         if val == '1':
             stats.append('green')
@@ -1005,7 +986,7 @@ def update_stats1(n_intervals):
     State('annotations-storage2', 'data')]
 )
 def update(n_intervals, tab, current_annotations):
-    newBinVal = binVals.get_keyword()
+    newBinVal = kcwiKeywords.get_keywords()
     #print(newBinVal)
     stats = [newBinVal[keyword] for keyword in binary_keywords]
     #print(stats)

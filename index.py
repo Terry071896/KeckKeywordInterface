@@ -10,7 +10,7 @@ import requests
 import dash_katex
 
 from app import app
-from apps import kcwi_ui, app2, main_page
+from apps import kcwi_ui, nirspec_ui, nirc2_ui, deimos_ui, nires_ui, lris_ui, mosfire_ui, esi_ui, hires_ui, osiris_ui, main_page
 
 
 app.layout = html.Div(id='full-page', children=[
@@ -22,10 +22,26 @@ app.layout = html.Div(id='full-page', children=[
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/page-1':
+    if pathname == '/kcwi':
         return kcwi_ui.layout
-    elif pathname == '/page-2':
-        return app2.layout
+    elif pathname == '/nirspec':
+        return nirspec_ui.layout
+    elif pathname == '/nirc2':
+        return nirc2_ui.layout
+    elif pathname == '/deimos':
+        return deimos_ui.layout
+    elif pathname == '/nires':
+        return nires_ui.layout
+    elif pathname == '/lris':
+        return lris_ui.layout
+    elif pathname == '/mosfire':
+        return mosfire_ui.layout
+    elif pathname == '/esi':
+        return esi_ui.layout
+    elif pathname == '/hires':
+        return hires_ui.layout
+    elif pathname == '/osiris':
+        return osiris_ui.layout
     else:
         return main_page.layout
 

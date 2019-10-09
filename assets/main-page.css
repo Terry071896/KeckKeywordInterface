@@ -1,0 +1,20 @@
+#page-content-main {
+  position:fixed;
+    top:0px;
+    left:0;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    background: url(http://www.keckobservatory.org/wp-content/gallery/maunakea-summit/33R0275-198-2246418805-O.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+}
+
+#keck1-links, #keck2-links {
+  width: 30%;
+  margin-top: 15px;
+  margin-left: 13%;
+  text-align: center;
+  float: left;
+}
