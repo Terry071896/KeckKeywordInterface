@@ -7,10 +7,16 @@
 ```
   git clone https://github.com/Terry071896/KeckKeywordInterface/
   cd .../KeckKeywordInterface
+  sudo pip install -r requirements.txt
+```
+This should import all the code and python packages necessary.
+
+Then, to run the app
+```
   python index.py
 ```
 
-You should then see 
+You should then see
 
 ```
  * Serving Flask app "app" (lazy loading)
@@ -21,6 +27,8 @@ You should then see
  * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
 ```
 open a browser and go to the link specified (for me that is `http://127.0.0.1:8050/`).
+
+If there is a problem, then you are running python2, so ```python3 index.py``` should work.
 
 ### Troubleshooting
 
