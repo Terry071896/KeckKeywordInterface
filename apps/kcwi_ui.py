@@ -12,7 +12,7 @@ import dash_katex
 
 from keywords import Keywords
 from app import app
-
+from apps import main_page
 
 
 binary_keywords = []
@@ -75,18 +75,17 @@ theme = {
     }
 
 
-
 rootLayout = html.Div([
         html.Div(id='SERVER-container', children=[
             html.Div(className='indicator-box', id='temperature-servers', children=[
                 html.H4('Temperature'),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kt1s-status',
                     value=True,
                     color='blue',
                     label='kt1s'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kt2s-status',
                     value=True,
                     color='blue',
@@ -95,19 +94,19 @@ rootLayout = html.Div([
             ]),
             html.Div(className='indicator-box', id='power-servers', children=[
                 html.H4("Power"),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kp1s-status',
                     value=True,
                     color='blue',
                     label='kp1s'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kp2s-status',
                     value=True,
                     color='blue',
                     label='kp2s'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kp3s-status',
                     value=True,
                     color='blue',
@@ -116,13 +115,13 @@ rootLayout = html.Div([
             ]),
             html.Div(className='indicator-box', id='pressure-servers', children=[
                 html.H4("Pressure"),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kbgs-status',
                     value=True,
                     color='blue',
                     label='kbgs'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kbvs-status',
                     value=True,
                     color='blue',
@@ -131,13 +130,13 @@ rootLayout = html.Div([
             ]),
             html.Div(className='indicator-box', id='detector-servers', children=[
                 html.H4("Detector"),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kbds-status',
                     value=True,
                     color='blue',
                     label='kbds'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kfcs-status',
                     value=True,
                     color='blue',
@@ -146,25 +145,25 @@ rootLayout = html.Div([
             ]),
             html.Div(className='indicator-box', id='mechanism-servers', children=[
                 html.H4("Mechanisms"),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kbes-status',
                     value=True,
                     color='blue',
                     label='kbes'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kbms-status',
                     value=True,
                     color='blue',
                     label='kbms'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kros-status',
                     value=True,
                     color='blue',
                     label='kros'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kcas-status',
                     value=True,
                     color='blue',
@@ -173,7 +172,7 @@ rootLayout = html.Div([
             ]),
             html.Div(className='indicator-box', id='global-servers', children=[
                 html.H4("Global"),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='kcwi-status',
                     value=True,
                     color='blue',
@@ -185,7 +184,7 @@ rootLayout = html.Div([
 
 rootLayout1 = html.Div([
     html.Br(),
-    html.Div(className='indicator-box-dark', id='settings-container1', children=[
+    html.Div(className='indicator-box', id='settings-container1', children=[
         html.H4('Blue CCD Temperature Check'),
         daq.Indicator(
             id='tmp1-check',
@@ -222,25 +221,25 @@ rootLayout1 = html.Div([
         ]),
         html.Div(className='indicator-box', id='legend-status', children=[
             html.H4("Legend"),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='legend-green',
                 value=True,
                 color='green',
                 label='OK ='
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='legend-yellow',
                 value=True,
                 color='yellow',
-                label='Off, but Operational ='
+                label='Warning ='
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='legend-red',
                 value=True,
                 color='red',
-                label='Off/Do Not Run ='
+                label='Off/Error ='
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='legend-red',
                 value=True,
                 color='blue',
@@ -387,49 +386,49 @@ powerRoot2 = html.Div([
     html.Div(id='PWSTATA-container', children=[
             html.Div(className='indicator-box', id='pwstata-status', children=[
                 html.H4("Power Bank A"),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa1-status',
                     value=True,
                     color='blue',
                     label='Port 1'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa2-status',
                     value=True,
                     color='blue',
                     label='Port 2'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa3-status',
                     value=True,
                     color='blue',
                     label='Port 3'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa4-status',
                     value=True,
                     color='blue',
                     label='Port 4'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa5-status',
                     value=True,
                     color='blue',
                     label='Port 5'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa6-status',
                     value=True,
                     color='blue',
                     label='Port 6'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa7-status',
                     value=True,
                     color='blue',
                     label='Port 7'
                 ),
-                daq.Indicator(
+                daq.Indicator( width = 30,
                     id='pwa8-status',
                     value=True,
                     color='blue',
@@ -440,49 +439,49 @@ powerRoot2 = html.Div([
     html.Div(id='PWSTATB-container', children=[
         html.Div(className='indicator-box', id='pwstatb-status', children=[
             html.H4("Power Bank B"),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb1-status',
                 value=True,
                 color='blue',
                 label='Port 1'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb2-status',
                 value=True,
                 color='blue',
                 label='Port 2'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb3-status',
                 value=True,
                 color='blue',
                 label='Port 3'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb4-status',
                 value=True,
                 color='blue',
                 label='Port 4'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb5-status',
                 value=True,
                 color='blue',
                 label='Port 5'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb6-status',
                 value=True,
                 color='blue',
                 label='Port 6'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb7-status',
                 value=True,
                 color='blue',
                 label='Port 7'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwb8-status',
                 value=True,
                 color='blue',
@@ -493,49 +492,49 @@ powerRoot2 = html.Div([
     html.Div(id='PWSTATC-container', children=[
         html.Div(className='indicator-box', id='pwstatc-status', children=[
             html.H4("Power Bank C"),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc1-status',
                 value=True,
                 color='blue',
                 label='Port 1'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc2-status',
                 value=True,
                 color='blue',
                 label='Port 2'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc3-status',
                 value=True,
                 color='blue',
                 label='Port 3'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc4-status',
                 value=True,
                 color='blue',
                 label='Port 4'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc5-status',
                 value=True,
                 color='blue',
                 label='Port 5'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc6-status',
                 value=True,
                 color='blue',
                 label='Port 6'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc7-status',
                 value=True,
                 color='blue',
                 label='Port 7'
             ),
-            daq.Indicator(
+            daq.Indicator( width = 30,
                 id='pwc8-status',
                 value=True,
                 color='blue',
@@ -674,7 +673,7 @@ layout = [
                 id='daq-light-dark-theme',
                 label=['Light', 'Dark'],
                 style={'width': '250px', 'margin': 'auto'},
-                value=False
+                value=theme['dark']
             ),
             html.Br(),
             html.Div(id='dark-theme-component-demo',

@@ -22,26 +22,27 @@ class Keywords(object):
             #print(pname)
             if pname[0:6] == 'uptime':
                 pname = pname[0:6]
-                if self._server_up(server, pname):
+                if self.server_up(server, pname):
                     keywordDict.update({pname+server : '1'})
                 else:
                     keywordDict.update({pname+server : '0'})
             elif pname == 'TESTINT':
-                if self._server_up(server, pname[:-1]):
+                if self.server_up(server, pname[:-1]):
                     keywordDict.update({pname : '1'})
                 else:
                     keywordDict.update({pname : '0'})
             else:
-                if self._server_up(server, pname[:-1]):
+                if self.server_up(server, pname[:-1]):
                     keywordDict.update({pname : self._find_keyword(server, pname[:-1])})
             counter += 1
         return keywordDict
 
     def get_keyword(self, server, keyword):
-        if self._server_up(server, keyword):
+        if self.server_up(server, keyword):
             return self._find_keyword(server, keyword)
         else:
-            return "Error in getting data from the server"
+            print("Error in getting data from the server \'%s\' reading keyword \'%s\'" % (server, keyword))
+            return -8675309
 
     def _find_keyword(self, server, keyword):
         if self._mode == 'local':
@@ -55,14 +56,14 @@ class Keywords(object):
             try:
                 response = requests.get(url)
             except requests.exceptions.RequestException as e:
-                print("Error in getting data from the server")
+                print("Error in getting data from the server \'%s\' reading keyword \'%s\'" % (server, keyword))
 
             result = response.json()
         elif self._mode == 'simulate':
             return 164
         return result
 
-    def _server_up(self, server, keyword):
+    def server_up(self, server, keyword):
         try:
             temp = self._find_keyword(server, keyword)
             return True
@@ -71,12 +72,12 @@ class Keywords(object):
 
     def get_keyword_history(self, server, keyword, time):
         data = {'x' : [], 'y' : []}
-        if(self._server_up(server, keyword)):
+        if(self.server_up(server, keyword)):
             url = 'http://localhost:5002/showHistory?server=%s&keyword=%s&time=%s' % (server, keyword, time)
             try:
                 response = requests.get(url)
             except requests.exceptions.RequestException as e:
-                print("Error in getting data from the server")
+                print("Error in getting data from the server \'%s\' reading keyword \'%s\'" % (server, keyword))
                 return data
             result = response.json()
             if(result[:6] == 'unable'):

@@ -1,12 +1,4 @@
 
-#legend-container, #legend-container1, #legend-container2 {
-    display: inline-block;
-    width: calc(25% - 50px);
-    min-width: 140px;
-    padding: 0px;
-    margin: 0px;
-    border: none;
-}
 #cycle-time, #time-to-completion {
     margin-bottom: -25px;
 }
