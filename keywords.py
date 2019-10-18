@@ -70,8 +70,8 @@ class Keywords(object):
         except:
             return False
 
-    def get_keyword_history(self, server, keyword, time):
-        data = {'x' : [], 'y' : []}
+    def get_keyword_history(self, server, keyword, time, label=''):
+        data = {'x' : [], 'y' : [], 'name' : label}
         if(self.server_up(server, keyword)):
             url = 'http://localhost:5002/showHistory?server=%s&keyword=%s&time=%s' % (server, keyword, time)
             try:
@@ -84,10 +84,27 @@ class Keywords(object):
                 return data
 
             for row in result.split("\\n"):
+                if len(row) == 0:
+                    return data
                 if row[0] == "#":
                     return data
-                x, y = row.split(" ")
+                if row[0] == ' ':
+                    continue
+                x, y = row.split(",")
                 x = datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%f')
                 data["x"].append(x)
                 data['y'].append(float(y))
         return data
+
+    def ping_computer(self, server):
+        url = 'http://localhost:5002/show?server=%s&keyword=%s' % (server, keyword)
+        try:
+            response = requests.get(url)
+        except requests.exceptions.RequestException as e:
+            print("Error in getting data from the server \'%s\' reading keyword \'%s\'" % (server, keyword))
+
+        result = response.json()
+        if result == "":
+            return False
+        else:
+            return True

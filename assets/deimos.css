@@ -34,3 +34,14 @@
   float: left;
   width: 23%;
 }
+#deimos-graph-container1 {
+    width: 75%;
+    min-width: 600px;
+}
+#deimos-stop-button > div > button, #new-batch > div > button {
+    margin-right: 0px !important;
+    width: 100% !important;
+}
+#new-batch > div > button {
+    background-color: blue;
+}

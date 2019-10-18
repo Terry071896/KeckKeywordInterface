@@ -1,0 +1,78 @@
+#nirspec-summary-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 70%;
+  margin-top: 50px;
+  margin-left: 3%;
+}
+#nirspec-summary-container1, #nirspec-summary-container2, #nirspec-summary-container3, #nirspec-summary-container4, #nirspec-summary-container5, #nirspec-summary-container6 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 45%;
+}
+
+#nirspec-power-container, #nirspec-mechanism-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 80%;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+#nirspec-servers-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 50%;
+  margin-top: 5%;
+  margin-left: 5%;
+}
+#nirspec-computer-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 25%;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+#nirspec-servers-1, #nirspec-servers-2, #nirspec-mechanism1, #nirspec-mechanism2{
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 45%;
+  margin: 10px
+}
+#nirspec-detector-container, #nirspec-dewar-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 40%;
+  margin-top: 5%;
+  margin-left: 5%;
+}
+#nirspec-detector1, #nirspec-detector2, #nirspec-dewar1, #nirspec-dewar2{
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 45%;
+  margin: 10px
+}
+#nirspec-power-container1, #nirspec-power-container2, #nirspec-power-container3, #nirspec-power-container4 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 23%;
+}
+#nirspec-graph-container1 {
+    width: 75%;
+    min-width: 600px;
+}
+#nirspec-stop-button > div > button, #new-batch > div > button {
+    margin-right: 0px !important;
+    width: 100% !important;
+}
+#new-batch > div > button {
+    background-color: blue;
+}

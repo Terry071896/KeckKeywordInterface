@@ -67,6 +67,37 @@ body {
     margin: 10px;
 }
 
+.indicator-box-no-border {
+    vertical-align: top;
+    display: inline-block;
+    font-family: sans-serif;
+    color: #303030;
+    padding: 0px;
+    margin: 10px;
+    width: 260px;
+    text-align: center;
+}
+
+
+.indicator-box-no-border-dark {
+    vertical-align: top;
+    display: inline-block;
+    font-family: sans-serif;
+    color: #FFFFFF !important;
+    padding: 0px;
+    margin: 10px;
+    width: 260px;
+    text-align: center;
+}
+
+.indicator-box-no-border > div {
+    margin: 10px;
+}
+
+.indicator-box-no-border-dark > div {
+    margin: 10px;
+}
+
 #legend-container, #legend-container1, #legend-container2 {
     display: inline-block;
     width: calc(25% - 50px);
