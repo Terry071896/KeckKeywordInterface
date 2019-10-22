@@ -13,7 +13,12 @@ import dash_katex
 from keywords import Keywords
 from app import app
 
-
+theme = {
+        'dark': False,
+        'detail': '#007439',
+        'primary': '#00EA64',
+        'secondary': '#6E6E6E'
+    }
 
 layout = html.Div(id='page-content-main', className='page-content-class', children=[
     html.H1('Welcome', style={'text-align': 'center', 'font-size':'75px'}),

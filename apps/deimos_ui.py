@@ -606,18 +606,30 @@ def stop_production(_, current, current2):
 
 @app.callback(
     [Output('tvfilraw-check', 'color'),
+    Output('tvfilraw-check', 'height'),
     Output('g4tltraw-check', 'color'),
+    Output('g4tltraw-check', 'height'),
     Output('tmirrraw-check', 'color'),
+    Output('tmirrraw-check', 'height'),
     Output('hplogtim-check', 'color'),
+    Output('hplogtim-check', 'height'),
     Output('slbarcfg-check', 'color'),
+    Output('slbarcfg-check', 'height'),
     Output('bargncfg-check', 'color'),
+    Output('bargncfg-check', 'height'),
     Output('two-check', 'color'),
+    Output('two-check', 'height'),
     Output('wo-check', 'color'),
+    Output('wo-check', 'height'),
     Output('rotatval-check', 'color'),
+    Output('rotatval-check', 'height'),
     Output('mode-check', 'color'),
+    Output('mode-check', 'height'),
     Output('ra-check', 'color'),
+    Output('ra-check', 'height'),
     Output('deimos-keyword-check', 'color'),
-    Output('deimos-keyword-check', 'label')
+    Output('deimos-keyword-check', 'label'),
+    Output('deimos-keyword-check', 'height')
     ],
     [Input('deimos-polling-interval2', 'n_intervals'),
     Input('deimos-polling-interval', 'n_intervals')]
@@ -629,14 +641,18 @@ def keyword_library_check(n_intervals2, n_intervals1):
         if check_keywords.server_up(key[0],key[1]):
             counter += 1
             stats.append('green')
+            stats.append(0)
         else:
             stats.append('red')
+            stats.append(30)
     if counter == len(serverUpQ):
         stats.append('green')
         stats.append('Good')
+        stats.append(0)
     else:
         stats.append('red')
         stats.append('ERROR')
+        stats.append(50)
     return stats
 
 @app.callback(
@@ -660,8 +676,29 @@ def keyword_library_check(n_intervals2, n_intervals1):
     Output('currinst-check', 'color'),
     Output('rotccwlm-check', 'color'),
     Output('rotcwlm-check', 'color'),
+    Output('tempset-check', 'height'),
+    Output('tempdet-check', 'height'),
+    Output('coolflow-check', 'height'),
+    Output('tvcoflow-check', 'height'),
+    Output('airpressBarrel-check', 'height'),
+    Output('airpressCradle-check', 'height'),
+    Output('ionpump1-check', 'height'),
+    Output('ionpump2-check', 'height'),
+    Output('UTB15VEN-check', 'height'),
+    Output('UTB30VEN-check', 'height'),
+    Output('UTB15VEN-fcs-check', 'height'),
+    Output('UTB30VEN-fcs-check', 'height'),
+    Output('fcscusel-check', 'height'),
+    Output('fcsfoto1-check', 'height'),
+    Output('fcsfoto2-check', 'height'),
+    Output('addframeScience-check', 'height'),
+    Output('addframeFCS-check', 'height'),
+    Output('currinst-check', 'height'),
+    Output('rotccwlm-check', 'height'),
+    Output('rotcwlm-check', 'height'),
     Output('deimos-settings-check', 'color'),
     Output('deimos-settings-check', 'label'),
+    Output('deimos-settings-check', 'height'),
     Output('deimos-tab1', 'disabled'),
     Output('deimos-tab2', 'disabled')],
     [Input('deimos-polling-interval2', 'n_intervals'),
@@ -671,6 +708,7 @@ def settings_check(n_intervals2, n_intervals1):
     stats = []
     counterGreen = 0
     counterYellow = 0
+    print('settings_check started')
     for keyword in settingsGoodQ:
         if sorted(keyword.keys())[1] == 'GOODVALUE':
             if settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD']) == keyword['GOODVALUE']:
@@ -688,17 +726,30 @@ def settings_check(n_intervals2, n_intervals1):
                 stats.append(keyword['BADSTATUS'])
                 if keyword['BADSTATUS'] == 'yellow':
                     counterYellow += 1
+    len_stats = len(stats)
+    for x in range(len_stats):
+        if stats[x] == 'green' or stats[x] == 'yellow':
+            stats.append(0)
+        else:
+            stats.append(30)
+            #print(30)
+
     if counterGreen == len(settingsGoodQ):
         stats.append('green')
         stats.append('Good')
+        stats.append(0)
     elif counterGreen + counterYellow == len(settingsGoodQ):
         stats.append('yellow')
         stats.append('WARNING')
+        stats.append(0)
     else:
         stats.append('red')
         stats.append('ERROR')
+        stats.append(50)
+
     stats.append(False)
     stats.append(False)
+    print('settings_check done')
     return stats
 
 
@@ -815,93 +866,93 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
 #         stats.append('ERROR')
 #     return stats
 
-    # @app.callback(
-    #     [Output('deimos-dark-theme-component-demo', 'children'),
-    #      Output('deimos-subtab4', 'children'),
-    #      Output('deimos-subtab1', 'children'),
-    #      Output('deimos-subtab2', 'children'),
-    #      Output('deimos-subtab3', 'children')],
-    #     [Input('deimos-daq-light-dark-theme', 'value')],
-    #     state=[State('full-page', 'children')]
-    # )
-    # def turn_dark(dark_theme, current_children):
-    #     if(dark_theme):
-    #         theme.update(
-    #             dark=True
-    #         )
-    #     else:
-    #         theme.update(
-    #             dark=False
-    #         )
-    #     return [daq.DarkThemeProvider(theme=theme, children=rootLayout1),
-    #         daq.DarkThemeProvider(theme=theme, children=settingsRoot2),
-    #         daq.DarkThemeProvider(theme=theme, children=keywordsRoot2),
-    #         daq.DarkThemeProvider(theme=theme, children=temperatureRoot2),
-    #         daq.DarkThemeProvider(theme=theme, children=pressureRoot2)]
-    #
-    # @app.callback(
-    #     [Output('deimos-tab1', 'className'),
-    #      Output('deimos-tab1', 'selected_className'),
-    #      Output('deimos-tab2', 'className'),
-    #      Output('deimos-tab2', 'selected_className'),
-    #      Output('deimos-subtab1', 'className'),
-    #      Output('deimos-subtab1', 'selected_className'),
-    #      Output('deimos-subtab2', 'className'),
-    #      Output('deimos-subtab2', 'selected_className'),
-    #      Output('deimos-subtab3', 'className'),
-    #      Output('deimos-subtab3', 'selected_className'),
-    #      Output('deimos-subtab4', 'className'),
-    #      Output('deimos-subtab4', 'selected_className'),
-    #      Output('deimos-subtab5', 'className'),
-    #      Output('deimos-subtab5', 'selected_className')],
-    #     [Input('deimos-daq-light-dark-theme', 'value')]
-    # )
-    # def change_class_name_tab(dark_theme):
-    #     bVw = list()
-    #     temp = ''
-    #     if(dark_theme):
-    #         temp = '-dark'
-    #     for x in range(0,7):
-    #         bVw.append('custom-tab'+temp)
-    #         bVw.append('custom-tab--selected'+temp)
-    #
-    #     return bVw
-    #
-    # @app.callback(
-    #     [Output('deimos-summary-container1', 'className'),
-    #     Output('deimos-summary-container2', 'className'),
-    #     Output('deimos-summary-container3', 'className'),
-    #     Output('deimos-summary-container4', 'className'),
-    #     Output('deimos-legend-status', 'className'),
-    #     Output('deimos-welcome-link', 'className'),
-    #     Output('deimos-settings-container', 'className'),
-    #     Output('deimos-keyword-container', 'className'),
-    #     Output('deimos-graph-container1', 'className'),
-    #     Output('deimos-dropdown-container1', 'className'),
-    #     Output('deimos-dropdown1', 'className')
-    #     ],
-    #     [Input('deimos-daq-light-dark-theme', 'value')]
-    # )
-    # def change_class_name(dark_theme):
-    #     bVw = list()
-    #     temp = ''
-    #     if(dark_theme):
-    #         temp = '-dark'
-    #     for x in range(0,9):
-    #         bVw.append('indicator-box'+temp)
-    #     bVw.append('dropdown-theme'+temp)
-    #     bVw.append('dropdown-theme'+temp)
-    #
-    #     return bVw
-    #
-    #
-    #
-    # # @app.callback(
-    # #     [Output('page-content', 'style')],
-    # #     [Input('deimos-daq-light-dark-theme', 'value')]
-    # # )
-    # # def change_bg(dark_theme):
-    # #     if(dark_theme):
-    # #         return [{'backgroundColor': '#303030', 'color': 'white'}]
-    # #     else:
-    # #         return [{'background-color': 'white', 'color': 'black'}]
+# @app.callback(
+#     [Output('deimos-dark-theme-component-demo', 'children'),
+#      Output('deimos-subtab4', 'children'),
+#      Output('deimos-subtab1', 'children'),
+#      Output('deimos-subtab2', 'children'),
+#      Output('deimos-subtab3', 'children')],
+#     [Input('deimos-daq-light-dark-theme', 'value')],
+#     state=[State('full-page', 'children')]
+# )
+# def turn_dark(dark_theme, current_children):
+#     if(dark_theme):
+#         theme.update(
+#             dark=True
+#         )
+#     else:
+#         theme.update(
+#             dark=False
+#         )
+#     return [daq.DarkThemeProvider(theme=theme, children=rootLayout1),
+#         daq.DarkThemeProvider(theme=theme, children=settingsRoot2),
+#         daq.DarkThemeProvider(theme=theme, children=keywordsRoot2),
+#         daq.DarkThemeProvider(theme=theme, children=temperatureRoot2),
+#         daq.DarkThemeProvider(theme=theme, children=pressureRoot2)]
+#
+# @app.callback(
+#     [Output('deimos-tab1', 'className'),
+#      Output('deimos-tab1', 'selected_className'),
+#      Output('deimos-tab2', 'className'),
+#      Output('deimos-tab2', 'selected_className'),
+#      Output('deimos-subtab1', 'className'),
+#      Output('deimos-subtab1', 'selected_className'),
+#      Output('deimos-subtab2', 'className'),
+#      Output('deimos-subtab2', 'selected_className'),
+#      Output('deimos-subtab3', 'className'),
+#      Output('deimos-subtab3', 'selected_className'),
+#      Output('deimos-subtab4', 'className'),
+#      Output('deimos-subtab4', 'selected_className'),
+#      Output('deimos-subtab5', 'className'),
+#      Output('deimos-subtab5', 'selected_className')],
+#     [Input('deimos-daq-light-dark-theme', 'value')]
+# )
+# def change_class_name_tab(dark_theme):
+#     bVw = list()
+#     temp = ''
+#     if(dark_theme):
+#         temp = '-dark'
+#     for x in range(0,7):
+#         bVw.append('custom-tab'+temp)
+#         bVw.append('custom-tab--selected'+temp)
+#
+#     return bVw
+#
+# @app.callback(
+#     [Output('deimos-summary-container1', 'className'),
+#     Output('deimos-summary-container2', 'className'),
+#     Output('deimos-summary-container3', 'className'),
+#     Output('deimos-summary-container4', 'className'),
+#     Output('deimos-legend-status', 'className'),
+#     Output('deimos-welcome-link', 'className'),
+#     Output('deimos-settings-container', 'className'),
+#     Output('deimos-keyword-container', 'className'),
+#     Output('deimos-graph-container1', 'className'),
+#     Output('deimos-dropdown-container1', 'className'),
+#     Output('deimos-dropdown1', 'className')
+#     ],
+#     [Input('deimos-daq-light-dark-theme', 'value')]
+# )
+# def change_class_name(dark_theme):
+#     bVw = list()
+#     temp = ''
+#     if(dark_theme):
+#         temp = '-dark'
+#     for x in range(0,9):
+#         bVw.append('indicator-box'+temp)
+#     bVw.append('dropdown-theme'+temp)
+#     bVw.append('dropdown-theme'+temp)
+#
+#     return bVw
+
+
+
+# @app.callback(
+#     [Output('page-content', 'style')],
+#     [Input('deimos-daq-light-dark-theme', 'value')]
+# )
+# def change_bg(dark_theme):
+#     if(dark_theme):
+#         return [{'backgroundColor': '#303030', 'color': 'white'}]
+#     else:
+#         return [{'background-color': 'white', 'color': 'black'}]

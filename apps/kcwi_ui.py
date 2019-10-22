@@ -14,7 +14,6 @@ from keywords import Keywords
 from app import app
 from apps import main_page
 
-
 binary_keywords = []
 for i in range(0,13):
     binary_keywords.append('uptime')
@@ -74,6 +73,7 @@ theme = {
         'secondary': '#6E6E6E'
     }
 
+class_theme = {'dark' : ''}
 
 rootLayout = html.Div([
         html.Div(id='SERVER-container', children=[
@@ -234,6 +234,7 @@ rootLayout1 = html.Div([
                 label='Warning ='
             ),
             daq.Indicator( width = 30,
+                height = 30,
                 id='legend-red',
                 value=True,
                 color='red',
@@ -889,10 +890,13 @@ def update_stats2(n_intervals):
 @app.callback(
     [Output('tmp1-check', 'color'),
      Output('tmp1-check', 'label'),
+     Output('tmp1-check', 'height'),
      Output('ccdpower-check', 'color'),
      Output('ccdpower-check', 'label'),
+     Output('ccdpower-check', 'height'),
      Output('hvon-check', 'color'),
-     Output('hvon-check', 'label')],
+     Output('hvon-check', 'label'),
+     Output('hvon-check', 'height')],
     [Input('polling-interval', 'n_intervals')]
 )
 def update_stats1(n_intervals):
@@ -901,9 +905,11 @@ def update_stats1(n_intervals):
     if 161 <= tmp1 <= 165:
         stats.append('green')
         stats.append('Good')
+        stats.append(0)
     else:
         stats.append('red')
         stats.append('OFF')
+        stats.append(50)
 
     vals = [kcwiKeywords.get_keyword('kbds', 'ccdpower'),
         kcwiKeywords.get_keyword('kbvs', 'hvon')]
@@ -911,9 +917,11 @@ def update_stats1(n_intervals):
         if val == '1':
             stats.append('green')
             stats.append('Good')
+            stats.append(0)
         else:
             stats.append('red')
             stats.append('OFF')
+            stats.append(50)
     return stats
 
 
@@ -979,12 +987,51 @@ def update_stats1(n_intervals):
     Output('pwc5-status', 'label'),
     Output('pwc6-status', 'label'),
     Output('pwc7-status', 'label'),
-    Output('pwc8-status', 'label')],
+    Output('pwc8-status', 'label'),
+    Output('kt1s-status', 'height'),
+    Output('kt2s-status', 'height'),
+    Output('kp1s-status', 'height'),
+    Output('kp2s-status', 'height'),
+    Output('kp3s-status', 'height'),
+    Output('kbgs-status', 'height'),
+    Output('kbvs-status', 'height'),
+    Output('kbds-status', 'height'),
+    Output('kfcs-status', 'height'),
+    Output('kbes-status', 'height'),
+    Output('kbms-status', 'height'),
+    Output('kros-status', 'height'),
+    Output('kcas-status', 'height'),
+    Output('kcwi-status', 'height'),
+    Output('pwa1-status', 'height'),
+    Output('pwa2-status', 'height'),
+    Output('pwa3-status', 'height'),
+    Output('pwa4-status', 'height'),
+    Output('pwa5-status', 'height'),
+    Output('pwa6-status', 'height'),
+    Output('pwa7-status', 'height'),
+    Output('pwa8-status', 'height'),
+    Output('pwb1-status', 'height'),
+    Output('pwb2-status', 'height'),
+    Output('pwb3-status', 'height'),
+    Output('pwb4-status', 'height'),
+    Output('pwb5-status', 'height'),
+    Output('pwb6-status', 'height'),
+    Output('pwb7-status', 'height'),
+    Output('pwb8-status', 'height'),
+    Output('pwc1-status', 'height'),
+    Output('pwc2-status', 'height'),
+    Output('pwc3-status', 'height'),
+    Output('pwc4-status', 'height'),
+    Output('pwc5-status', 'height'),
+    Output('pwc6-status', 'height'),
+    Output('pwc7-status', 'height'),
+    Output('pwc8-status', 'height')],
     [Input('polling-interval2', 'n_intervals')],
     state=[State('tabs', 'children'),
     State('annotations-storage2', 'data')]
 )
 def update(n_intervals, tab, current_annotations):
+    print('power and server update started')
     newBinVal = kcwiKeywords.get_keywords()
     #print(newBinVal)
     stats = [newBinVal[keyword] for keyword in binary_keywords]
@@ -1007,5 +1054,11 @@ def update(n_intervals, tab, current_annotations):
             else:
                 color_list.append(val)
         counter = counter + 1
-
+    len_color_list = len(color_list)
+    for x in range(len_color_list):
+        if color_list[x] =='green' or color_list[x] =='yellow':
+            color_list.append(0)
+        elif color_list[x] =='red':
+            color_list.append(30)
+    print('power and server update done')
     return color_list

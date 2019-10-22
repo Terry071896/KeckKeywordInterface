@@ -97,7 +97,7 @@ class Keywords(object):
         return data
 
     def ping_computer(self, server):
-        url = 'http://localhost:5002/show?server=%s&keyword=%s' % (server, keyword)
+        url = 'http://localhost:5002/ping?server=%s' % (server)
         try:
             response = requests.get(url)
         except requests.exceptions.RequestException as e:

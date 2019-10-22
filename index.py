@@ -46,4 +46,4 @@ def display_page(pathname):
         return main_page.layout
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, threaded=True)

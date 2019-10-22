@@ -71,7 +71,7 @@ rootLayout1 = html.Div([
         html.Div(className='indicator-box', id='nirspec-summary-container5', children=[
             html.H4('Pressure Check'),
             daq.Indicator(
-                id='nirspec-temperature-check',
+                id='nirspec-pressure-check',
                 value=True,
                 color='blue',
                 label='Loading...',
@@ -109,7 +109,7 @@ rootLayout1 = html.Div([
                 label='Warning ='
             ),
             daq.Indicator( width = 30,
-                height = 0,
+                height = 30,
                 id='legend-red',
                 value=True,
                 color='red',
@@ -707,7 +707,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='nirspec-polling-interval',
                 n_intervals=0,
-                interval=10*1000,
+                interval=2*1000,
                 disabled=False
             ),
             dcc.Store(id='nirspec-annotations-storage',
@@ -731,7 +731,7 @@ layout = [
                 ]),
             dcc.Interval(id='nirspec-polling-interval2',
                 n_intervals=0,
-                interval=10*1000,
+                interval=2*1000,
                 disabled=False
             ),
             dcc.Store(id='nirspec-annotations-storage2',
@@ -741,3 +741,189 @@ layout = [
     ]),
     html.Div(id='nirspec-tabs-content')
 ]
+
+inputs_intervals = [Input('nirspec-polling-interval', 'n_intervals'), Input('nirspec-polling-interval2', 'n_intervals')]
+outputs = []
+for x in serverUpQ:
+    outputs.append(Output('%s-check' % (x[0]), 'color'))
+    outputs.append(Output('%s-check' % (x[0]), 'height'))
+for x in computerUpQ:
+    outputs.append(Output('%s-check' % (x), 'color'))
+    outputs.append(Output('%s-check' % (x), 'height'))
+
+outputs.append(Output('nirspec-server-check', 'color'))
+outputs.append(Output('nirspec-server-check', 'height'))
+outputs.append(Output('nirspec-server-check', 'label'))
+
+outputs.append(Output('nirspec-computer-check', 'color'))
+outputs.append(Output('nirspec-computer-check', 'height'))
+outputs.append(Output('nirspec-computer-check', 'label'))
+@app.callback(
+    outputs,
+    inputs_intervals
+)
+def populate_servers_computers(n_intervals1, n_intervals2):
+    stats = []
+    counter1 = 0
+    for x in serverUpQ:
+        if check_servers.server_up(x[0],x[1]):
+            stats.append('green')
+            stats.append(0)
+            counter1 += 1
+        else:
+            stats.append('red')
+            stats.append(30)
+    counter2 = 0
+    for x in computerUpQ:
+        if check_computers.ping_computer(x):
+            stats.append('green')
+            stats.append(0)
+            counter2 += 1
+        else:
+            stats.append('red')
+            stats.append(30)
+    if counter1 == len(serverUpQ):
+        stats.append('green')
+        stats.append(0)
+        stats.append('OK')
+    else:
+        stats.append('red')
+        stats.append(50)
+        stats.append('OFF/ERROR')
+
+    if counter2 == len(computerUpQ):
+        stats.append('green')
+        stats.append(0)
+        stats.append('OK')
+    else:
+        stats.append('red')
+        stats.append(50)
+        stats.append('OFF/ERROR')
+
+    return stats
+
+outputs = []
+for x in powerOutlets:
+    outputs.append(Output('%s-check' % (x[1]), 'color'))
+    outputs.append(Output('%s-check' % (x[1]), 'height'))
+
+outputs.append(Output('nirspec-power-check', 'color'))
+outputs.append(Output('nirspec-power-check', 'height'))
+outputs.append(Output('nirspec-power-check', 'label'))
+@app.callback(
+    outputs,
+    inputs_intervals
+)
+def populate_power(n_intervals1, n_intervals2):
+    stats = []
+    counter = 0
+    for x in powerOutlets:
+        if check_power.get_keyword(x[0],x[1]) == 'On':
+            stats.append('green')
+            stats.append(0)
+            counter += 1
+        else:
+            stats.append('red')
+            stats.append(30)
+
+    if counter == len(powerOutlets):
+        stats.append('green')
+        stats.append(0)
+        stats.append('OK')
+    else:
+        stats.append('red')
+        stats.append(50)
+        stats.append('OFF/ERROR')
+    return stats
+
+outputs = []
+for x in tempCheckQ:
+    outputs.append(Output('%s-check' % (x['KEYWORD']), 'color'))
+    outputs.append(Output('%s-check' % (x['KEYWORD']), 'height'))
+outputs.append(Output('nirspec-temperature-check', 'color'))
+outputs.append(Output('nirspec-temperature-check', 'height'))
+outputs.append(Output('nirspec-temperature-check', 'label'))
+@app.callback(
+    outputs,
+    inputs_intervals
+)
+def populate_temperatures(n_intervals1, n_intervals2):
+    stats = []
+    counter = 0
+    for x in tempCheckQ:
+        if x['MINVALUE'] <= float(check_temperature.get_keyword(x['LIBRARY'], x['KEYWORD'])) <= x['MAXVALUE']:
+            stats.append(x['GOODVALUE'])
+            stats.append(0)
+            counter += 1
+        else:
+            stats.append(x['BADSTATUS'])
+            stats.append(30)
+    if counter == len(tempCheckQ):
+        stats.append('green')
+        stats.append(0)
+        stats.append('OK')
+    else:
+        stats.append('red')
+        stats.append(50)
+        stats.append('OFF/ERROR')
+    return stats
+
+outputs = []
+for x in mechanismCheckQ:
+    outputs.append(Output('%s-check' % (x[1]), 'color'))
+    outputs.append(Output('%s-check' % (x[1]), 'height'))
+outputs.append(Output('nirspec-mechanism-check', 'color'))
+outputs.append(Output('nirspec-mechanism-check', 'height'))
+outputs.append(Output('nirspec-mechanism-check', 'label'))
+@app.callback(
+    outputs,
+    inputs_intervals
+)
+def populate_mechanisms(n_intervals1, n_intervals2):
+    stats = []
+    counterG = 0
+    counterY = 0
+    for x in mechanismCheckQ:
+        temp = check_mechanism.get_keyword(x[0],x[1])
+        if temp == 'Ready':
+            stats.append('green')
+            stats.append(0)
+            counterG += 1
+        elif temp == 'Halted':
+            stats.append('yellow')
+            stats.append(0)
+            counterY += 1
+        else:
+            stats.append('red')
+            stats.append(30)
+    if counterG == len(mechanismCheckQ):
+        stats.append('green')
+        stats.append(0)
+        stats.append('OK')
+    elif counterG + counterY == len(mechanismCheckQ):
+        stats.append('yellow')
+        stats.append(0)
+        stats.append('Halted')
+    else:
+        stats.append('red')
+        stats.append(50)
+        stats.append('OFF/ERROR')
+    return stats
+
+@app.callback(
+    [Output('nirspec-pressure-check', 'color'),
+    Output('nirspec-pressure-check', 'height'),
+    Output('nirspec-pressure-check', 'label')],
+    [Input('nirspec-polling-interval', 'n_intervals')]
+)
+def populate_pressure(n_intervals):
+    stats = []
+    if 10**(-9) <= float(check_servers.get_keyword('nsdewar', 'vacuum')) <= 10**(-7):
+        stats.append('green')
+        stats.append(0)
+        stats.append('OK')
+    else:
+        stats.append('red')
+        stats.append(50)
+        stats.append('ERROR')
+    return stats
