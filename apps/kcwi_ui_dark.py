@@ -67,113 +67,113 @@ histKeys = Keywords()
 
 
 theme = {
-        'dark': False,
+        'dark': True,
         'detail': '#007439',
         'primary': '#00EA64',
         'secondary': '#6E6E6E'
     }
 
-class_theme = {'dark' : ''}
+class_theme = {'dark' : '-dark'}
 
 rootLayout = html.Div([
-        html.Div(id='SERVER-container', children=[
-            html.Div(className='indicator-box'+class_theme['dark'], id='temperature-servers', children=[
+        html.Div(id='dark-SERVER-container', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-temperature-servers', children=[
                 html.H4('Temperature'),
                 daq.Indicator( width = 30,
-                    id='kt1s-status',
+                    id='dark-kt1s-status',
                     value=True,
                     color='blue',height=30,
                     label='kt1s'
                 ),
                 daq.Indicator( width = 30,
-                    id='kt2s-status',
+                    id='dark-kt2s-status',
                     value=True,
                     color='blue',height=30,
                     label='kt2s'
                 )
             ]),
-            html.Div(className='indicator-box'+class_theme['dark'], id='power-servers', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-power-servers', children=[
                 html.H4("Power"),
                 daq.Indicator( width = 30,
-                    id='kp1s-status',
+                    id='dark-kp1s-status',
                     value=True,
                     color='blue',height=30,
                     label='kp1s'
                 ),
                 daq.Indicator( width = 30,
-                    id='kp2s-status',
+                    id='dark-kp2s-status',
                     value=True,
                     color='blue',height=30,
                     label='kp2s'
                 ),
                 daq.Indicator( width = 30,
-                    id='kp3s-status',
+                    id='dark-kp3s-status',
                     value=True,
                     color='blue',height=30,
                     label='kp3s'
                 )
             ]),
-            html.Div(className='indicator-box'+class_theme['dark'], id='pressure-servers', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-pressure-servers', children=[
                 html.H4("Pressure"),
                 daq.Indicator( width = 30,
-                    id='kbgs-status',
+                    id='dark-kbgs-status',
                     value=True,
                     color='blue',height=30,
                     label='kbgs'
                 ),
                 daq.Indicator( width = 30,
-                    id='kbvs-status',
+                    id='dark-kbvs-status',
                     value=True,
                     color='blue',height=30,
                     label='kbvs'
                 )
             ]),
-            html.Div(className='indicator-box'+class_theme['dark'], id='detector-servers', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-detector-servers', children=[
                 html.H4("Detector"),
                 daq.Indicator( width = 30,
-                    id='kbds-status',
+                    id='dark-kbds-status',
                     value=True,
                     color='blue',height=30,
                     label='kbds'
                 ),
                 daq.Indicator( width = 30,
-                    id='kfcs-status',
+                    id='dark-kfcs-status',
                     value=True,
                     color='blue',height=30,
                     label='kfcs'
                 )
             ]),
-            html.Div(className='indicator-box'+class_theme['dark'], id='mechanism-servers', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-mechanism-servers', children=[
                 html.H4("Mechanisms"),
                 daq.Indicator( width = 30,
-                    id='kbes-status',
+                    id='dark-kbes-status',
                     value=True,
                     color='blue',height=30,
                     label='kbes'
                 ),
                 daq.Indicator( width = 30,
-                    id='kbms-status',
+                    id='dark-kbms-status',
                     value=True,
                     color='blue',height=30,
                     label='kbms'
                 ),
                 daq.Indicator( width = 30,
-                    id='kros-status',
+                    id='dark-kros-status',
                     value=True,
                     color='blue',height=30,
                     label='kros'
                 ),
                 daq.Indicator( width = 30,
-                    id='kcas-status',
+                    id='dark-kcas-status',
                     value=True,
                     color='blue',height=30,
                     label='kcas'
                 )
             ]),
-            html.Div(className='indicator-box'+class_theme['dark'], id='global-servers', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-global-servers', children=[
                 html.H4("Global"),
                 daq.Indicator( width = 30,
-                    id='kcwi-status',
+                    id='dark-kcwi-status',
                     value=True,
                     color='blue',height=30,
                     label='kcwi'
@@ -184,30 +184,30 @@ rootLayout = html.Div([
 
 rootLayout1 = html.Div([
     html.Br(),
-    html.Div(className='indicator-box'+class_theme['dark'], id='settings-container1', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-settings-container1', children=[
         html.H4('Blue CCD Temperature Check'),
         daq.Indicator(
-            id='tmp1-check',
+            id='dark-tmp1-check',
             value=True,
             color='blue',height=50,
             label='Loading...',
             width = 50
         ),
     ]),
-    html.Div(className='indicator-box'+class_theme['dark'], id='settings-container2', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-settings-container2', children=[
         html.H4('CCD Power Check'),
         daq.Indicator(
-            id='ccdpower-check',
+            id='dark-ccdpower-check',
             value=True,
             color='blue',height=50,
             label='Loading...',
             width = 50
         )
     ]),
-    html.Div(className='indicator-box'+class_theme['dark'], id='settings-container3', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-settings-container3', children=[
         html.H4('Ion Pump Check'),
         daq.Indicator(
-            id='hvon-check',
+            id='dark-hvon-check',
             value=True,
             color='blue',height=50,
             label='Loading...',
@@ -215,33 +215,33 @@ rootLayout1 = html.Div([
         )
     ]),
     html.Br(),
-    html.Div(id='legend-container', children=[
+    html.Div(id='dark-legend-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], children=[
-            daq.StopButton(id='stop-button')
+            daq.StopButton(id='dark-stop-button')
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='legend-status', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-legend-status', children=[
             html.H4("Legend"),
             daq.Indicator( width = 30,
-                id='legend-green',
+                id='dark-legend-green',
                 value=True,
                 color='green',
                 label='OK ='
             ),
             daq.Indicator( width = 30,
-                id='legend-yellow',
+                id='dark-legend-yellow',
                 value=True,
                 color='yellow',height=20,
                 label='Warning ='
             ),
             daq.Indicator( width = 30,
                 height = 30,
-                id='legend-red',
+                id='dark-legend-red',
                 value=True,
                 color='red',
                 label='Off/Error ='
             ),
             daq.Indicator( width = 30,
-                id='legend-red',
+                id='dark-legend-red',
                 value=True,
                 color='blue',height=30,
                 label='Loading ='
@@ -249,7 +249,7 @@ rootLayout1 = html.Div([
         ])
     ]),
     html.Br(),
-    dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='welcome-link')
+    dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='dark-welcome-link')
 ])
 
 temperature_layout_dark = go.Layout(
@@ -282,22 +282,22 @@ temperature_layout = go.Layout(
 )
 
 temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
-    html.Div(className='indicator-box'+class_theme['dark'], id='graph-container1', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-graph-container1', children=[
         html.H4('Blue CCD Temperature'),
         dcc.Graph(
-            id='temperature-graph',
+            id='dark-temperature-graph',
             figure=go.Figure({
                 'data': [{'x': [], 'y':[]}],
-                'layout': temperature_layout if class_theme['dark'] == '' else temperature_layout_dark
+                'layout': temperature_layout_dark
             }),
         )
     ]),
-    html.Div(id='legend-container2', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='dropdown-container1', children=[
+    html.Div(id='dark-legend-container2', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-dropdown-container1', children=[
             html.H4('Temperature History'),
-            html.Div(className='dropdown-theme', id='dropdown1', children=[
+            html.Div(className='dropdown-theme'+class_theme['dark'], id='dark-dropdown1', children=[
                 dcc.Dropdown(
-                    id='temperature-graph-dropdown',
+                    id='dark-temperature-graph-dropdown',
                     options=[
                         {'label': '1 Day Ago', 'value': 'day'},
                         {'label': '1 Week Ago', 'value': 'week'},
@@ -310,16 +310,16 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
             ])
         ]),
     ]),
-    html.Div(className='indicator-box'+class_theme['dark'], id='tmp1-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-tmp1-container', children=[
         html.H4("Blue CCD Temperature"),
-        daq.Thermometer(id='tmp1-temp',
+        daq.Thermometer(id='dark-tmp1-temp',
             min=0, max=273,
             value=100,
             color='blue'
         ),
         html.Br(),
         daq.LEDDisplay(
-            id='tmp1-k-temperature',
+            id='dark-tmp1-k-temperature',
             value='000000',
             color='blue',
             label={'label': 'K', 'style': {'font-size': '24pt'}},
@@ -327,23 +327,23 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
         ),
         html.Br(),
         daq.LEDDisplay(
-            id='tmp1-c-temperature',
+            id='dark-tmp1-c-temperature',
             value='000000',
             label={'label': 'C', 'style': {'font-size': '24pt'}},
             color='red',
             labelPosition='right'
         )
     ]),
-    html.Div(className='indicator-box'+class_theme['dark'], id='tmp7-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-tmp7-container', children=[
         html.H4("Cab Interior Temperature"),
-        daq.Thermometer(id='tmp7-temp',
+        daq.Thermometer(id='dark-tmp7-temp',
             min=0, max=273,
             value=100,
             color='blue'
         ),
         html.Br(),
         daq.LEDDisplay(
-            id='tmp7-k-temperature',
+            id='dark-tmp7-k-temperature',
             value='000000',
             label={'label': 'K', 'style': {'font-size': '24pt'}},
             color='blue',
@@ -351,23 +351,23 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
         ),
         html.Br(),
         daq.LEDDisplay(
-            id='tmp7-c-temperature',
+            id='dark-tmp7-c-temperature',
             value='000000',
             label={'label': 'C', 'style': {'font-size': '24pt'}},
             color='red',
             labelPosition='right'
         )
     ]),
-    html.Div(className='indicator-box'+class_theme['dark'], id='tmp8-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-tmp8-container', children=[
         html.H4("Blue Fill Temperature"),
-        daq.Thermometer(id='tmp8-temp',
+        daq.Thermometer(id='dark-tmp8-temp',
             min=0, max=273,
             value=100,
             color='blue'
         ),
         html.Br(),
         daq.LEDDisplay(
-            id='tmp8-k-temperature',
+            id='dark-tmp8-k-temperature',
             value='000000',
             label={'label': 'K', 'style': {'font-size': '24pt'}},
             color='blue',
@@ -375,7 +375,7 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
         ),
         html.Br(),
         daq.LEDDisplay(
-            id='tmp8-c-temperature',
+            id='dark-tmp8-c-temperature',
             value='000000',
             label={'label': 'C', 'style': {'font-size': '24pt'}},
             color='red',
@@ -385,159 +385,159 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
 ])
 
 powerRoot2 = html.Div([
-    html.Div(id='PWSTATA-container', children=[
-            html.Div(className='indicator-box'+class_theme['dark'], id='pwstata-status', children=[
+    html.Div(id='dark-PWSTATA-container', children=[
+            html.Div(className='indicator-box'+class_theme['dark'], id='dark-pwstata-status', children=[
                 html.H4("Power Bank A"),
                 daq.Indicator( width = 30,
-                    id='pwa1-status',
+                    id='dark-pwa1-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 1'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa2-status',
+                    id='dark-pwa2-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 2'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa3-status',
+                    id='dark-pwa3-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 3'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa4-status',
+                    id='dark-pwa4-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 4'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa5-status',
+                    id='dark-pwa5-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 5'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa6-status',
+                    id='dark-pwa6-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 6'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa7-status',
+                    id='dark-pwa7-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 7'
                 ),
                 daq.Indicator( width = 30,
-                    id='pwa8-status',
+                    id='dark-pwa8-status',
                     value=True,
                     color='blue',height=30,
                     label='Port 8'
                 )
             ])
         ]),
-    html.Div(id='PWSTATB-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='pwstatb-status', children=[
+    html.Div(id='dark-PWSTATB-container', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-pwstatb-status', children=[
             html.H4("Power Bank B"),
             daq.Indicator( width = 30,
-                id='pwb1-status',
+                id='dark-pwb1-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 1'
             ),
             daq.Indicator( width = 30,
-                id='pwb2-status',
+                id='dark-pwb2-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 2'
             ),
             daq.Indicator( width = 30,
-                id='pwb3-status',
+                id='dark-pwb3-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 3'
             ),
             daq.Indicator( width = 30,
-                id='pwb4-status',
+                id='dark-pwb4-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 4'
             ),
             daq.Indicator( width = 30,
-                id='pwb5-status',
+                id='dark-pwb5-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 5'
             ),
             daq.Indicator( width = 30,
-                id='pwb6-status',
+                id='dark-pwb6-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 6'
             ),
             daq.Indicator( width = 30,
-                id='pwb7-status',
+                id='dark-pwb7-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 7'
             ),
             daq.Indicator( width = 30,
-                id='pwb8-status',
+                id='dark-pwb8-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 8'
             )
         ])
     ]),
-    html.Div(id='PWSTATC-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='pwstatc-status', children=[
+    html.Div(id='dark-PWSTATC-container', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-pwstatc-status', children=[
             html.H4("Power Bank C"),
             daq.Indicator( width = 30,
-                id='pwc1-status',
+                id='dark-pwc1-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 1'
             ),
             daq.Indicator( width = 30,
-                id='pwc2-status',
+                id='dark-pwc2-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 2'
             ),
             daq.Indicator( width = 30,
-                id='pwc3-status',
+                id='dark-pwc3-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 3'
             ),
             daq.Indicator( width = 30,
-                id='pwc4-status',
+                id='dark-pwc4-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 4'
             ),
             daq.Indicator( width = 30,
-                id='pwc5-status',
+                id='dark-pwc5-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 5'
             ),
             daq.Indicator( width = 30,
-                id='pwc6-status',
+                id='dark-pwc6-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 6'
             ),
             daq.Indicator( width = 30,
-                id='pwc7-status',
+                id='dark-pwc7-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 7'
             ),
             daq.Indicator( width = 30,
-                id='pwc8-status',
+                id='dark-pwc8-status',
                 value=True,
                 color='blue',height=30,
                 label='Port 8'
@@ -578,22 +578,22 @@ pressure_layout = go.Layout(
 )
 
 pressureRoot2 = html.Div([
-    html.Div(className='indicator-box'+class_theme['dark'], id='graph-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-graph-container', children=[
         html.H4(kcwiKeywords.get_keyword('kbvs', 'prname')),
         dcc.Graph(
-            id='pressure-graph',
+            id='dark-pressure-graph',
             figure=go.Figure({
                 'data': [{'x': [], 'y':[]}],
                 'layout': pressure_layout if class_theme['dark'] == '' else pressure_layout_dark
             }),
         )
     ]),
-    html.Div(id='legend-container1', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='dropdown-container', children=[
+    html.Div(id='dark-legend-container1', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-dropdown-container', children=[
             html.H4('Pressure History'),
-            html.Div(className='dropdown-theme', id='dropdown', children=[
+            html.Div(className='dropdown-theme'+class_theme['dark'], id='dark-dropdown', children=[
                 dcc.Dropdown(
-                    id='pressure-graph-dropdown',
+                    id='dark-pressure-graph-dropdown',
                     options=[
                         {'label': '1 Day Ago', 'value': 'day'},
                         {'label': '1 Week Ago', 'value': 'week'},
@@ -607,10 +607,10 @@ pressureRoot2 = html.Div([
         ])
     ]),
     html.Br(),
-    html.Div(className='indicator-box'+class_theme['dark'], id='pgpress-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-pgpress-container', children=[
         html.H4('Blue Pressure Gauge'),
         daq.Gauge(
-            id='pgpress-status',
+            id='dark-pgpress-status',
             logarithmic=True,
             min=-4, max=1,
             units="Torr",
@@ -618,7 +618,7 @@ pressureRoot2 = html.Div([
         ),
         html.Div([
             daq.Gauge(
-                id='pgpress-status1',
+                id='dark-pgpress-status1',
                 min=0, max=20,
                 units="Torr",
                 showCurrentValue=True,
@@ -634,10 +634,10 @@ pressureRoot2 = html.Div([
             dash_katex.DashKatex(expression='\\textrm{x } 10^{-4}')
         ])
     ]),
-    html.Div(className='indicator-box'+class_theme['dark'], id='thePressure-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-thePressure-container', children=[
         html.H4('Blue Vac Ion'),
         daq.Gauge(
-            id='thePressure-status',
+            id='dark-thePressure-status',
             logarithmic=True,
             min=-8, max=-5,
             units="Torr",
@@ -645,7 +645,7 @@ pressureRoot2 = html.Div([
         ),
         html.Div([
             daq.Gauge(
-                id='thePressure-status1',
+                id='dark-thePressure-status1',
                 min=0, max=100,
                 units="Torr",
                 showCurrentValue=True,
@@ -668,71 +668,70 @@ serverRoot2 = html.Div([rootLayout])
 
 
 layout = [
-    dcc.Tabs(id="tabs", value='tab-1', children=[
-        dcc.Tab(id='tab1', label='KCWI Settings', value='tabs1', className='custom-tab'+class_theme['dark'],
+    dcc.Tabs(id="dark-tabs", value='tab-1', children=[
+        dcc.Tab(id='dark-tab1', label='KCWI Settings', value='tabs1', className='custom-tab'+class_theme['dark'],
                 selected_className='custom-tab--selected'+class_theme['dark'], children=[
             html.Br(),
-            html.Div(id='dark-theme-component-demo',
+            html.Div(id='dark-dark-theme-component-demo',
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
-            dcc.Interval(id='polling-interval',
-                n_intervals=0,
-                interval=1*1000,
-                disabled=False
-            ),
-            dcc.Store(id='annotations-storage',
-                data=[]
-            )
-        ]),
-        dcc.Tab(id='tab2', label='KCWI Servers', value='tab2', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected'+class_theme['dark'], children=[
-            html.Div(id='dark-theme-component-demo2',
-                children=[
-                    dcc.Tabs(id='subtabs', value='subtabs1', children=[
-                        dcc.Tab(id='subtab4', label='All Servers', value='subtab4', className='custom-tab'+class_theme['dark'],
-                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=serverRoot2)),
-                        dcc.Tab(id='subtab1', label='Temperature Servers', value='subtab1',className='custom-tab'+class_theme['dark'],
-                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
-                        dcc.Tab(id='subtab2', label='Power Servers', value='subtab2', className='custom-tab'+class_theme['dark'],
-                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=powerRoot2)),
-                        dcc.Tab(id='subtab3', label='Pressure Servers', value='subtab3', className='custom-tab'+class_theme['dark'],
-                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=pressureRoot2))
-                    ])
-                ]),
-            dcc.Interval(id='polling-interval2',
+            dcc.Interval(id='dark-polling-interval',
                 n_intervals=0,
                 interval=2*1000,
                 disabled=False
             ),
-            dcc.Store(id='annotations-storage2',
+            dcc.Store(id='dark-annotations-storage',
+                data=[]
+            )
+        ]),
+        dcc.Tab(id='dark-tab2', label='KCWI Servers', value='tab2', className='custom-tab'+class_theme['dark'],
+                selected_className='custom-tab--selected'+class_theme['dark'], children=[
+            html.Div(id='dark-dark-theme-component-demo2',
+                children=[
+                    dcc.Tabs(id='dark-subtabs', value='subtabs1', children=[
+                        dcc.Tab(id='dark-subtab4', label='All Servers', value='subtab4', className='custom-tab'+class_theme['dark'],
+                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=serverRoot2)),
+                        dcc.Tab(id='dark-subtab1', label='Temperature Servers', value='subtab1',className='custom-tab'+class_theme['dark'],
+                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
+                        dcc.Tab(id='dark-subtab2', label='Power Servers', value='subtab2', className='custom-tab'+class_theme['dark'],
+                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=powerRoot2)),
+                        dcc.Tab(id='dark-subtab3', label='Pressure Servers', value='subtab3', className='custom-tab'+class_theme['dark'],
+                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=pressureRoot2))
+                    ])
+                ]),
+            dcc.Interval(id='dark-polling-interval2',
+                n_intervals=0,
+                interval=2*1000,
+                disabled=False
+            ),
+            dcc.Store(id='dark-annotations-storage2',
                 data=[]
             )
         ]),
     ]),
-    html.Div(id='tabs-content')
+    html.Div(id='dark-tabs-content')
 ]
 
 
-
 @app.callback(
-    [Output('polling-interval', 'disabled'),
-     Output('stop-button', 'buttonText')],
-    [Input('stop-button', 'n_clicks')],
-    state=[State('polling-interval', 'disabled')]
+    [Output('dark-polling-interval', 'disabled'),
+     Output('dark-stop-button', 'buttonText')],
+    [Input('dark-stop-button', 'n_clicks')],
+    state=[State('dark-polling-interval', 'disabled')]
 )
 def stop_production(_, current):
     return not current, "stop" if current else "start"
 
-
 @app.callback(
-    [Output('temperature-graph', 'figure'),
-    Output('pressure-graph', 'figure')],
-    [Input('pressure-graph-dropdown', 'value'),
-    Input('temperature-graph-dropdown', 'value')],
-    state=[State('pressure-graph', 'figure'),
-    State('temperature-graph', 'figure')]
+    [Output('dark-temperature-graph', 'figure'),
+    Output('dark-pressure-graph', 'figure')],
+    [Input('dark-pressure-graph-dropdown', 'value'),
+    Input('dark-temperature-graph-dropdown', 'value')],
+    state=[State('dark-pressure-graph', 'figure'),
+    State('dark-temperature-graph', 'figure')]
 )
 def change_class_name(valueP, valueT, current_figP, current_figT):
     bVw = list()
+
     current_data = current_figT['data'][0]
     new_data = [histKeys.get_keyword_history('kt1s', 'tmp1', valueT)]
     current_figT['data'] = new_data
@@ -747,22 +746,23 @@ def change_class_name(valueP, valueT, current_figP, current_figT):
 
 
 @app.callback(
-    [Output('pgpress-status', 'value'),
-     Output('pgpress-status1', 'value'),
-     Output('thePressure-status', 'value'),
-     Output('thePressure-status1', 'value'),
-     Output('tmp1-temp', 'value'),
-     Output('tmp1-k-temperature', 'value'),
-     Output('tmp1-c-temperature', 'value'),
-     Output('tmp7-temp', 'value'),
-     Output('tmp7-k-temperature', 'value'),
-     Output('tmp7-c-temperature', 'value'),
-     Output('tmp8-temp', 'value'),
-     Output('tmp8-k-temperature', 'value'),
-     Output('tmp8-c-temperature', 'value')],
-     [Input('polling-interval2', 'n_intervals')]
+    [Output('dark-pgpress-status', 'value'),
+     Output('dark-pgpress-status1', 'value'),
+     Output('dark-thePressure-status', 'value'),
+     Output('dark-thePressure-status1', 'value'),
+     Output('dark-tmp1-temp', 'value'),
+     Output('dark-tmp1-k-temperature', 'value'),
+     Output('dark-tmp1-c-temperature', 'value'),
+     Output('dark-tmp7-temp', 'value'),
+     Output('dark-tmp7-k-temperature', 'value'),
+     Output('dark-tmp7-c-temperature', 'value'),
+     Output('dark-tmp8-temp', 'value'),
+     Output('dark-tmp8-k-temperature', 'value'),
+     Output('dark-tmp8-c-temperature', 'value')],
+     [Input('dark-polling-interval2', 'n_intervals')]
 )
 def update_stats2(n_intervals):
+    print('started update_stats2')
     stats=[]
     pgpress = float(kcwiKeywords.get_keyword('kbgs', 'pgpress'))
     stats.append(pgpress)
@@ -778,23 +778,25 @@ def update_stats2(n_intervals):
         stats.append(tmp)
         stats.append(str(tmp))
         stats.append(str(round(tmp-273,3)))
+    print('ended update_stats2')
     return stats
 
 
 @app.callback(
-    [Output('tmp1-check', 'color'),
-     Output('tmp1-check', 'label'),
-     Output('tmp1-check', 'height'),
-     Output('ccdpower-check', 'color'),
-     Output('ccdpower-check', 'label'),
-     Output('ccdpower-check', 'height'),
-     Output('hvon-check', 'color'),
-     Output('hvon-check', 'label'),
-     Output('hvon-check', 'height')],
-    [Input('polling-interval', 'n_intervals')]
+    [Output('dark-tmp1-check', 'color'),
+     Output('dark-tmp1-check', 'label'),
+     Output('dark-tmp1-check', 'height'),
+     Output('dark-ccdpower-check', 'color'),
+     Output('dark-ccdpower-check', 'label'),
+     Output('dark-ccdpower-check', 'height'),
+     Output('dark-hvon-check', 'color'),
+     Output('dark-hvon-check', 'label'),
+     Output('dark-hvon-check', 'height')],
+    [Input('dark-polling-interval', 'n_intervals')]
 )
 def update_stats1(n_intervals):
     stats=[]
+    print('start update_stats1')
     tmp1 = float(kcwiKeywords.get_keyword('kt1s', 'tmp1'))
     if 161 <= tmp1 <= 165:
         stats.append('green')
@@ -816,113 +818,114 @@ def update_stats1(n_intervals):
             stats.append('red')
             stats.append('OFF')
             stats.append(50)
+    print('ended update_stats1')
     return stats
 
 
 @app.callback(
-    [Output('kt1s-status', 'color'),
-    Output('kt2s-status', 'color'),
-    Output('kp1s-status', 'color'),
-    Output('kp2s-status', 'color'),
-    Output('kp3s-status', 'color'),
-    Output('kbgs-status', 'color'),
-    Output('kbvs-status', 'color'),
-    Output('kbds-status', 'color'),
-    Output('kfcs-status', 'color'),
-    Output('kbes-status', 'color'),
-    Output('kbms-status', 'color'),
-    Output('kros-status', 'color'),
-    Output('kcas-status', 'color'),
-    Output('kcwi-status', 'color'),
-    Output('pwa1-status', 'color'),
-    Output('pwa2-status', 'color'),
-    Output('pwa3-status', 'color'),
-    Output('pwa4-status', 'color'),
-    Output('pwa5-status', 'color'),
-    Output('pwa6-status', 'color'),
-    Output('pwa7-status', 'color'),
-    Output('pwa8-status', 'color'),
-    Output('pwa1-status', 'label'),
-    Output('pwa2-status', 'label'),
-    Output('pwa3-status', 'label'),
-    Output('pwa4-status', 'label'),
-    Output('pwa5-status', 'label'),
-    Output('pwa6-status', 'label'),
-    Output('pwa7-status', 'label'),
-    Output('pwa8-status', 'label'),
-    Output('pwb1-status', 'color'),
-    Output('pwb2-status', 'color'),
-    Output('pwb3-status', 'color'),
-    Output('pwb4-status', 'color'),
-    Output('pwb5-status', 'color'),
-    Output('pwb6-status', 'color'),
-    Output('pwb7-status', 'color'),
-    Output('pwb8-status', 'color'),
-    Output('pwb1-status', 'label'),
-    Output('pwb2-status', 'label'),
-    Output('pwb3-status', 'label'),
-    Output('pwb4-status', 'label'),
-    Output('pwb5-status', 'label'),
-    Output('pwb6-status', 'label'),
-    Output('pwb7-status', 'label'),
-    Output('pwb8-status', 'label'),
-    Output('pwc1-status', 'color'),
-    Output('pwc2-status', 'color'),
-    Output('pwc3-status', 'color'),
-    Output('pwc4-status', 'color'),
-    Output('pwc5-status', 'color'),
-    Output('pwc6-status', 'color'),
-    Output('pwc7-status', 'color'),
-    Output('pwc8-status', 'color'),
-    Output('pwc1-status', 'label'),
-    Output('pwc2-status', 'label'),
-    Output('pwc3-status', 'label'),
-    Output('pwc4-status', 'label'),
-    Output('pwc5-status', 'label'),
-    Output('pwc6-status', 'label'),
-    Output('pwc7-status', 'label'),
-    Output('pwc8-status', 'label'),
-    Output('kt1s-status', 'height'),
-    Output('kt2s-status', 'height'),
-    Output('kp1s-status', 'height'),
-    Output('kp2s-status', 'height'),
-    Output('kp3s-status', 'height'),
-    Output('kbgs-status', 'height'),
-    Output('kbvs-status', 'height'),
-    Output('kbds-status', 'height'),
-    Output('kfcs-status', 'height'),
-    Output('kbes-status', 'height'),
-    Output('kbms-status', 'height'),
-    Output('kros-status', 'height'),
-    Output('kcas-status', 'height'),
-    Output('kcwi-status', 'height'),
-    Output('pwa1-status', 'height'),
-    Output('pwa2-status', 'height'),
-    Output('pwa3-status', 'height'),
-    Output('pwa4-status', 'height'),
-    Output('pwa5-status', 'height'),
-    Output('pwa6-status', 'height'),
-    Output('pwa7-status', 'height'),
-    Output('pwa8-status', 'height'),
-    Output('pwb1-status', 'height'),
-    Output('pwb2-status', 'height'),
-    Output('pwb3-status', 'height'),
-    Output('pwb4-status', 'height'),
-    Output('pwb5-status', 'height'),
-    Output('pwb6-status', 'height'),
-    Output('pwb7-status', 'height'),
-    Output('pwb8-status', 'height'),
-    Output('pwc1-status', 'height'),
-    Output('pwc2-status', 'height'),
-    Output('pwc3-status', 'height'),
-    Output('pwc4-status', 'height'),
-    Output('pwc5-status', 'height'),
-    Output('pwc6-status', 'height'),
-    Output('pwc7-status', 'height'),
-    Output('pwc8-status', 'height')],
-    [Input('polling-interval2', 'n_intervals')],
-    state=[State('tabs', 'children'),
-    State('annotations-storage2', 'data')]
+    [Output('dark-kt1s-status', 'color'),
+    Output('dark-kt2s-status', 'color'),
+    Output('dark-kp1s-status', 'color'),
+    Output('dark-kp2s-status', 'color'),
+    Output('dark-kp3s-status', 'color'),
+    Output('dark-kbgs-status', 'color'),
+    Output('dark-kbvs-status', 'color'),
+    Output('dark-kbds-status', 'color'),
+    Output('dark-kfcs-status', 'color'),
+    Output('dark-kbes-status', 'color'),
+    Output('dark-kbms-status', 'color'),
+    Output('dark-kros-status', 'color'),
+    Output('dark-kcas-status', 'color'),
+    Output('dark-kcwi-status', 'color'),
+    Output('dark-pwa1-status', 'color'),
+    Output('dark-pwa2-status', 'color'),
+    Output('dark-pwa3-status', 'color'),
+    Output('dark-pwa4-status', 'color'),
+    Output('dark-pwa5-status', 'color'),
+    Output('dark-pwa6-status', 'color'),
+    Output('dark-pwa7-status', 'color'),
+    Output('dark-pwa8-status', 'color'),
+    Output('dark-pwa1-status', 'label'),
+    Output('dark-pwa2-status', 'label'),
+    Output('dark-pwa3-status', 'label'),
+    Output('dark-pwa4-status', 'label'),
+    Output('dark-pwa5-status', 'label'),
+    Output('dark-pwa6-status', 'label'),
+    Output('dark-pwa7-status', 'label'),
+    Output('dark-pwa8-status', 'label'),
+    Output('dark-pwb1-status', 'color'),
+    Output('dark-pwb2-status', 'color'),
+    Output('dark-pwb3-status', 'color'),
+    Output('dark-pwb4-status', 'color'),
+    Output('dark-pwb5-status', 'color'),
+    Output('dark-pwb6-status', 'color'),
+    Output('dark-pwb7-status', 'color'),
+    Output('dark-pwb8-status', 'color'),
+    Output('dark-pwb1-status', 'label'),
+    Output('dark-pwb2-status', 'label'),
+    Output('dark-pwb3-status', 'label'),
+    Output('dark-pwb4-status', 'label'),
+    Output('dark-pwb5-status', 'label'),
+    Output('dark-pwb6-status', 'label'),
+    Output('dark-pwb7-status', 'label'),
+    Output('dark-pwb8-status', 'label'),
+    Output('dark-pwc1-status', 'color'),
+    Output('dark-pwc2-status', 'color'),
+    Output('dark-pwc3-status', 'color'),
+    Output('dark-pwc4-status', 'color'),
+    Output('dark-pwc5-status', 'color'),
+    Output('dark-pwc6-status', 'color'),
+    Output('dark-pwc7-status', 'color'),
+    Output('dark-pwc8-status', 'color'),
+    Output('dark-pwc1-status', 'label'),
+    Output('dark-pwc2-status', 'label'),
+    Output('dark-pwc3-status', 'label'),
+    Output('dark-pwc4-status', 'label'),
+    Output('dark-pwc5-status', 'label'),
+    Output('dark-pwc6-status', 'label'),
+    Output('dark-pwc7-status', 'label'),
+    Output('dark-pwc8-status', 'label'),
+    Output('dark-kt1s-status', 'height'),
+    Output('dark-kt2s-status', 'height'),
+    Output('dark-kp1s-status', 'height'),
+    Output('dark-kp2s-status', 'height'),
+    Output('dark-kp3s-status', 'height'),
+    Output('dark-kbgs-status', 'height'),
+    Output('dark-kbvs-status', 'height'),
+    Output('dark-kbds-status', 'height'),
+    Output('dark-kfcs-status', 'height'),
+    Output('dark-kbes-status', 'height'),
+    Output('dark-kbms-status', 'height'),
+    Output('dark-kros-status', 'height'),
+    Output('dark-kcas-status', 'height'),
+    Output('dark-kcwi-status', 'height'),
+    Output('dark-pwa1-status', 'height'),
+    Output('dark-pwa2-status', 'height'),
+    Output('dark-pwa3-status', 'height'),
+    Output('dark-pwa4-status', 'height'),
+    Output('dark-pwa5-status', 'height'),
+    Output('dark-pwa6-status', 'height'),
+    Output('dark-pwa7-status', 'height'),
+    Output('dark-pwa8-status', 'height'),
+    Output('dark-pwb1-status', 'height'),
+    Output('dark-pwb2-status', 'height'),
+    Output('dark-pwb3-status', 'height'),
+    Output('dark-pwb4-status', 'height'),
+    Output('dark-pwb5-status', 'height'),
+    Output('dark-pwb6-status', 'height'),
+    Output('dark-pwb7-status', 'height'),
+    Output('dark-pwb8-status', 'height'),
+    Output('dark-pwc1-status', 'height'),
+    Output('dark-pwc2-status', 'height'),
+    Output('dark-pwc3-status', 'height'),
+    Output('dark-pwc4-status', 'height'),
+    Output('dark-pwc5-status', 'height'),
+    Output('dark-pwc6-status', 'height'),
+    Output('dark-pwc7-status', 'height'),
+    Output('dark-pwc8-status', 'height')],
+    [Input('dark-polling-interval2', 'n_intervals')],
+    state=[State('dark-tabs', 'children'),
+    State('dark-annotations-storage2', 'data')]
 )
 def update(n_intervals, tab, current_annotations):
     print('power and server update started')

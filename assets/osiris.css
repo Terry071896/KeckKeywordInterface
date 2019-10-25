@@ -21,7 +21,7 @@
   margin-top: 5%;
   margin-left: 10%;
 }
-#osiris-servers-container, #osiris-computer-container, #osiris-daimons-container {
+#osiris-servers-container, #osiris-computer-container, #osiris-daemons-container {
   display: inline-block;
   text-align: center;
   float: left;
@@ -38,7 +38,7 @@
   margin: 10px
 }
 
-#osiris-daimons-1, #osiris-daimons-2, #osiris-daimons-3, #osiris-daimons-4, #osiris-daimons-5{
+#osiris-daemons-1, #osiris-daemons-2, #osiris-daemons-3, #osiris-daemons-4, #osiris-daemons-5{
   display: inline-block;
   text-align: center;
   float: left;
@@ -58,6 +58,51 @@
   width: 40%;
   margin-top: 5%;
   margin-left: 5%;
+}
+#osiris-temperatures-container, #osiris-temperatures-container1 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 90%;
+  margin-left: 5%;
+  margin-top:2%;
+  margin-bottom: 0px;
+}
+#osiris-pressure-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 70%;
+  margin-left: 15%;
+  margin-top:2%;
+  margin-bottom: 0px;
+}
+#osiris-pressure-keyword, #osiris-pressure-current, #osiris-pressure-normal {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 33.333333%;
+  margin-top: -5px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+#osiris-temperatures-names, #osiris-temperatures-names1 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 25%;
+  margin-top: -5px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+#osiris-temperatures-keyword, #osiris-temperatures-current, #osiris-temperatures-normal, #osiris-temperatures-keyword1, #osiris-temperatures-current1, #osiris-temperatures-normal1 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 25%;
+  margin-top: -5px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 #osiris-stop-button > div > button, #new-batch > div > button {
     margin-right: 0px !important;

@@ -1,8 +1,21 @@
 body {
   background-color: white;
 }
-
+.light{
+  margin: 0px;
+}
+.dark{
+  margin: 0px;
+}
 #page-content {
+  position:absolute;
+    top:0;
+    left:0;
+    width: 100% !important;
+    height: 150% !important;
+    z-index: 100 !important;
+}
+#dark-page-content {
   position:absolute;
     top:0;
     left:0;
@@ -13,7 +26,9 @@ body {
 .page-content-class > div {
     margin: 15px;
 }
-
+.page-content-class-dark > div {
+    margin: 15px;
+}
 .indicator-box {
     vertical-align: top;
     display: inline-block;
@@ -99,6 +114,15 @@ body {
 }
 
 #legend-container, #legend-container1, #legend-container2 {
+    display: inline-block;
+    width: calc(25% - 50px);
+    min-width: 140px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+#dark-legend-container, #dark-legend-container1, #dark-legend-container2 {
     display: inline-block;
     width: calc(25% - 50px);
     min-width: 140px;

@@ -154,41 +154,41 @@ settingsGoodQ.append({ 'NAME' : 'Rotator CW limit',
 
 
 rootLayout1 = html.Div([
-    html.Div(id='deimos-summary-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container1', children=[
+    html.Div(id='dark-deimos-summary-container', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-deimos-summary-container1', children=[
             html.H4('Computer Check'),
             daq.Indicator(
-                id='deimos-computer-check',
+                id='dark-deimos-computer-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             ),
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container2', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-deimos-summary-container2', children=[
             html.H4('Daemons Check'),
             daq.Indicator(
-                id='deimos-daemons-check',
+                id='dark-deimos-daemons-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             )
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container3', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-deimos-summary-container3', children=[
             html.H4('Keyword Librarys Check'),
             daq.Indicator(
-                id='deimos-keyword-check',
+                id='dark-deimos-keyword-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             )
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container4', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-deimos-summary-container4', children=[
             html.H4('Settings Check'),
             daq.Indicator(
-                id='deimos-settings-check',
+                id='dark-deimos-settings-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
@@ -197,186 +197,186 @@ rootLayout1 = html.Div([
         ])
     ]),
     html.Br(),
-    html.Div(id='legend-container', children=[
+    html.Div(id='dark-legend-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], children=[
-            daq.StopButton(id='deimos-stop-button')
+            daq.StopButton(id='dark-deimos-stop-button')
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='legend-status', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-legend-status', children=[
             html.H4("Legend"),
             daq.Indicator( width = 30,
-                id='legend-green',
+                id='dark-legend-green',
                 value=True,
                 color='green',
                 label='OK ='
             ),
             daq.Indicator( width = 30,
-                id='legend-yellow',
+                id='dark-legend-yellow',
                 value=True,
                 color='yellow',height=20,
                 label='Warning ='
             ),
             daq.Indicator( width = 30,
                 height = 30,
-                id='legend-red',
+                id='dark-legend-red',
                 value=True,
                 color='red',
                 label='Off/Error ='
             ),
             daq.Indicator( width = 30,
-                id='legend-blue',
+                id='dark-legend-blue',
                 value=True,
                 color='blue',height=30,
                 label='Loading ='
             )
         ]),
         html.Br(),
-        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='deimos-welcome-link')
+        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='dark-deimos-welcome-link')
     ])
 ])
 
 settingsRoot2 = html.Div([
-    html.Div(id='deimos-settings-container', className='indicator-box'+class_theme['dark'], children=[
+    html.Div(id='dark-deimos-settings-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Settings Check'),
-        html.Div(id='deimos-settings-1', children=[
+        html.Div(id='dark-deimos-settings-1', children=[
             daq.Indicator(
-                id='tempset-check',
+                id='dark-tempset-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[0]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='tempdet-check',
+                id='dark-tempdet-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[1]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='coolflow-check',
+                id='dark-coolflow-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[2]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='tvcoflow-check',
+                id='dark-tvcoflow-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[3]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='airpressBarrel-check',
+                id='dark-airpressBarrel-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[4]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='airpressCradle-check',
+                id='dark-airpressCradle-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[5]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='ionpump1-check',
+                id='dark-ionpump1-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[6]['NAME'],
                 width = 30
             )
         ]),
-        html.Div(id='deimos-settings-2', children=[
+        html.Div(id='dark-deimos-settings-2', children=[
             daq.Indicator(
-                id='ionpump2-check',
+                id='dark-ionpump2-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[7]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='UTB15VEN-check',
+                id='dark-UTB15VEN-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[8]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='UTB30VEN-check',
+                id='dark-UTB30VEN-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[9]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='UTB15VEN-fcs-check',
+                id='dark-UTB15VEN-fcs-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[10]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='UTB30VEN-fcs-check',
+                id='dark-UTB30VEN-fcs-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[11]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='fcscusel-check',
+                id='dark-fcscusel-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[12]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='fcsfoto1-check',
+                id='dark-fcsfoto1-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[13]['NAME'],
                 width = 30
             )
         ]),
-        html.Div(id='deimos-settings-3', children=[
+        html.Div(id='dark-deimos-settings-3', children=[
             daq.Indicator(
-                id='fcsfoto2-check',
+                id='dark-fcsfoto2-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[14]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='addframeScience-check',
+                id='dark-addframeScience-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[15]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='addframeFCS-check',
+                id='dark-addframeFCS-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[16]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='currinst-check',
+                id='dark-currinst-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[17]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='rotccwlm-check',
+                id='dark-rotccwlm-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[18]['NAME'],
                 width = 30
             ),
             daq.Indicator(
-                id='rotcwlm-check',
+                id='dark-rotcwlm-check',
                 value=True,
                 color='blue',height=30,
                 label=settingsGoodQ[19]['NAME'],
@@ -387,87 +387,87 @@ settingsRoot2 = html.Div([
 ])
 
 keywordsRoot2 = html.Div([
-    html.Div(id='deimos-keyword-container', className='indicator-box'+class_theme['dark'], children=[
+    html.Div(id='dark-deimos-keyword-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Keyword Library Checks'),
-        html.Div(id='deimos-keyword-container1', children=[
+        html.Div(id='dark-deimos-keyword-container1', children=[
             daq.Indicator(
-                id='tvfilraw-check',
+                id='dark-tvfilraw-check',
                 value=True,
                 color='blue',height=30,
                 label='Dispatcher 1',
                 width = 30
             ),
             daq.Indicator(
-                id='g4tltraw-check',
+                id='dark-g4tltraw-check',
                 value=True,
                 color='blue',height=30,
                 label='Dispatcher 2',
                 width = 30
             ),
             daq.Indicator(
-                id='tmirrraw-check',
+                id='dark-tmirrraw-check',
                 value=True,
                 color='blue',height=30,
                 label='Piezo',
                 width = 30
             )
         ]),
-        html.Div(id='deimos-keyword-container2', children=[
+        html.Div(id='dark-deimos-keyword-container2', children=[
             daq.Indicator(
-                id='hplogtim-check',
+                id='dark-hplogtim-check',
                 value=True,
                 color='blue',height=30,
                 label='Hplogger',
                 width = 30
             ),
             daq.Indicator(
-                id='slbarcfg-check',
+                id='dark-slbarcfg-check',
                 value=True,
                 color='blue',height=30,
                 label='Barco',
                 width = 30
             ),
             daq.Indicator(
-                id='bargncfg-check',
+                id='dark-bargncfg-check',
                 value=True,
                 color='blue',height=30,
                 label='Bargun',
                 width = 30
             )
         ]),
-        html.Div(id='deimos-keyword-container3', children=[
+        html.Div(id='dark-deimos-keyword-container3', children=[
             daq.Indicator(
-                id='two-check',
+                id='dark-two-check',
                 value=True,
                 color='blue',height=30,
                 label='CCD+infopatcher',
                 width = 30
             ),
             daq.Indicator(
-                id='wo-check',
+                id='dark-wo-check',
                 value=True,
                 color='blue',height=30,
                 label='FCS+infopatcher',
                 width = 30
             ),
             daq.Indicator(
-                id='rotatval-check',
+                id='dark-rotatval-check',
                 value=True,
                 color='blue',height=30,
                 label='Rotator',
                 width = 30
             )
         ]),
-        html.Div(id='deimos-keyword-container4', children=[
+        html.Div(id='dark-deimos-keyword-container4', children=[
             daq.Indicator(
-                id='mode-check',
+                id='dark-mode-check',
                 value=True,
                 color='blue',height=30,
                 label='ACS',
                 width = 30
             ),
             daq.Indicator(
-                id='ra-check',
+                id='dark-ra-check',
                 value=True,
                 color='blue',height=30,
                 label='DCS',
@@ -509,22 +509,22 @@ temperature_layout = go.Layout(
 dataT = {'day' : '', 'week' : '', 'month' : ''}
 
 temperatureRoot2 = html.Div([
-    html.Div(className='indicator-box'+class_theme['dark'], id='deimos-graph-container1', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-deimos-graph-container1', children=[
         html.H4('Science Detector Temperature'),
         dcc.Graph(
-            id='deimos-temperature-graph',
+            id='dark-deimos-temperature-graph',
             figure=go.Figure({
                 'data': [{'x': [], 'y':[]}],
                 'layout': temperature_layout if class_theme['dark'] == '' else temperature_layout_dark
             }),
         )
     ]),
-    html.Div(id='legend-container2', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-dropdown-container1', children=[
+    html.Div(id='dark-legend-container2', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-deimos-dropdown-container1', children=[
             html.H4('Temperature History'),
-            html.Div(className='dropdown-theme'+class_theme['dark'], id='deimos-dropdown1', children=[
+            html.Div(className='dropdown-theme'+class_theme['dark'], id='dark-deimos-dropdown1', children=[
                 dcc.Dropdown(
-                    id='deimos-temperature-graph-dropdown',
+                    id='dark-deimos-temperature-graph-dropdown',
                     options=[
                         {'label': '1 Day Ago', 'value': 'day'},
                         {'label': '1 Week Ago', 'value': 'week'},
@@ -542,52 +542,59 @@ pressureRoot2 = html.Div([])
 
 layout = [
     dcc.Tabs(id="deimos-tabs", value='deimos-tabs', children=[
-        dcc.Tab(id='deimos-tab1', label='DEIMOS Summary', value='deimos-tabs1', className='custom-tab'+class_theme['dark'],
+        dcc.Tab(id='dark-deimos-tab1', label='DEIMOS Summary', value='deimos-tabs1', className='custom-tab'+class_theme['dark'],
                 selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=[
             html.Br(),
-            html.Div(id='deimos-dark-theme-component-demo',
+            daq.ToggleSwitch(
+                id='dark-deimos-daq-light-dark-theme',
+                label=['Light', 'Dark'],
+                style={'width': '250px', 'margin': 'auto'},
+                value=False
+            ),
+            html.Br(),
+            html.Div(id='dark-deimos-dark-theme-component-demo',
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
-            dcc.Interval(id='deimos-polling-interval',
+            dcc.Interval(id='dark-deimos-polling-interval',
                 n_intervals=0,
                 interval=10*1000,
                 disabled=False
             ),
-            dcc.Store(id='deimos-annotations-storage',
+            dcc.Store(id='dark-deimos-annotations-storage',
                 data=[]
             )
         ]),
-        dcc.Tab(id='deimos-tab2', label='DEIMOS Servers', value='tab2', className='custom-tab'+class_theme['dark'],
+        dcc.Tab(id='dark-deimos-tab2', label='DEIMOS Servers', value='tab2', className='custom-tab'+class_theme['dark'],
                 selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=[
-            html.Div(id='deimos-dark-theme-component-demo2',
+            html.Div(id='dark-deimos-dark-theme-component-demo2',
                 children=[
-                    dcc.Tabs(id='deimos-subtabs', value='subtabs1', children=[
-                        dcc.Tab(id='deimos-subtab4', label='Settings Checks', value='subtab4', className='custom-tab'+class_theme['dark'],
+                    dcc.Tabs(id='dark-deimos-subtabs', value='subtabs1', children=[
+                        dcc.Tab(id='dark-deimos-subtab4', label='Settings Checks', value='subtab4', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=settingsRoot2)),
-                        dcc.Tab(id='deimos-subtab1', label='Keyword Library Checks', value='subtab1',className='custom-tab'+class_theme['dark'],
+                        dcc.Tab(id='dark-deimos-subtab1', label='Keyword Library Checks', value='subtab1',className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=keywordsRoot2)),
-                        dcc.Tab(id='deimos-subtab2', label='Temperatures', value='subtab2', className='custom-tab'+class_theme['dark'],
+                        dcc.Tab(id='dark-deimos-subtab2', label='Temperatures', value='subtab2', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
-                        dcc.Tab(id='deimos-subtab3', label='[Maybe More...]', value='subtab3', className='custom-tab'+class_theme['dark'],
+                        dcc.Tab(id='dark-deimos-subtab3', label='[Maybe More...]', value='subtab3', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=pressureRoot2))
                     ])
                 ]),
-            dcc.Interval(id='deimos-polling-interval2',
+            dcc.Interval(id='dark-deimos-polling-interval2',
                 n_intervals=0,
                 interval=10*1000,
                 disabled=False
             ),
-            dcc.Store(id='deimos-annotations-storage2',
+            dcc.Store(id='dark-deimos-annotations-storage2',
                 data=[]
             )
         ]),
     ]),
-    html.Div(id='deimos-tabs-content')
+    html.Div(id='dark-deimos-tabs-content')
 ]
 
 @app.callback(
-    [Output('deimos-polling-interval', 'disabled'),
-    Output('deimos-polling-interval2', 'disabled'),
-     Output('deimos-stop-button', 'buttonText')],
+    [Output('dark-deimos-polling-interval', 'disabled'),
+    Output('dark-deimos-polling-interval2', 'disabled'),
+     Output('dark-deimos-stop-button', 'buttonText')],
     [Input('deimos-stop-button', 'n_clicks')],
     state=[State('deimos-polling-interval', 'disabled'),
     State('deimos-polling-interval2', 'disabled')]
@@ -599,31 +606,31 @@ def stop_production(_, current, current2):
 
 
 @app.callback(
-    [Output('tvfilraw-check', 'color'),
-    Output('tvfilraw-check', 'height'),
-    Output('g4tltraw-check', 'color'),
-    Output('g4tltraw-check', 'height'),
-    Output('tmirrraw-check', 'color'),
-    Output('tmirrraw-check', 'height'),
-    Output('hplogtim-check', 'color'),
-    Output('hplogtim-check', 'height'),
-    Output('slbarcfg-check', 'color'),
-    Output('slbarcfg-check', 'height'),
-    Output('bargncfg-check', 'color'),
-    Output('bargncfg-check', 'height'),
-    Output('two-check', 'color'),
-    Output('two-check', 'height'),
-    Output('wo-check', 'color'),
-    Output('wo-check', 'height'),
-    Output('rotatval-check', 'color'),
-    Output('rotatval-check', 'height'),
-    Output('mode-check', 'color'),
-    Output('mode-check', 'height'),
-    Output('ra-check', 'color'),
-    Output('ra-check', 'height'),
-    Output('deimos-keyword-check', 'color'),
-    Output('deimos-keyword-check', 'label'),
-    Output('deimos-keyword-check', 'height')
+    [Output('dark-tvfilraw-check', 'color'),
+    Output('dark-tvfilraw-check', 'height'),
+    Output('dark-g4tltraw-check', 'color'),
+    Output('dark-g4tltraw-check', 'height'),
+    Output('dark-tmirrraw-check', 'color'),
+    Output('dark-tmirrraw-check', 'height'),
+    Output('dark-hplogtim-check', 'color'),
+    Output('dark-hplogtim-check', 'height'),
+    Output('dark-slbarcfg-check', 'color'),
+    Output('dark-slbarcfg-check', 'height'),
+    Output('dark-bargncfg-check', 'color'),
+    Output('dark-bargncfg-check', 'height'),
+    Output('dark-two-check', 'color'),
+    Output('dark-two-check', 'height'),
+    Output('dark-wo-check', 'color'),
+    Output('dark-wo-check', 'height'),
+    Output('dark-rotatval-check', 'color'),
+    Output('dark-rotatval-check', 'height'),
+    Output('dark-mode-check', 'color'),
+    Output('dark-mode-check', 'height'),
+    Output('dark-ra-check', 'color'),
+    Output('dark-ra-check', 'height'),
+    Output('dark-deimos-keyword-check', 'color'),
+    Output('dark-deimos-keyword-check', 'label'),
+    Output('dark-deimos-keyword-check', 'height')
     ],
     [Input('deimos-polling-interval2', 'n_intervals'),
     Input('deimos-polling-interval', 'n_intervals')]
@@ -650,51 +657,51 @@ def keyword_library_check(n_intervals2, n_intervals1):
     return stats
 
 @app.callback(
-    [Output('tempset-check', 'color'),
-    Output('tempdet-check', 'color'),
-    Output('coolflow-check', 'color'),
-    Output('tvcoflow-check', 'color'),
-    Output('airpressBarrel-check', 'color'),
-    Output('airpressCradle-check', 'color'),
-    Output('ionpump1-check', 'color'),
-    Output('ionpump2-check', 'color'),
-    Output('UTB15VEN-check', 'color'),
-    Output('UTB30VEN-check', 'color'),
-    Output('UTB15VEN-fcs-check', 'color'),
-    Output('UTB30VEN-fcs-check', 'color'),
-    Output('fcscusel-check', 'color'),
-    Output('fcsfoto1-check', 'color'),
-    Output('fcsfoto2-check', 'color'),
-    Output('addframeScience-check', 'color'),
-    Output('addframeFCS-check', 'color'),
-    Output('currinst-check', 'color'),
-    Output('rotccwlm-check', 'color'),
-    Output('rotcwlm-check', 'color'),
-    Output('tempset-check', 'height'),
-    Output('tempdet-check', 'height'),
-    Output('coolflow-check', 'height'),
-    Output('tvcoflow-check', 'height'),
-    Output('airpressBarrel-check', 'height'),
-    Output('airpressCradle-check', 'height'),
-    Output('ionpump1-check', 'height'),
-    Output('ionpump2-check', 'height'),
-    Output('UTB15VEN-check', 'height'),
-    Output('UTB30VEN-check', 'height'),
-    Output('UTB15VEN-fcs-check', 'height'),
-    Output('UTB30VEN-fcs-check', 'height'),
-    Output('fcscusel-check', 'height'),
-    Output('fcsfoto1-check', 'height'),
-    Output('fcsfoto2-check', 'height'),
-    Output('addframeScience-check', 'height'),
-    Output('addframeFCS-check', 'height'),
-    Output('currinst-check', 'height'),
-    Output('rotccwlm-check', 'height'),
-    Output('rotcwlm-check', 'height'),
-    Output('deimos-settings-check', 'color'),
-    Output('deimos-settings-check', 'label'),
-    Output('deimos-settings-check', 'height'),
-    Output('deimos-tab1', 'disabled'),
-    Output('deimos-tab2', 'disabled')],
+    [Output('dark-tempset-check', 'color'),
+    Output('dark-tempdet-check', 'color'),
+    Output('dark-coolflow-check', 'color'),
+    Output('dark-tvcoflow-check', 'color'),
+    Output('dark-airpressBarrel-check', 'color'),
+    Output('dark-airpressCradle-check', 'color'),
+    Output('dark-ionpump1-check', 'color'),
+    Output('dark-ionpump2-check', 'color'),
+    Output('dark-UTB15VEN-check', 'color'),
+    Output('dark-UTB30VEN-check', 'color'),
+    Output('dark-UTB15VEN-fcs-check', 'color'),
+    Output('dark-UTB30VEN-fcs-check', 'color'),
+    Output('dark-fcscusel-check', 'color'),
+    Output('dark-fcsfoto1-check', 'color'),
+    Output('dark-fcsfoto2-check', 'color'),
+    Output('dark-addframeScience-check', 'color'),
+    Output('dark-addframeFCS-check', 'color'),
+    Output('dark-currinst-check', 'color'),
+    Output('dark-rotccwlm-check', 'color'),
+    Output('dark-rotcwlm-check', 'color'),
+    Output('dark-tempset-check', 'height'),
+    Output('dark-tempdet-check', 'height'),
+    Output('dark-coolflow-check', 'height'),
+    Output('dark-tvcoflow-check', 'height'),
+    Output('dark-airpressBarrel-check', 'height'),
+    Output('dark-airpressCradle-check', 'height'),
+    Output('dark-ionpump1-check', 'height'),
+    Output('dark-ionpump2-check', 'height'),
+    Output('dark-UTB15VEN-check', 'height'),
+    Output('dark-UTB30VEN-check', 'height'),
+    Output('dark-UTB15VEN-fcs-check', 'height'),
+    Output('dark-UTB30VEN-fcs-check', 'height'),
+    Output('dark-fcscusel-check', 'height'),
+    Output('dark-fcsfoto1-check', 'height'),
+    Output('dark-fcsfoto2-check', 'height'),
+    Output('dark-addframeScience-check', 'height'),
+    Output('dark-addframeFCS-check', 'height'),
+    Output('dark-currinst-check', 'height'),
+    Output('dark-rotccwlm-check', 'height'),
+    Output('dark-rotcwlm-check', 'height'),
+    Output('dark-deimos-settings-check', 'color'),
+    Output('dark-deimos-settings-check', 'label'),
+    Output('dark-deimos-settings-check', 'height'),
+    Output('dark-deimos-tab1', 'disabled'),
+    Output('dark-deimos-tab2', 'disabled')],
     [Input('deimos-polling-interval2', 'n_intervals'),
     Input('deimos-polling-interval', 'n_intervals')]
 )
@@ -748,7 +755,7 @@ def settings_check(n_intervals2, n_intervals1):
 
 
 @app.callback(
-    [Output('deimos-temperature-graph', 'figure')],
+    [Output('dark-deimos-temperature-graph', 'figure')],
     [Input('deimos-temperature-graph-dropdown', 'value'),
     Input('deimos-polling-interval2', 'n_intervals'),
     Input('deimos-polling-interval2', 'interval')],
@@ -815,10 +822,10 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
 
 
 # @app.callback(
-#     [Output('deimos-keyword-check', 'color'),
-#     Output('deimos-keyword-check', 'label'),
-#     Output('deimos-settings-check', 'color'),
-#     Output('deimos-settings-check', 'label')],
+#     [Output('dark-deimos-keyword-check', 'color'),
+#     Output('dark-deimos-keyword-check', 'label'),
+#     Output('dark-deimos-settings-check', 'color'),
+#     Output('dark-deimos-settings-check', 'label')],
 #     [Input('deimos-polling-interval', 'n_intervals')]
 # )
 # def global_checks(n_intervals):
@@ -861,11 +868,11 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
 #     return stats
 
 # @app.callback(
-#     [Output('deimos-dark-theme-component-demo', 'children'),
-#      Output('deimos-subtab4', 'children'),
-#      Output('deimos-subtab1', 'children'),
-#      Output('deimos-subtab2', 'children'),
-#      Output('deimos-subtab3', 'children')],
+#     [Output('dark-deimos-dark-theme-component-demo', 'children'),
+#      Output('dark-deimos-subtab4', 'children'),
+#      Output('dark-deimos-subtab1', 'children'),
+#      Output('dark-deimos-subtab2', 'children'),
+#      Output('dark-deimos-subtab3', 'children')],
 #     [Input('deimos-daq-light-dark-theme', 'value')],
 #     state=[State('full-page', 'children')]
 # )
@@ -885,20 +892,20 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
 #         daq.DarkThemeProvider(theme=theme, children=pressureRoot2)]
 #
 # @app.callback(
-#     [Output('deimos-tab1', 'className'),
-#      Output('deimos-tab1', 'selected_className'),
-#      Output('deimos-tab2', 'className'),
-#      Output('deimos-tab2', 'selected_className'),
-#      Output('deimos-subtab1', 'className'),
-#      Output('deimos-subtab1', 'selected_className'),
-#      Output('deimos-subtab2', 'className'),
-#      Output('deimos-subtab2', 'selected_className'),
-#      Output('deimos-subtab3', 'className'),
-#      Output('deimos-subtab3', 'selected_className'),
-#      Output('deimos-subtab4', 'className'),
-#      Output('deimos-subtab4', 'selected_className'),
-#      Output('deimos-subtab5', 'className'),
-#      Output('deimos-subtab5', 'selected_className')],
+#     [Output('dark-deimos-tab1', 'className'),
+#      Output('dark-deimos-tab1', 'selected_className'),
+#      Output('dark-deimos-tab2', 'className'),
+#      Output('dark-deimos-tab2', 'selected_className'),
+#      Output('dark-deimos-subtab1', 'className'),
+#      Output('dark-deimos-subtab1', 'selected_className'),
+#      Output('dark-deimos-subtab2', 'className'),
+#      Output('dark-deimos-subtab2', 'selected_className'),
+#      Output('dark-deimos-subtab3', 'className'),
+#      Output('dark-deimos-subtab3', 'selected_className'),
+#      Output('dark-deimos-subtab4', 'className'),
+#      Output('dark-deimos-subtab4', 'selected_className'),
+#      Output('dark-deimos-subtab5', 'className'),
+#      Output('dark-deimos-subtab5', 'selected_className')],
 #     [Input('deimos-daq-light-dark-theme', 'value')]
 # )
 # def change_class_name_tab(dark_theme):
@@ -913,17 +920,17 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
 #     return bVw
 #
 # @app.callback(
-#     [Output('deimos-summary-container1', 'className'),
-#     Output('deimos-summary-container2', 'className'),
-#     Output('deimos-summary-container3', 'className'),
-#     Output('deimos-summary-container4', 'className'),
-#     Output('deimos-legend-status', 'className'),
-#     Output('deimos-welcome-link', 'className'),
-#     Output('deimos-settings-container', 'className'),
-#     Output('deimos-keyword-container', 'className'),
-#     Output('deimos-graph-container1', 'className'),
-#     Output('deimos-dropdown-container1', 'className'),
-#     Output('deimos-dropdown1', 'className')
+#     [Output('dark-deimos-summary-container1', 'className'),
+#     Output('dark-deimos-summary-container2', 'className'),
+#     Output('dark-deimos-summary-container3', 'className'),
+#     Output('dark-deimos-summary-container4', 'className'),
+#     Output('dark-deimos-legend-status', 'className'),
+#     Output('dark-deimos-welcome-link', 'className'),
+#     Output('dark-deimos-settings-container', 'className'),
+#     Output('dark-deimos-keyword-container', 'className'),
+#     Output('dark-deimos-graph-container1', 'className'),
+#     Output('dark-deimos-dropdown-container1', 'className'),
+#     Output('dark-deimos-dropdown1', 'className')
 #     ],
 #     [Input('deimos-daq-light-dark-theme', 'value')]
 # )
@@ -942,7 +949,7 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
 
 
 # @app.callback(
-#     [Output('page-content', 'style')],
+#     [Output('dark-page-content', 'style')],
 #     [Input('deimos-daq-light-dark-theme', 'value')]
 # )
 # def change_bg(dark_theme):

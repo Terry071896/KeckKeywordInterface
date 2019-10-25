@@ -16,64 +16,64 @@ from app import app
 from apps import main_page
 
 theme = {
-        'dark': False,
+        'dark': True,
         'detail': '#007439',
         'primary': '#00EA64',
         'secondary': '#6E6E6E'
     }
 
-class_theme = {'dark' : ''}
+class_theme = {'dark' : '-dark'}
 
 histKeys = Keywords()
 ##### Check Settings Tab
 settings_keywords = Keywords()
 
 rootLayout1 = html.Div([
-    html.Div(id='esi-summary-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='esi-summary-container1', children=[
+    html.Div(id='dark-esi-summary-container', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-esi-summary-container1', children=[
             html.H4('Computer Check'),
             daq.Indicator(
-                id='esi-computer-check',
+                id='dark-esi-computer-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             ),
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='esi-summary-container2', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-esi-summary-container2', children=[
             html.H4('Daemons Check'),
             daq.Indicator(
-                id='esi-daemons-check',
+                id='dark-esi-daemons-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             )
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='esi-summary-container3', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-esi-summary-container3', children=[
             html.H4('Keyword Libraries Check'),
             daq.Indicator(
-                id='esi-keyword-check',
+                id='dark-esi-keyword-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             )
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='esi-summary-container4', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-esi-summary-container4', children=[
             html.H4('Settings Check'),
             daq.Indicator(
-                id='esi-settings-check',
+                id='dark-esi-settings-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
                 width = 50
             )
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='esi-summary-container5', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-esi-summary-container5', children=[
             html.H4('Temperature Check'),
             daq.Indicator(
-                id='esi-temperature-check',
+                id='dark-esi-temperature-check',
                 value=True,
                 color='blue',height=50,
                 label='Loading...',
@@ -82,42 +82,42 @@ rootLayout1 = html.Div([
         ])
     ]),
     html.Br(),
-    html.Div(id='legend-container', children=[
+    html.Div(id='dark-legend-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], children=[
-            daq.StopButton(id='esi-stop-button')
+            daq.StopButton(id='dark-esi-stop-button')
         ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='legend-status', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='dark-legend-status', children=[
             html.H4("Legend"),
             daq.Indicator( width = 30,
-                id='legend-green',
+                id='dark-legend-green',
                 value=True,
                 color='green',
                 label='OK ='
             ),
             daq.Indicator( width = 30,
                 height = 20,
-                id='legend-yellow',
+                id='dark-legend-yellow',
                 value=True,
                 color='yellow',
                 label='Warning ='
             ),
             daq.Indicator( width = 30,
                 height = 30,
-                id='legend-red',
+                id='dark-legend-red',
                 value=True,
                 color='red',
                 label='Off/Error ='
             ),
             daq.Indicator( width = 30,
                 height = 30,
-                id='legend-blue',
+                id='dark-legend-blue',
                 value=True,
                 color='blue',
                 label='Loading ='
             )
         ]),
         html.Br(),
-        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='esi-welcome-link')
+        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='dark-esi-welcome-link')
     ])
 ])
 
@@ -139,26 +139,26 @@ computer = []
 for x in computersUpQ:
     if x['SERVICE'] == 'esi':
         computer.append(daq.Indicator(width = 30,
-            id='%s-%s-check1' % (x['SERVICE'], x['KEYWORD']),
+            id='dark-%s-%s-check1' % (x['SERVICE'], x['KEYWORD']),
             value=True,
             color='blue',height=30,
             label=x['NAME']
         ))
     else:
         computer.append(daq.Indicator(width = 30,
-            id='%s-check' % (x['SERVICE']),
+            id='dark-%s-check' % (x['SERVICE']),
             value=True,
             color='blue',height=30,
             label=x['NAME']
         ))
 
 computersRoot2 = html.Div([
-    html.Div(id='esi-computers-container', className='indicator-box'+class_theme['dark'], children=[
+    html.Div(id='dark-esi-computers-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Computers'),
-        html.Div(id='esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[:3]),
-        html.Div(id='esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[3:])
+        html.Div(id='dark-esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[:3]),
+        html.Div(id='dark-esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[3:])
     ]),
-    html.Div(id='esi-daemons-container', className='indicator-box'+class_theme['dark'], children=[
+    html.Div(id='dark-esi-daemons-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Daemons'),
 
     ])
@@ -177,9 +177,9 @@ keys = [html.H4('Keyword Libraries')]
 counter = 0
 for x in keywordsUpQ:
     counter += 1
-    keys.append(html.Div(id='esi-keyword-%s' % (str(counter)), className='indicator-box-no-border'+class_theme['dark'], children=[
+    keys.append(html.Div(id='dark-esi-keyword-%s' % (str(counter)), className='indicator-box-no-border'+class_theme['dark'], children=[
         daq.Indicator(width = 30,
-            id='%s-%s-check' % (x['LIBRARY'], x['KEYWORD']),
+            id='dark-%s-%s-check' % (x['LIBRARY'], x['KEYWORD']),
             value=True,
             color='blue',height=30,
             label=x['NAME']
@@ -187,7 +187,7 @@ for x in keywordsUpQ:
     ]))
 
 keywordRoot2 = html.Div([
-    html.Div(id='esi-keyword-container', className='indicator-box'+class_theme['dark'], children=keys)
+    html.Div(id='dark-esi-keyword-container', className='indicator-box'+class_theme['dark'], children=keys)
 ])
 
 check_settings = Keywords()
@@ -277,18 +277,18 @@ settingsCheckQ.append({ 'NAME':'Current instrument',
 set = []
 for x in settingsCheckQ:
     set.append(daq.Indicator(width = 30,
-        id='%s-%s-checkS' % (x['LIBRARY'], x['KEYWORD']),
+        id='dark-%s-%s-checkS' % (x['LIBRARY'], x['KEYWORD']),
         value=True,
         color='blue',height=30,
         label=x['NAME']
     ))
 
 settingsRoot2 = html.Div([
-    html.Div(id='esi-settings-container', className='indicator-box'+class_theme['dark'], children=[
+    html.Div(id='dark-esi-settings-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Settings'),
-        html.Div(id='esi-settings-1', className='indicator-box-no-border'+class_theme['dark'], children=set[:4]),
-        html.Div(id='esi-settings-2', className='indicator-box-no-border'+class_theme['dark'], children=set[4:8]),
-        html.Div(id='esi-settings-3', className='indicator-box-no-border'+class_theme['dark'], children=set[8:])
+        html.Div(id='dark-esi-settings-1', className='indicator-box-no-border'+class_theme['dark'], children=set[:4]),
+        html.Div(id='dark-esi-settings-2', className='indicator-box-no-border'+class_theme['dark'], children=set[4:8]),
+        html.Div(id='dark-esi-settings-3', className='indicator-box-no-border'+class_theme['dark'], children=set[8:])
     ])
 ])
 
@@ -326,7 +326,7 @@ for x in tempCheckQ:
     current.append(html.P(-0))
     normal.append(html.P(x['NORMAL']))
     status.append(daq.Indicator(
-        id='esi-%s-check' % (x['KEYWORD']),
+        id='dark-esi-%s-check' % (x['KEYWORD']),
         value=True,
         color='blue',height=20,
         label='loading...',
@@ -335,59 +335,66 @@ for x in tempCheckQ:
     ))
 
 temperatureRoot2 = html.Div([
-    html.Div(className='indicator-box'+class_theme['dark'], id='esi-temperatures-container', children=[
+    html.Div(className='indicator-box'+class_theme['dark'], id='dark-esi-temperatures-container', children=[
         html.H4('Temperatures'),
-        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='esi-temperatures-names', children=names),
-        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='esi-temperatures-keyword', children=keyword),
-        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='esi-temperatures-current', children=current),
-        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='esi-temperatures-normal', children=normal),
-        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='esi-temperatures-status', children=status)
+        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='dark-esi-temperatures-names', children=names),
+        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='dark-esi-temperatures-keyword', children=keyword),
+        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='dark-esi-temperatures-current', children=current),
+        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='dark-esi-temperatures-normal', children=normal),
+        html.Div(className='indicator-box-no-border'+class_theme['dark'], id='dark-esi-temperatures-status', children=status)
     ])
 ])
 
 
 layout = [
     dcc.Tabs(id="esi-tabs", value='esi-tabs', children=[
-        dcc.Tab(id='esi-tab1', label='ESI Summary', value='esi-tabs1', className='custom-tab'+class_theme['dark'],
+        dcc.Tab(id='dark-esi-tab1', label='ESI Summary', value='esi-tabs1', className='custom-tab'+class_theme['dark'],
                 selected_className='custom-tab--selected', disabled=False, children=[
             html.Br(),
-            html.Div(id='esi-dark-theme-component-demo',
+            daq.ToggleSwitch(
+                id='dark-esi-daq-light-dark-theme',
+                label=['Light', 'Dark'],
+                style={'width': '250px', 'margin': 'auto'},
+                value=False
+            ),
+            html.Br(),
+            html.Div(id='dark-esi-dark-theme-component-demo',
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
-            dcc.Interval(id='esi-polling-interval',
+            dcc.Interval(id='dark-esi-polling-interval',
                 n_intervals=0,
                 interval=2*1000,
                 disabled=False
             ),
-            dcc.Store(id='esi-annotations-storage',
+            dcc.Store(id='dark-esi-annotations-storage',
                 data=[]
             )
         ]),
-        dcc.Tab(id='esi-tab2', label='ESI Servers', value='tab2', className='custom-tab'+class_theme['dark'],
+        dcc.Tab(id='dark-esi-tab2', label='ESI Servers', value='tab2', className='custom-tab'+class_theme['dark'],
                 selected_className='custom-tab--selected', disabled=False, children=[
-            html.Div(id='esi-dark-theme-component-demo2',
+            html.Div(id='dark-esi-dark-theme-component-demo2',
                 children=[
-                    dcc.Tabs(id='esi-subtabs', value='subtabs1', children=[
-                        dcc.Tab(id='esi-subtab4', label='Computers/Daemons', value='subtab4', className='custom-tab'+class_theme['dark'],
+                    dcc.Tabs(id='dark-esi-subtabs', value='subtabs1', children=[
+                        dcc.Tab(id='dark-esi-subtab4', label='Computers/Daemons', value='subtab4', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected', children=daq.DarkThemeProvider(theme=theme, children=computersRoot2)),
-                        dcc.Tab(id='esi-subtab1', label='Keyword Librarys', value='subtab1',className='custom-tab'+class_theme['dark'],
+                        dcc.Tab(id='dark-esi-subtab1', label='Keyword Librarys', value='subtab1',className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected', children=daq.DarkThemeProvider(theme=theme, children=keywordRoot2)),
-                        dcc.Tab(id='esi-subtab2', label='Settings', value='subtab2', className='custom-tab'+class_theme['dark'],
+                        dcc.Tab(id='dark-esi-subtab2', label='Settings', value='subtab2', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected', children=daq.DarkThemeProvider(theme=theme, children=settingsRoot2)),
-                        dcc.Tab(id='esi-subtab3', label='Temperatures', value='subtab3', className='custom-tab'+class_theme['dark'],
+                        dcc.Tab(id='dark-esi-subtab3', label='Temperatures', value='subtab3', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected', children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2))
                     ])
                 ]),
-            dcc.Interval(id='esi-polling-interval2',
+            dcc.Interval(id='dark-esi-polling-interval2',
                 n_intervals=0,
                 interval=2*1000,
                 disabled=False
             ),
-            dcc.Store(id='esi-annotations-storage2',
+            dcc.Store(id='dark-esi-annotations-storage2',
                 data=[]
             )
         ]),
     ]),
-    html.Div(id='esi-tabs-content')
+    html.Div(id='dark-esi-tabs-content')
 ]
 
 inputs_intervals = [Input('esi-polling-interval', 'n_intervals'), Input('esi-polling-interval2', 'n_intervals')]
@@ -395,14 +402,14 @@ inputs_intervals = [Input('esi-polling-interval', 'n_intervals'), Input('esi-pol
 outputs = []
 for x in computersUpQ:
     if x['SERVICE'] == 'esi':
-        outputs.append(Output('%s-%s-check1' % (x['SERVICE'], x['KEYWORD']), 'color'))
-        outputs.append(Output('%s-%s-check1' % (x['SERVICE'], x['KEYWORD']), 'height'))
+        outputs.append(Output('dark-%s-%s-check1' % (x['SERVICE'], x['KEYWORD']), 'color'))
+        outputs.append(Output('dark-%s-%s-check1' % (x['SERVICE'], x['KEYWORD']), 'height'))
     else:
-        outputs.append(Output('%s-check' % (x['SERVICE']), 'color'))
-        outputs.append(Output('%s-check' % (x['SERVICE']), 'height'))
-outputs.append(Output('esi-computer-check', 'color'))
-outputs.append(Output('esi-computer-check', 'height'))
-outputs.append(Output('esi-computer-check', 'label'))
+        outputs.append(Output('dark-%s-check' % (x['SERVICE']), 'color'))
+        outputs.append(Output('dark-%s-check' % (x['SERVICE']), 'height'))
+outputs.append(Output('dark-esi-computer-check', 'color'))
+outputs.append(Output('dark-esi-computer-check', 'height'))
+outputs.append(Output('dark-esi-computer-check', 'label'))
 
 @app.callback(
     outputs,
@@ -443,12 +450,12 @@ def populate_computers(n_intervals1, n_intervals2):
 
 outputs = []
 for x in keywordsUpQ:
-    outputs.append(Output('%s-%s-check' % (x['LIBRARY'], x['KEYWORD']), 'color'))
-    outputs.append(Output('%s-%s-check' % (x['LIBRARY'], x['KEYWORD']), 'height'))
+    outputs.append(Output('dark-%s-%s-check' % (x['LIBRARY'], x['KEYWORD']), 'color'))
+    outputs.append(Output('dark-%s-%s-check' % (x['LIBRARY'], x['KEYWORD']), 'height'))
 
-outputs.append(Output('esi-keyword-check', 'color'))
-outputs.append(Output('esi-keyword-check', 'height'))
-outputs.append(Output('esi-keyword-check', 'label'))
+outputs.append(Output('dark-esi-keyword-check', 'color'))
+outputs.append(Output('dark-esi-keyword-check', 'height'))
+outputs.append(Output('dark-esi-keyword-check', 'label'))
 
 @app.callback(
     outputs,
@@ -480,12 +487,12 @@ def populate_keywords(n_intervals1, n_intervals2):
 
 outputs = []
 for x in settingsCheckQ:
-    outputs.append(Output('%s-%s-checkS' % (x['LIBRARY'], x['KEYWORD']), 'color'))
-    outputs.append(Output('%s-%s-checkS' % (x['LIBRARY'], x['KEYWORD']), 'height'))
+    outputs.append(Output('dark-%s-%s-checkS' % (x['LIBRARY'], x['KEYWORD']), 'color'))
+    outputs.append(Output('dark-%s-%s-checkS' % (x['LIBRARY'], x['KEYWORD']), 'height'))
 
-outputs.append(Output('esi-settings-check', 'color'))
-outputs.append(Output('esi-settings-check', 'label'))
-outputs.append(Output('esi-settings-check', 'height'))
+outputs.append(Output('dark-esi-settings-check', 'color'))
+outputs.append(Output('dark-esi-settings-check', 'label'))
+outputs.append(Output('dark-esi-settings-check', 'height'))
 
 @app.callback(
     outputs,
@@ -539,15 +546,15 @@ def populate_settings(n_intervals1, n_intervals2):
 
 outputs = []
 for x in tempCheckQ:
-    outputs.append(Output('esi-%s-check' % (x['KEYWORD']), 'color'))
-    outputs.append(Output('esi-%s-check' % (x['KEYWORD']), 'label'))
-    outputs.append(Output('esi-%s-check' % (x['KEYWORD']), 'height'))
+    outputs.append(Output('dark-esi-%s-check' % (x['KEYWORD']), 'color'))
+    outputs.append(Output('dark-esi-%s-check' % (x['KEYWORD']), 'label'))
+    outputs.append(Output('dark-esi-%s-check' % (x['KEYWORD']), 'height'))
 
-outputs.append(Output('esi-temperatures-current', 'children'))
+outputs.append(Output('dark-esi-temperatures-current', 'children'))
 
-outputs.append(Output('esi-temperature-check', 'color'))
-outputs.append(Output('esi-temperature-check', 'label'))
-outputs.append(Output('esi-temperature-check', 'height'))
+outputs.append(Output('dark-esi-temperature-check', 'color'))
+outputs.append(Output('dark-esi-temperature-check', 'label'))
+outputs.append(Output('dark-esi-temperature-check', 'height'))
 
 @app.callback(
     outputs,

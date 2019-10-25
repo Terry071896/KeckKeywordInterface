@@ -67,3 +67,67 @@
   float: left;
   width: 14.5%;
 }
+
+
+#dark-cycle-time, #dark-time-to-completion {
+    margin-bottom: -25px;
+}
+#dark-graph-container, #dark-graph-container1 {
+    width: 75%;
+    min-width: 600px;
+}
+#dark-stop-button > div > button, #dark-new-batch > div > button {
+    margin-right: 0px !important;
+    width: 100% !important;
+}
+#dark-new-batch > div > button {
+    background-color: blue;
+}
+#dark-batch-started {
+    text-align: center;
+    font-size: 10pt;
+    font-weight: bold;
+}
+#dark-manufacturing-temp {
+    padding-bottom: 20px;
+}
+#dark-pgpress-container, #dark-thePressure-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 47%;
+}
+#dark-thePressure-status, #dark-thePressure-status1, #dark-pgpress-status, #dark-pgpress-status1 {
+  float: left;
+  width: 45%;
+}
+#dark-pwstata-status, #dark-pwstatb-status, #dark-pwstatc-status {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 30%;
+}
+#dark-lmp0stat-status, #dark-lmp1stat-status, #dark-lmp2stat-status, #dark-lmp3stat-status {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 22%;
+}
+#dark-tmp1-container, #dark-tmp7-container, #dark-tmp8-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 24%;
+}
+#dark-settings-container1, #dark-settings-container2, #dark-settings-container3 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 32%;
+}
+#dark-temperature-servers, #dark-power-servers, #dark-pressure-servers, #dark-detector-servers, #dark-mechanism-servers, #dark-global-servers {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 14.5%;
+}
