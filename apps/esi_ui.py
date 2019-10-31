@@ -14,6 +14,7 @@ import pandas as pd
 from keywords import Keywords
 from app import app
 from apps import main_page
+import threading
 
 theme = {
         'dark': False,
@@ -349,7 +350,7 @@ temperatureRoot2 = html.Div([
 layout = [
     dcc.Tabs(id="esi-tabs", value='esi-tabs', children=[
         dcc.Tab(id='esi-tab1', label='ESI Summary', value='esi-tabs1', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected', disabled=False, children=[
+                selected_className='custom-tab--selected', disabled=True, children=[
             html.Br(),
             html.Div(id='esi-dark-theme-component-demo',
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
@@ -363,7 +364,7 @@ layout = [
             )
         ]),
         dcc.Tab(id='esi-tab2', label='ESI Servers', value='tab2', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected', disabled=False, children=[
+                selected_className='custom-tab--selected', disabled=True, children=[
             html.Div(id='esi-dark-theme-component-demo2',
                 children=[
                     dcc.Tabs(id='esi-subtabs', value='subtabs1', children=[
@@ -404,41 +405,43 @@ outputs.append(Output('esi-computer-check', 'color'))
 outputs.append(Output('esi-computer-check', 'height'))
 outputs.append(Output('esi-computer-check', 'label'))
 
+esi_semaphore = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_computers(n_intervals1, n_intervals2):
-    stats = []
-    counter = 0
-    print('started esi computers')
-    for x in computersUpQ:
-        if x['SERVICE'] == 'esi':
-            if check_computers.get_keyword(x['SERVICE'], x['KEYWORD']) == x['VALUE']:
-                stats.append('green')
-                stats.append(0)
-                counter += 1
+    with esi_semaphore:
+        stats = []
+        counter = 0
+        print('started esi computers')
+        for x in computersUpQ:
+            if x['SERVICE'] == 'esi':
+                if check_computers.get_keyword(x['SERVICE'], x['KEYWORD']) == x['VALUE']:
+                    stats.append('green')
+                    stats.append(0)
+                    counter += 1
+                else:
+                    stats.append('red')
+                    stats.append(30)
             else:
-                stats.append('red')
-                stats.append(30)
+                if check_computers.ping_computer(x['SERVICE']):
+                    stats.append('green')
+                    stats.append(0)
+                    counter += 1
+                else:
+                    stats.append('red')
+                    stats.append(30)
+        if counter == len(computersUpQ):
+            stats.append('green')
+            stats.append(0)
+            stats.append('OK')
         else:
-            if check_computers.ping_computer(x['SERVICE']):
-                stats.append('green')
-                stats.append(0)
-                counter += 1
-            else:
-                stats.append('red')
-                stats.append(30)
-    if counter == len(computersUpQ):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('ERROR')
-    print('ended esi computers')
-    return stats
+            stats.append('red')
+            stats.append(50)
+            stats.append('ERROR')
+        print('ended esi computers')
+        return stats
 
 
 outputs = []
@@ -450,33 +453,35 @@ outputs.append(Output('esi-keyword-check', 'color'))
 outputs.append(Output('esi-keyword-check', 'height'))
 outputs.append(Output('esi-keyword-check', 'label'))
 
+esi_semaphore1 = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_keywords(n_intervals1, n_intervals2):
-    stats = []
-    counter = 0
-    print('started esi keywords')
-    for x in keywordsUpQ:
-        if check_keywords.server_up(x['LIBRARY'], x['KEYWORD']):
+    with esi_semaphore1:
+        stats = []
+        counter = 0
+        print('started esi keywords')
+        for x in keywordsUpQ:
+            if check_keywords.server_up(x['LIBRARY'], x['KEYWORD']):
+                stats.append('green')
+                stats.append(0)
+                counter += 1
+            else:
+                stats.append('red')
+                stats.append(30)
+
+        if counter == len(keywordsUpQ):
             stats.append('green')
             stats.append(0)
-            counter += 1
+            stats.append('OK')
         else:
             stats.append('red')
-            stats.append(30)
-
-    if counter == len(keywordsUpQ):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('ERROR')
-    print('ended esi keywords')
-    return stats
+            stats.append(50)
+            stats.append('ERROR')
+        print('ended esi keywords')
+        return stats
 
 outputs = []
 for x in settingsCheckQ:
@@ -487,55 +492,57 @@ outputs.append(Output('esi-settings-check', 'color'))
 outputs.append(Output('esi-settings-check', 'label'))
 outputs.append(Output('esi-settings-check', 'height'))
 
+esi_semaphore2 = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_settings(n_intervals1, n_intervals2):
-    stats = []
-    counterGreen = 0
-    counterYellow = 0
-    print('started esi settings')
-    for keyword in settingsCheckQ:
-        if sorted(keyword.keys())[1] == 'GOODVALUE':
-            if check_settings.get_keyword(keyword['LIBRARY'], keyword['KEYWORD']) == keyword['GOODVALUE']:
-                stats.append('green')
-                stats.append(0)
-                counterGreen += 1
-            else:
-                stats.append(keyword['BADSTATUS'])
-                if keyword['BADSTATUS'] == 'yellow':
-                    counterYellow += 1
-                    stats.append(20)
+    with esi_semaphore2:
+        stats = []
+        counterGreen = 0
+        counterYellow = 0
+        print('started esi settings')
+        for keyword in settingsCheckQ:
+            if sorted(keyword.keys())[1] == 'GOODVALUE':
+                if check_settings.get_keyword(keyword['LIBRARY'], keyword['KEYWORD']) == keyword['GOODVALUE']:
+                    stats.append('green')
+                    stats.append(0)
+                    counterGreen += 1
                 else:
-                    stats.append(30)
-        else:
-            if keyword['MINVALUE'] <= float(check_settings.get_keyword(keyword['LIBRARY'], keyword['KEYWORD'])) <= keyword['MAXVALUE']:
-                stats.append('green')
-                stats.append(0)
-                counterGreen += 1
+                    stats.append(keyword['BADSTATUS'])
+                    if keyword['BADSTATUS'] == 'yellow':
+                        counterYellow += 1
+                        stats.append(20)
+                    else:
+                        stats.append(30)
             else:
-                stats.append(keyword['BADSTATUS'])
-                if keyword['BADSTATUS'] == 'yellow':
-                    counterYellow += 1
-                    stats.append(20)
+                if keyword['MINVALUE'] <= float(check_settings.get_keyword(keyword['LIBRARY'], keyword['KEYWORD'])) <= keyword['MAXVALUE']:
+                    stats.append('green')
+                    stats.append(0)
+                    counterGreen += 1
                 else:
-                    stats.append(30)
+                    stats.append(keyword['BADSTATUS'])
+                    if keyword['BADSTATUS'] == 'yellow':
+                        counterYellow += 1
+                        stats.append(20)
+                    else:
+                        stats.append(30)
 
-    if counterGreen == len(settingsCheckQ):
-        stats.append('green')
-        stats.append('Good')
-        stats.append(0)
-    elif counterGreen + counterYellow == len(settingsCheckQ):
-        stats.append('yellow')
-        stats.append('WARNING')
-        stats.append(20)
-    else:
-        stats.append('red')
-        stats.append('ERROR')
-        stats.append(50)
-    print('ended esi settings')
-    return stats
+        if counterGreen == len(settingsCheckQ):
+            stats.append('green')
+            stats.append('Good')
+            stats.append(0)
+        elif counterGreen + counterYellow == len(settingsCheckQ):
+            stats.append('yellow')
+            stats.append('WARNING')
+            stats.append(40)
+        else:
+            stats.append('red')
+            stats.append('ERROR')
+            stats.append(50)
+        print('ended esi settings')
+        return stats
 
 outputs = []
 for x in tempCheckQ:
@@ -548,34 +555,40 @@ outputs.append(Output('esi-temperatures-current', 'children'))
 outputs.append(Output('esi-temperature-check', 'color'))
 outputs.append(Output('esi-temperature-check', 'label'))
 outputs.append(Output('esi-temperature-check', 'height'))
+outputs.append(Output('esi-tab1', 'disabled'))
+outputs.append(Output('esi-tab2', 'disabled'))
 
+esi_semaphore3 = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_temperatures(n_intervals1, n_intervals2):
-    stats = []
-    counter = 0
-    current=[html.H4('Current')]
-    for x in tempCheckQ:
-        valueTemp = float(check_temperature.get_keyword(x['LIBRARY'], x['KEYWORD']))
-        current.append(html.P(valueTemp))
-        if abs(valueTemp - x['NORMAL']) <= x['TOLERANCE']:
+    with esi_semaphore3:
+        stats = []
+        counter = 0
+        current=[html.H4('Current')]
+        for x in tempCheckQ:
+            valueTemp = float(check_temperature.get_keyword(x['LIBRARY'], x['KEYWORD']))
+            current.append(html.P(valueTemp))
+            if abs(valueTemp - x['NORMAL']) <= x['TOLERANCE']:
+                stats.append('green')
+                stats.append('Good')
+                stats.append(0)
+                counter += 1
+            else:
+                stats.append('red')
+                stats.append('ERROR')
+                stats.append(40)
+        stats.append(current)
+        if counter == len(tempCheckQ):
             stats.append('green')
             stats.append('Good')
             stats.append(0)
-            counter += 1
         else:
             stats.append('red')
             stats.append('ERROR')
-            stats.append(20)
-    stats.append(current)
-    if counter == len(tempCheckQ):
-        stats.append('green')
-        stats.append('Good')
-        stats.append(0)
-    else:
-        stats.append('red')
-        stats.append('ERROR')
-        stats.append(50)
-    return stats
+            stats.append(50)
+        stats.append(False)
+        stats.append(False)
+        return stats

@@ -59,7 +59,7 @@
   display: inline-block;
   text-align: center;
   float: left;
-  width: 32%;
+  width: 31%;
 }
 #temperature-servers, #power-servers, #pressure-servers, #detector-servers, #mechanism-servers, #global-servers {
   display: inline-block;
@@ -67,7 +67,27 @@
   float: left;
   width: 14.5%;
 }
-
+#SERVER-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 99%;
+  margin-top: 3%;
+}
+#settings-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 3%;
+}
+#kcwi-summary-container{
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 75%;
+}
 
 #dark-cycle-time, #dark-time-to-completion {
     margin-bottom: -25px;

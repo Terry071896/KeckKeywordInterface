@@ -3,7 +3,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
-from datetime import datetime
+from datetime import datetime, timedelta
 #import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
@@ -12,7 +12,9 @@ import dash_katex
 from keywords import Keywords
 from app import app
 from apps import main_page
-
+import threading
+deimos_semaphore = threading.Semaphore()
+now = datetime.now()
 theme = {
         'dark': False,
         'detail': '#007439',
@@ -535,7 +537,7 @@ temperatureRoot2 = html.Div([
                     style=theme
                 )
             ])
-        ]),
+        ])
     ]),
 ])
 pressureRoot2 = html.Div([])
@@ -565,8 +567,8 @@ layout = [
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=settingsRoot2)),
                         dcc.Tab(id='deimos-subtab1', label='Keyword Library Checks', value='subtab1',className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=keywordsRoot2)),
-                        dcc.Tab(id='deimos-subtab2', label='Temperatures', value='subtab2', className='custom-tab'+class_theme['dark'],
-                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
+                        dcc.Tab(id='deimos-subtab2', label='Temperature Graph', value='subtab2', className='custom-tab'+class_theme['dark'],
+                            selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
                         dcc.Tab(id='deimos-subtab3', label='[Maybe More...]', value='subtab3', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=pressureRoot2))
                     ])
@@ -597,7 +599,7 @@ def stop_production(_, current, current2):
 
 
 
-
+deimos_semaphore1 = threading.Semaphore()
 @app.callback(
     [Output('tvfilraw-check', 'color'),
     Output('tvfilraw-check', 'height'),
@@ -629,26 +631,28 @@ def stop_production(_, current, current2):
     Input('deimos-polling-interval', 'n_intervals')]
 )
 def keyword_library_check(n_intervals2, n_intervals1):
-    stats = []
-    counter = 0
-    for key in serverUpQ:
-        if check_keywords.server_up(key[0],key[1]):
-            counter += 1
+    with deimos_semaphore1:
+        stats = []
+        counter = 0
+        for key in serverUpQ:
+            if check_keywords.server_up(key[0],key[1]):
+                counter += 1
+                stats.append('green')
+                stats.append(0)
+            else:
+                stats.append('red')
+                stats.append(30)
+        if counter == len(serverUpQ):
             stats.append('green')
+            stats.append('Good')
             stats.append(0)
         else:
             stats.append('red')
-            stats.append(30)
-    if counter == len(serverUpQ):
-        stats.append('green')
-        stats.append('Good')
-        stats.append(0)
-    else:
-        stats.append('red')
-        stats.append('ERROR')
-        stats.append(50)
-    return stats
+            stats.append('ERROR')
+            stats.append(50)
+        return stats
 
+deimos_semaphore2 = threading.Semaphore()
 @app.callback(
     [Output('tempset-check', 'color'),
     Output('tempdet-check', 'color'),
@@ -694,57 +698,72 @@ def keyword_library_check(n_intervals2, n_intervals1):
     Output('deimos-settings-check', 'label'),
     Output('deimos-settings-check', 'height'),
     Output('deimos-tab1', 'disabled'),
-    Output('deimos-tab2', 'disabled')],
+    Output('deimos-tab2', 'disabled'),
+    Output('deimos-subtab2', 'disabled')],
     [Input('deimos-polling-interval2', 'n_intervals'),
     Input('deimos-polling-interval', 'n_intervals')]
 )
 def settings_check(n_intervals2, n_intervals1):
-    stats = []
-    counterGreen = 0
-    counterYellow = 0
-    print('settings_check started')
-    for keyword in settingsGoodQ:
-        if sorted(keyword.keys())[1] == 'GOODVALUE':
-            if settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD']) == keyword['GOODVALUE']:
-                stats.append('green')
-                counterGreen += 1
+    with deimos_semaphore2:
+        stats = []
+        counterGreen = 0
+        counterYellow = 0
+        print('settings_check started')
+        for keyword in settingsGoodQ:
+            if sorted(keyword.keys())[1] == 'GOODVALUE':
+                if settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD']) == keyword['GOODVALUE']:
+                    stats.append('green')
+                    counterGreen += 1
+                else:
+                    stats.append(keyword['BADSTATUS'])
+                    if keyword['BADSTATUS'] == 'yellow':
+                        counterYellow += 1
             else:
-                stats.append(keyword['BADSTATUS'])
-                if keyword['BADSTATUS'] == 'yellow':
-                    counterYellow += 1
-        else:
-            if keyword['MINVALUE'] <= float(settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD'])) <= keyword['MAXVALUE']:
-                stats.append('green')
-                counterGreen += 1
+                if not isinstance(keyword['MINVALUE'], int):
+                    stats.append('red')
+                elif keyword['MINVALUE'] <= float(settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD'])) <= keyword['MAXVALUE']:
+                    stats.append('green')
+                    counterGreen += 1
+                else:
+                    stats.append(keyword['BADSTATUS'])
+                    if keyword['BADSTATUS'] == 'yellow':
+                        counterYellow += 1
+        len_stats = len(stats)
+        for x in range(len_stats):
+            if stats[x] == 'green' or stats[x] == 'yellow':
+                stats.append(0)
             else:
-                stats.append(keyword['BADSTATUS'])
-                if keyword['BADSTATUS'] == 'yellow':
-                    counterYellow += 1
-    len_stats = len(stats)
-    for x in range(len_stats):
-        if stats[x] == 'green' or stats[x] == 'yellow':
+                stats.append(30)
+                #print(30)
+
+        if counterGreen == len(settingsGoodQ):
+            stats.append('green')
+            stats.append('Good')
             stats.append(0)
+        elif counterGreen + counterYellow == len(settingsGoodQ):
+            stats.append('yellow')
+            stats.append('WARNING')
+            stats.append(20)
         else:
-            stats.append(30)
-            #print(30)
+            stats.append('red')
+            stats.append('ERROR')
+            stats.append(50)
 
-    if counterGreen == len(settingsGoodQ):
-        stats.append('green')
-        stats.append('Good')
-        stats.append(0)
-    elif counterGreen + counterYellow == len(settingsGoodQ):
-        stats.append('yellow')
-        stats.append('WARNING')
-        stats.append(20)
-    else:
-        stats.append('red')
-        stats.append('ERROR')
-        stats.append(50)
-
-    stats.append(False)
-    stats.append(False)
-    print('settings_check done')
-    return stats
+        stats.append(False)
+        stats.append(False)
+        global dataT
+        counter = 0
+        for key in dataT.keys():
+            if dataT[key] == '':
+                counter += 1
+                print(counter)
+        if counter == 0:
+            stats.append(False)
+        else:
+            stats.append(True)
+            print('If that tab is disabled...............uggggggg!!!!!!!!!!!!!!!')
+        print('settings_check done')
+        return stats
 
 
 @app.callback(
@@ -755,47 +774,17 @@ def settings_check(n_intervals2, n_intervals1):
     state=[State('deimos-temperature-graph', 'figure')]
 )
 def populate_temp_graph(valueT, n_intervals, interval, current_figT):
-    stats = []
-    current_data = current_figT['data']
-    global dataT
-    if valueT == 'fake':
-        current_figT['data'] = [{'x' : [], 'y' : []}]
-        stats.append(current_figT)
-        return stats
-    elif dataT[valueT] == '':
-        new_data = [histKeys.get_keyword_history('deiccd', 'tempdet1', valueT, 'CCD1 temp (C)')]
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet2', valueT, 'CCD2 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet3', valueT, 'CCD3 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet4', valueT, 'CCD4 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet5', valueT, 'CCD5 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet6', valueT, 'CCD6 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet7', valueT, 'CCD7 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet8', valueT, 'CCD8 temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet', valueT, 'Detector average temp (C)'))
-        new_data.append(histKeys.get_keyword_history('deiccd', 'tempset', valueT, 'Detector set temp (-114.958 C)'))
-        dataT[valueT] = new_data
-    else:
-        n =60/(interval/1000)
-        if n_intervals % n == 0:
-            new_data = [histKeys.get_keyword_history('deiccd', 'tempdet1', 'second', 'CCD1 temp (C)')]
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet2', 'second', 'CCD2 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet3', 'second', 'CCD3 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet4', 'second', 'CCD4 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet5', 'second', 'CCD5 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet6', 'second', 'CCD6 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet7', 'second', 'CCD7 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet8', 'second', 'CCD8 temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet', 'second', 'Detector average temp (C)'))
-            new_data.append(histKeys.get_keyword_history('deiccd', 'tempset', 'second', 'Detector set temp (-114.958 C)'))
+    with deimos_semaphore:
+        print('starting figure')
+        stats = []
+        current_data = current_figT['data']
+        global dataT
+        global now
+        if valueT == 'fake':
+            current_figT['data'] = [{'x' : [], 'y' : []}]
             for key in dataT.keys():
-                if dataT[key] != '':
-                    for i in range(len(new_data)):
-                        dataT[key][i]['x'].append(new_data[i]['x'][0])
-                        dataT[key][i]['y'].append(new_data[i]['y'][0])
-                        dataT[key][i] = {'x' : dataT[key][i]['x'],
-                        'y' : dataT[key][i]['y'],
-                        'name' : dataT[key][i]['name']}
-                else:
+                if dataT[key] == '':
+                    print('loading %s data' % (key))
                     new_data = [histKeys.get_keyword_history('deiccd', 'tempdet1', key, 'CCD1 temp (C)')]
                     new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet2', key, 'CCD2 temp (C)'))
                     new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet3', key, 'CCD3 temp (C)'))
@@ -807,146 +796,54 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
                     new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet', key, 'Detector average temp (C)'))
                     new_data.append(histKeys.get_keyword_history('deiccd', 'tempset', key, 'Detector set temp (-114.958 C)'))
                     dataT[key] = new_data
+                    print('loaded %s data' % (key))
+            stats.append(current_figT)
+            print('ended figure')
+            return stats
+        else:
+            n = now + timedelta(minutes=1)
+            if n < datetime.now():
+                now = datetime.now()
+                print('loading new data point')
+                new_data = [histKeys.get_keyword_history('deiccd', 'tempdet1', 'second', 'CCD1 temp (C)')]
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet2', 'second', 'CCD2 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet3', 'second', 'CCD3 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet4', 'second', 'CCD4 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet5', 'second', 'CCD5 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet6', 'second', 'CCD6 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet7', 'second', 'CCD7 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet8', 'second', 'CCD8 temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet', 'second', 'Detector average temp (C)'))
+                new_data.append(histKeys.get_keyword_history('deiccd', 'tempset', 'second', 'Detector set temp (-114.958 C)'))
+                print('loaded new data point')
+                for key in dataT.keys():
+                    if dataT[key] != '':
+                        print('adding new data point to %s' % (key))
+                        for i in range(len(new_data)):
+                            dataT[key][i]['x'].append(new_data[i]['x'][0])
+                            dataT[key][i]['y'].append(new_data[i]['y'][0])
+                            dataT[key][i] = {'x' : dataT[key][i]['x'],
+                            'y' : dataT[key][i]['y'],
+                            'name' : dataT[key][i]['name']}
+                        print('added new data point to %s' % (key))
+                    else:
+                        print('loading %s data' % (key))
+                        new_data = [histKeys.get_keyword_history('deiccd', 'tempdet1', key, 'CCD1 temp (C)')]
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet2', key, 'CCD2 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet3', key, 'CCD3 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet4', key, 'CCD4 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet5', key, 'CCD5 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet6', key, 'CCD6 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet7', key, 'CCD7 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet8', key, 'CCD8 temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempdet', key, 'Detector average temp (C)'))
+                        new_data.append(histKeys.get_keyword_history('deiccd', 'tempset', key, 'Detector set temp (-114.958 C)'))
+                        dataT[key] = new_data
+                        print('loaded %s data' % (key))
 
 
-    current_figT['data'] = dataT[valueT]
-    stats.append(current_figT)
-    return stats
-
-
-# @app.callback(
-#     [Output('deimos-keyword-check', 'color'),
-#     Output('deimos-keyword-check', 'label'),
-#     Output('deimos-settings-check', 'color'),
-#     Output('deimos-settings-check', 'label')],
-#     [Input('deimos-polling-interval', 'n_intervals')]
-# )
-# def global_checks(n_intervals):
-#     stats = []
-#     counter = 0
-#     for key in serverUpQ:
-#         if check_keywords.server_up(key[0],key[1]):
-#             counter += 1
-#     if counter == len(serverUpQ):
-#         stats.append('green')
-#         stats.append('Good')
-#     else:
-#         stats.append('red')
-#         stats.append('ERROR')
-#
-#     counterGreen = 0
-#     counterYellow = 0
-#     for keyword in settingsGoodQ:
-#         if sorted(keyword.keys())[1] == 'GOODVALUE':
-#             if settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD']) == keyword['GOODVALUE']:
-#                 counterGreen += 1
-#             else:
-#                 if keyword['BADSTATUS'] == 'yellow':
-#                     counterYellow += 1
-#         else:
-#             if keyword['MINVALUE'] <= float(settings_keywords.get_keyword(keyword['LIBRARY'], keyword['KEYWORD'])) <= keyword['MAXVALUE']:
-#                 counterGreen += 1
-#             else:
-#                 if keyword['BADSTATUS'] == 'yellow':
-#                     counterYellow += 1
-#     if counterGreen == len(settingsGoodQ):
-#         stats.append('green')
-#         stats.append('Good')
-#     elif counterGreen + counterYellow == len(settingsGoodQ):
-#         stats.append('yellow')
-#         stats.append('WARNING')
-#     else:
-#         stats.append('red')
-#         stats.append('ERROR')
-#     return stats
-
-# @app.callback(
-#     [Output('deimos-dark-theme-component-demo', 'children'),
-#      Output('deimos-subtab4', 'children'),
-#      Output('deimos-subtab1', 'children'),
-#      Output('deimos-subtab2', 'children'),
-#      Output('deimos-subtab3', 'children')],
-#     [Input('deimos-daq-light-dark-theme', 'value')],
-#     state=[State('full-page', 'children')]
-# )
-# def turn_dark(dark_theme, current_children):
-#     if(dark_theme):
-#         theme.update(
-#             dark=True
-#         )
-#     else:
-#         theme.update(
-#             dark=False
-#         )
-#     return [daq.DarkThemeProvider(theme=theme, children=rootLayout1),
-#         daq.DarkThemeProvider(theme=theme, children=settingsRoot2),
-#         daq.DarkThemeProvider(theme=theme, children=keywordsRoot2),
-#         daq.DarkThemeProvider(theme=theme, children=temperatureRoot2),
-#         daq.DarkThemeProvider(theme=theme, children=pressureRoot2)]
-#
-# @app.callback(
-#     [Output('deimos-tab1', 'className'),
-#      Output('deimos-tab1', 'selected_className'),
-#      Output('deimos-tab2', 'className'),
-#      Output('deimos-tab2', 'selected_className'),
-#      Output('deimos-subtab1', 'className'),
-#      Output('deimos-subtab1', 'selected_className'),
-#      Output('deimos-subtab2', 'className'),
-#      Output('deimos-subtab2', 'selected_className'),
-#      Output('deimos-subtab3', 'className'),
-#      Output('deimos-subtab3', 'selected_className'),
-#      Output('deimos-subtab4', 'className'),
-#      Output('deimos-subtab4', 'selected_className'),
-#      Output('deimos-subtab5', 'className'),
-#      Output('deimos-subtab5', 'selected_className')],
-#     [Input('deimos-daq-light-dark-theme', 'value')]
-# )
-# def change_class_name_tab(dark_theme):
-#     bVw = list()
-#     temp = ''
-#     if(dark_theme):
-#         temp = '-dark'
-#     for x in range(0,7):
-#         bVw.append('custom-tab'+temp)
-#         bVw.append('custom-tab--selected'+class_theme['dark']+temp)
-#
-#     return bVw
-#
-# @app.callback(
-#     [Output('deimos-summary-container1', 'className'),
-#     Output('deimos-summary-container2', 'className'),
-#     Output('deimos-summary-container3', 'className'),
-#     Output('deimos-summary-container4', 'className'),
-#     Output('deimos-legend-status', 'className'),
-#     Output('deimos-welcome-link', 'className'),
-#     Output('deimos-settings-container', 'className'),
-#     Output('deimos-keyword-container', 'className'),
-#     Output('deimos-graph-container1', 'className'),
-#     Output('deimos-dropdown-container1', 'className'),
-#     Output('deimos-dropdown1', 'className')
-#     ],
-#     [Input('deimos-daq-light-dark-theme', 'value')]
-# )
-# def change_class_name(dark_theme):
-#     bVw = list()
-#     temp = ''
-#     if(dark_theme):
-#         temp = '-dark'
-#     for x in range(0,9):
-#         bVw.append('indicator-box'+class_theme['dark']+temp)
-#     bVw.append('dropdown-theme'+temp)
-#     bVw.append('dropdown-theme'+temp)
-#
-#     return bVw
-
-
-
-# @app.callback(
-#     [Output('page-content', 'style')],
-#     [Input('deimos-daq-light-dark-theme', 'value')]
-# )
-# def change_bg(dark_theme):
-#     if(dark_theme):
-#         return [{'backgroundColor': '#303030', 'color': 'white'}]
-#     else:
-#         return [{'background-color': 'white', 'color': 'black'}]
+        current_figT['data'] = dataT[valueT]
+        print('display %s' % (valueT))
+        stats.append(current_figT)
+        print('ended figure')
+        return stats

@@ -13,6 +13,7 @@ import dash_katex
 from keywords import Keywords
 from app import app
 from apps import main_page
+import threading
 
 binary_keywords = []
 for i in range(0,13):
@@ -670,7 +671,7 @@ serverRoot2 = html.Div([rootLayout])
 layout = [
     dcc.Tabs(id="dark-tabs", value='tab-1', children=[
         dcc.Tab(id='dark-tab1', label='KCWI Settings', value='tabs1', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected'+class_theme['dark'], children=[
+                selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=[
             html.Br(),
             html.Div(id='dark-dark-theme-component-demo',
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
@@ -684,7 +685,7 @@ layout = [
             )
         ]),
         dcc.Tab(id='dark-tab2', label='KCWI Servers', value='tab2', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected'+class_theme['dark'], children=[
+                selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=[
             html.Div(id='dark-dark-theme-component-demo2',
                 children=[
                     dcc.Tabs(id='dark-subtabs', value='subtabs1', children=[
@@ -721,6 +722,7 @@ layout = [
 def stop_production(_, current):
     return not current, "stop" if current else "start"
 
+kcwi_semaphore = threading.Semaphore()
 @app.callback(
     [Output('dark-temperature-graph', 'figure'),
     Output('dark-pressure-graph', 'figure')],
@@ -730,21 +732,22 @@ def stop_production(_, current):
     State('dark-temperature-graph', 'figure')]
 )
 def change_class_name(valueP, valueT, current_figP, current_figT):
-    bVw = list()
+    with kcwi_semaphore:
+        bVw = list()
 
-    current_data = current_figT['data'][0]
-    new_data = [histKeys.get_keyword_history('kt1s', 'tmp1', valueT)]
-    current_figT['data'] = new_data
-    bVw.append(current_figT)
+        current_data = current_figT['data'][0]
+        new_data = [histKeys.get_keyword_history('kt1s', 'tmp1', valueT)]
+        current_figT['data'] = new_data
+        bVw.append(current_figT)
 
-    current_data = current_figP['data'][0]
-    new_data = [histKeys.get_keyword_history('kbvs', 'pressure', valueP)]
-    current_figP['data'] = new_data
-    bVw.append(current_figP)
-    return bVw
+        current_data = current_figP['data'][0]
+        new_data = [histKeys.get_keyword_history('kbvs', 'pressure', valueP)]
+        current_figP['data'] = new_data
+        bVw.append(current_figP)
+        return bVw
 
 
-
+kcwi_semaphore1 = threading.Semaphore()
 @app.callback(
     [Output('dark-pgpress-status', 'value'),
      Output('dark-pgpress-status1', 'value'),
@@ -762,26 +765,28 @@ def change_class_name(valueP, valueT, current_figP, current_figT):
      [Input('dark-polling-interval2', 'n_intervals')]
 )
 def update_stats2(n_intervals):
-    print('started update_stats2')
-    stats=[]
-    pgpress = float(kcwiKeywords.get_keyword('kbgs', 'pgpress'))
-    stats.append(pgpress)
-    stats.append(pgpress*10**4)
-    pressure = float(kcwiKeywords.get_keyword('kbvs', 'pressure'))
-    stats.append(pressure)
-    stats.append(pressure*10**7)
-    tmp1 = round(float(kcwiKeywords.get_keyword('kt1s', 'tmp1')),3)
-    tmp7 = round(float(kcwiKeywords.get_keyword('kt2s', 'tmp7')),3)
-    tmp8 = round(float(kcwiKeywords.get_keyword('kt2s', 'tmp8')),3)
+    with kcwi_semaphore1:
+        print('started update_stats2')
+        stats=[]
+        pgpress = float(kcwiKeywords.get_keyword('kbgs', 'pgpress'))
+        stats.append(pgpress)
+        stats.append(pgpress*10**4)
+        pressure = float(kcwiKeywords.get_keyword('kbvs', 'pressure'))
+        stats.append(pressure)
+        stats.append(pressure*10**7)
+        tmp1 = round(float(kcwiKeywords.get_keyword('kt1s', 'tmp1')),3)
+        tmp7 = round(float(kcwiKeywords.get_keyword('kt2s', 'tmp7')),3)
+        tmp8 = round(float(kcwiKeywords.get_keyword('kt2s', 'tmp8')),3)
 
-    for tmp in [tmp1, tmp7, tmp8]:
-        stats.append(tmp)
-        stats.append(str(tmp))
-        stats.append(str(round(tmp-273,3)))
-    print('ended update_stats2')
-    return stats
+        for tmp in [tmp1, tmp7, tmp8]:
+            stats.append(tmp)
+            stats.append(str(tmp))
+            stats.append(str(round(tmp-273,3)))
+        print('ended update_stats2')
+        return stats
 
 
+kcwi_semaphore2 = threading.Semaphore()
 @app.callback(
     [Output('dark-tmp1-check', 'color'),
      Output('dark-tmp1-check', 'label'),
@@ -791,26 +796,16 @@ def update_stats2(n_intervals):
      Output('dark-ccdpower-check', 'height'),
      Output('dark-hvon-check', 'color'),
      Output('dark-hvon-check', 'label'),
-     Output('dark-hvon-check', 'height')],
+     Output('dark-hvon-check', 'height'),
+     Output('dark-tab1', 'disabled')],
     [Input('dark-polling-interval', 'n_intervals')]
 )
 def update_stats1(n_intervals):
-    stats=[]
-    print('start update_stats1')
-    tmp1 = float(kcwiKeywords.get_keyword('kt1s', 'tmp1'))
-    if 161 <= tmp1 <= 165:
-        stats.append('green')
-        stats.append('Good')
-        stats.append(0)
-    else:
-        stats.append('red')
-        stats.append('OFF')
-        stats.append(50)
-
-    vals = [kcwiKeywords.get_keyword('kbds', 'ccdpower'),
-        kcwiKeywords.get_keyword('kbvs', 'hvon')]
-    for val in vals:
-        if val == '1':
+    with kcwi_semaphore2:
+        stats=[]
+        print('start update_stats1')
+        tmp1 = float(kcwiKeywords.get_keyword('kt1s', 'tmp1'))
+        if 161 <= tmp1 <= 165:
             stats.append('green')
             stats.append('Good')
             stats.append(0)
@@ -818,10 +813,23 @@ def update_stats1(n_intervals):
             stats.append('red')
             stats.append('OFF')
             stats.append(50)
-    print('ended update_stats1')
-    return stats
 
+        vals = [kcwiKeywords.get_keyword('kbds', 'ccdpower'),
+            kcwiKeywords.get_keyword('kbvs', 'hvon')]
+        for val in vals:
+            if val == '1':
+                stats.append('green')
+                stats.append('Good')
+                stats.append(0)
+            else:
+                stats.append('red')
+                stats.append('OFF')
+                stats.append(50)
+        stats.append(False)
+        print('ended update_stats1')
+        return stats
 
+kcwi_semaphore3 = threading.Semaphore()
 @app.callback(
     [Output('dark-kt1s-status', 'color'),
     Output('dark-kt2s-status', 'color'),
@@ -922,42 +930,45 @@ def update_stats1(n_intervals):
     Output('dark-pwc5-status', 'height'),
     Output('dark-pwc6-status', 'height'),
     Output('dark-pwc7-status', 'height'),
-    Output('dark-pwc8-status', 'height')],
+    Output('dark-pwc8-status', 'height'),
+    Output('dark-tab2', 'disabled')],
     [Input('dark-polling-interval2', 'n_intervals')],
     state=[State('dark-tabs', 'children'),
     State('dark-annotations-storage2', 'data')]
 )
 def update(n_intervals, tab, current_annotations):
-    print('power and server update started')
-    newBinVal = kcwiKeywords.get_keywords()
-    #print(newBinVal)
-    stats = [newBinVal[keyword] for keyword in binary_keywords]
-    #print(stats)
-    color_list = []
-    counter = 0
-    for val in stats:
-        if binary_keywords[counter][1:6] == 'RANGE':
-            if val == '0':
-                color_list.append('red')
-            elif val == '1':
-                color_list.append('yellow')
+    with kcwi_semaphore3:
+        print('power and server update started')
+        newBinVal = kcwiKeywords.get_keywords()
+        #print(newBinVal)
+        stats = [newBinVal[keyword] for keyword in binary_keywords]
+        #print(stats)
+        color_list = []
+        counter = 0
+        for val in stats:
+            if binary_keywords[counter][1:6] == 'RANGE':
+                if val == '0':
+                    color_list.append('red')
+                elif val == '1':
+                    color_list.append('yellow')
+                else:
+                    color_list.append('green')
             else:
-                color_list.append('green')
-        else:
-            if val == '0':
-                color_list.append('red')
-            elif val == '1':
-                color_list.append('green')
-            else:
-                color_list.append(val)
-        counter = counter + 1
-    len_color_list = len(color_list)
-    for x in range(len_color_list):
-        if color_list[x] =='green':
-            color_list.append(0)
-        elif color_list[x] =='yellow':
-            color_list.append(20)
-        elif color_list[x] =='red':
-            color_list.append(30)
-    print('power and server update done')
-    return color_list
+                if val == '0':
+                    color_list.append('red')
+                elif val == '1':
+                    color_list.append('green')
+                else:
+                    color_list.append(val)
+            counter = counter + 1
+        len_color_list = len(color_list)
+        for x in range(len_color_list):
+            if color_list[x] =='green':
+                color_list.append(0)
+            elif color_list[x] =='yellow':
+                color_list.append(20)
+            elif color_list[x] =='red':
+                color_list.append(30)
+        stats.append(False)
+        print('power and server update done')
+        return color_list

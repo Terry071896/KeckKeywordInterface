@@ -12,6 +12,7 @@ import dash_katex
 from keywords import Keywords
 from app import app
 from apps import main_page
+import threading
 
 theme = {
         'dark': True,
@@ -694,7 +695,7 @@ mechanismRoot2 = html.Div([
 layout = [
     dcc.Tabs(id="nirspec-tabs", value='nirspec-tabs', children=[
         dcc.Tab(id='dark-nirspec-tab1', label='NIRSPEC Summary', value='nirspec-tabs1', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected'+class_theme['dark'], disabled=False, children=[
+                selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=[
             html.Br(),
             html.Div(id='dark-nirspec-dark-theme-component-demo',
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
@@ -708,7 +709,7 @@ layout = [
             )
         ]),
         dcc.Tab(id='dark-nirspec-tab2', label='NIRSPEC Servers', value='tab2', className='custom-tab'+class_theme['dark'],
-                selected_className='custom-tab--selected'+class_theme['dark'], disabled=False, children=[
+                selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=[
             html.Div(id='dark-nirspec-dark-theme-component-demo2',
                 children=[
                     dcc.Tabs(id='dark-nirspec-subtabs', value='subtabs1', children=[
@@ -751,49 +752,52 @@ outputs.append(Output('dark-nirspec-server-check', 'label'))
 outputs.append(Output('dark-nirspec-computer-check', 'color'))
 outputs.append(Output('dark-nirspec-computer-check', 'height'))
 outputs.append(Output('dark-nirspec-computer-check', 'label'))
+
+nirspec_semaphore = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_servers_computers(n_intervals1, n_intervals2):
-    stats = []
-    counter1 = 0
-    for x in serverUpQ:
-        if check_servers.server_up(x[0],x[1]):
+    with nirspec_semaphore:
+        stats = []
+        counter1 = 0
+        for x in serverUpQ:
+            if check_servers.server_up(x[0],x[1]):
+                stats.append('green')
+                stats.append(0)
+                counter1 += 1
+            else:
+                stats.append('red')
+                stats.append(30)
+        counter2 = 0
+        for x in computerUpQ:
+            if check_computers.ping_computer(x):
+                stats.append('green')
+                stats.append(0)
+                counter2 += 1
+            else:
+                stats.append('red')
+                stats.append(30)
+        if counter1 == len(serverUpQ):
             stats.append('green')
             stats.append(0)
-            counter1 += 1
+            stats.append('OK')
         else:
             stats.append('red')
-            stats.append(30)
-    counter2 = 0
-    for x in computerUpQ:
-        if check_computers.ping_computer(x):
+            stats.append(50)
+            stats.append('OFF/ERROR')
+
+        if counter2 == len(computerUpQ):
             stats.append('green')
             stats.append(0)
-            counter2 += 1
+            stats.append('OK')
         else:
             stats.append('red')
-            stats.append(30)
-    if counter1 == len(serverUpQ):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('OFF/ERROR')
+            stats.append(50)
+            stats.append('OFF/ERROR')
 
-    if counter2 == len(computerUpQ):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('OFF/ERROR')
-
-    return stats
+        return stats
 
 outputs = []
 for x in powerOutlets:
@@ -803,31 +807,34 @@ for x in powerOutlets:
 outputs.append(Output('dark-nirspec-power-check', 'color'))
 outputs.append(Output('dark-nirspec-power-check', 'height'))
 outputs.append(Output('dark-nirspec-power-check', 'label'))
+
+nirspec_semaphore1 = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_power(n_intervals1, n_intervals2):
-    stats = []
-    counter = 0
-    for x in powerOutlets:
-        if check_power.get_keyword(x[0],x[1]) == 'On':
+    with nirspec_semaphore1:
+        stats = []
+        counter = 0
+        for x in powerOutlets:
+            if check_power.get_keyword(x[0],x[1]) == 'On':
+                stats.append('green')
+                stats.append(0)
+                counter += 1
+            else:
+                stats.append('red')
+                stats.append(30)
+
+        if counter == len(powerOutlets):
             stats.append('green')
             stats.append(0)
-            counter += 1
+            stats.append('OK')
         else:
             stats.append('red')
-            stats.append(30)
-
-    if counter == len(powerOutlets):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('OFF/ERROR')
-    return stats
+            stats.append(50)
+            stats.append('OFF/ERROR')
+        return stats
 
 outputs = []
 for x in tempCheckQ:
@@ -836,30 +843,33 @@ for x in tempCheckQ:
 outputs.append(Output('dark-nirspec-temperature-check', 'color'))
 outputs.append(Output('dark-nirspec-temperature-check', 'height'))
 outputs.append(Output('dark-nirspec-temperature-check', 'label'))
+
+nirspec_semaphore2 = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_temperatures(n_intervals1, n_intervals2):
-    stats = []
-    counter = 0
-    for x in tempCheckQ:
-        if x['MINVALUE'] <= float(check_temperature.get_keyword(x['LIBRARY'], x['KEYWORD'])) <= x['MAXVALUE']:
-            stats.append(x['GOODVALUE'])
+    with nirspec_semaphore2:
+        stats = []
+        counter = 0
+        for x in tempCheckQ:
+            if x['MINVALUE'] <= float(check_temperature.get_keyword(x['LIBRARY'], x['KEYWORD'])) <= x['MAXVALUE']:
+                stats.append(x['GOODVALUE'])
+                stats.append(0)
+                counter += 1
+            else:
+                stats.append(x['BADSTATUS'])
+                stats.append(30)
+        if counter == len(tempCheckQ):
+            stats.append('green')
             stats.append(0)
-            counter += 1
+            stats.append('OK')
         else:
-            stats.append(x['BADSTATUS'])
-            stats.append(30)
-    if counter == len(tempCheckQ):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('OFF/ERROR')
-    return stats
+            stats.append('red')
+            stats.append(50)
+            stats.append('OFF/ERROR')
+        return stats
 
 outputs = []
 for x in mechanismCheckQ:
@@ -868,55 +878,64 @@ for x in mechanismCheckQ:
 outputs.append(Output('dark-nirspec-mechanism-check', 'color'))
 outputs.append(Output('dark-nirspec-mechanism-check', 'height'))
 outputs.append(Output('dark-nirspec-mechanism-check', 'label'))
+
+nirspec_semaphore3 = threading.Semaphore()
 @app.callback(
     outputs,
     inputs_intervals
 )
 def populate_mechanisms(n_intervals1, n_intervals2):
-    stats = []
-    counterG = 0
-    counterY = 0
-    for x in mechanismCheckQ:
-        temp = check_mechanism.get_keyword(x[0],x[1])
-        if temp == 'Ready':
+    with nirspec_semaphore3:
+        stats = []
+        counterG = 0
+        counterY = 0
+        for x in mechanismCheckQ:
+            temp = check_mechanism.get_keyword(x[0],x[1])
+            if temp == 'Ready':
+                stats.append('green')
+                stats.append(0)
+                counterG += 1
+            elif temp == 'Halted':
+                stats.append('yellow')
+                stats.append(20)
+                counterY += 1
+            else:
+                stats.append('red')
+                stats.append(30)
+        if counterG == len(mechanismCheckQ):
             stats.append('green')
             stats.append(0)
-            counterG += 1
-        elif temp == 'Halted':
+            stats.append('OK')
+        elif counterG + counterY == len(mechanismCheckQ):
             stats.append('yellow')
-            stats.append(20)
-            counterY += 1
+            stats.append(40)
+            stats.append('Halted')
         else:
             stats.append('red')
-            stats.append(30)
-    if counterG == len(mechanismCheckQ):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    elif counterG + counterY == len(mechanismCheckQ):
-        stats.append('yellow')
-        stats.append(40)
-        stats.append('Halted')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('OFF/ERROR')
-    return stats
+            stats.append(50)
+            stats.append('OFF/ERROR')
+        return stats
 
+nirspec_semaphore4 = threading.Semaphore()
 @app.callback(
     [Output('dark-nirspec-pressure-check', 'color'),
     Output('dark-nirspec-pressure-check', 'height'),
-    Output('dark-nirspec-pressure-check', 'label')],
+    Output('dark-nirspec-pressure-check', 'label'),
+    Output('dark-nirspec-tab1', 'disabled'),
+    Output('dark-nirspec-tab2', 'disabled')],
     [Input('dark-nirspec-polling-interval', 'n_intervals')]
 )
 def populate_pressure(n_intervals):
-    stats = []
-    if 10**(-9) <= float(check_servers.get_keyword('nsdewar', 'vacuum')) <= 10**(-7):
-        stats.append('green')
-        stats.append(0)
-        stats.append('OK')
-    else:
-        stats.append('red')
-        stats.append(50)
-        stats.append('ERROR')
-    return stats
+    with nirspec_semaphore4:
+        stats = []
+        if 10**(-9) <= float(check_servers.get_keyword('nsdewar', 'vacuum')) <= 10**(-7):
+            stats.append('green')
+            stats.append(0)
+            stats.append('OK')
+        else:
+            stats.append('red')
+            stats.append(50)
+            stats.append('ERROR')
+        stats.append(False)
+        stats.append(False)
+        return stats
