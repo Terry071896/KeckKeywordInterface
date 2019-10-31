@@ -274,7 +274,7 @@ powerRoot2 = html.Div([
             id='help-power-button'
         ),
         id='help-power-provider',
-        message='FPCam: Okay if it is off to operate \n Magiq: Okay if it is off to operate'
+        message='FPCam: Okay to operate if off during day \n Magiq: Okay to operate if off during day'
     ),
     html.Div(id='output-provider')
 ])
@@ -695,8 +695,6 @@ outputs.append(Output('kcwi-server-check', 'color'))
 outputs.append(Output('kcwi-server-check', 'label'))
 outputs.append(Output('kcwi-server-check', 'height'))
 
-outputs.append(Output('tab1', 'disabled'))
-
 kcwi_semaphore2 = threading.Semaphore()
 @app.callback(
     outputs,
@@ -767,7 +765,6 @@ def populate_settings_servers(n_intervals1, n_intervals2):
             stats.append('ERROR')
             stats.append(50)
 
-        stats.append(False)
         print('ended kcwi settings and servers')
         return stats
 
@@ -780,6 +777,7 @@ for x in powerOutlets:
 outputs.append(Output('kcwi-power-check', 'color'))
 outputs.append(Output('kcwi-power-check', 'label'))
 outputs.append(Output('kcwi-power-check', 'height'))
+outputs.append(Output('tab1', 'disabled'))
 outputs.append(Output('tab2', 'disabled'))
 kcwi_semaphore3 = threading.Semaphore()
 @app.callback(
@@ -815,13 +813,14 @@ def update(n_intervals1, n_intervals2):
             stats.append(0)
         elif counter == 0 and okayOff != '':
             stats.append('green')
-            stats.append('Good (%s off)'%(okayOff))
+            stats.append('Good (%s off)'%(okayOff[1:]))
             stats.append(0)
         else:
             stats.append('red')
             stats.append('ERROR')
             stats.append(50)
 
+        stats.append(False)
         stats.append(False)
         print('power and server update done')
         return stats
