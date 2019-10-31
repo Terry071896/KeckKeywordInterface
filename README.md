@@ -2,6 +2,9 @@
 
 ### Introduction
 
+This repository runs a web page that provides a user interface for each of the Keck Instruments.
+Each page is to communicate the diagnoses of the health of the instrument.
+
 ### Install/Run
 
 ```
