@@ -267,7 +267,16 @@ powerRoot2 = html.Div([
     ]),
     html.Div(id='PWSTATC-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], id='pwstatc-status', children=powerChildren[18:])
-    ])
+    ]),
+    dcc.ConfirmDialogProvider(
+        children=html.Button(
+            'Help',
+            id='help-power-button'
+        ),
+        id='help-power-provider',
+        message='FPCam: Okay if it is off to operate \n Magiq: Okay if it is off to operate'
+    ),
+    html.Div(id='output-provider')
 ])
 
 pressure_layout_dark = go.Layout(
@@ -333,13 +342,13 @@ pressureRoot2 = html.Div([
     html.Br(),
     html.Div(className='indicator-box'+class_theme['dark'], id='pgpress-container', children=[
         html.H4('Blue Pressure Gauge'),
-        daq.Gauge(
-            id='pgpress-status',
-            logarithmic=True,
-            min=-4, max=1,
-            units="Torr",
-            showCurrentValue=True,
-        ),
+        # daq.Gauge(
+        #     id='pgpress-status',
+        #     logarithmic=True,
+        #     min=-4, max=1,
+        #     units="Torr",
+        #     showCurrentValue=True,
+        # ),
         html.Div([
             daq.Gauge(
                 id='pgpress-status1',
@@ -360,13 +369,13 @@ pressureRoot2 = html.Div([
     ]),
     html.Div(className='indicator-box'+class_theme['dark'], id='thePressure-container', children=[
         html.H4('Blue Vac Ion'),
-        daq.Gauge(
-            id='thePressure-status',
-            logarithmic=True,
-            min=-8, max=-5,
-            units="Torr",
-            showCurrentValue=True,
-        ),
+        # daq.Gauge(
+        #     id='thePressure-status',
+        #     logarithmic=True,
+        #     min=-8, max=-5,
+        #     units="Torr",
+        #     showCurrentValue=True,
+        # ),
         html.Div([
             daq.Gauge(
                 id='thePressure-status1',
@@ -596,6 +605,16 @@ check_temperature_pressure = Keywords()
 def stop_production(_, current):
     return not current, "stop" if current else "start"
 
+# @app.callback(Output('output-provider', 'children'),
+#               [Input('help-power-provider', 'submit_n_clicks')])
+# def help_power_button(submit_n_clicks):
+#     if not submit_n_clicks:
+#         return ''
+#     return """
+#         It was dangerous but we did it!
+#         Submitted {} times
+#     """.format(submit_n_clicks)
+
 kcwi_semaphore = threading.Semaphore()
 @app.callback(
     [Output('temperature-graph', 'figure'),
@@ -622,9 +641,9 @@ def populate_temp_pressure_figs(valueP, valueT, current_figP, current_figT):
 
 kcwi_semaphore1 = threading.Semaphore()
 @app.callback(
-    [Output('pgpress-status', 'value'),
+    [#Output('pgpress-status', 'value'),
      Output('pgpress-status1', 'value'),
-     Output('thePressure-status', 'value'),
+     #Output('thePressure-status', 'value'),
      Output('thePressure-status1', 'value'),
      Output('tmp1-temp', 'value'),
      Output('tmp1-k-temperature', 'value'),
@@ -641,10 +660,10 @@ def populate_temp_pressure(n_intervals2):
     with kcwi_semaphore1:
         stats=[]
         pgpress = float(check_temperature_pressure.get_keyword('kbgs', 'pgpress'))
-        stats.append(pgpress)
+        # stats.append(pgpress)
         stats.append(pgpress*10**4)
         pressure = float(check_temperature_pressure.get_keyword('kbvs', 'pressure'))
-        stats.append(pressure)
+        # stats.append(pressure)
         stats.append(pressure*10**7)
         tmp1 = round(float(check_temperature_pressure.get_keyword('kt1s', 'tmp1')),3)
         tmp7 = round(float(check_temperature_pressure.get_keyword('kt2s', 'tmp7')),3)
