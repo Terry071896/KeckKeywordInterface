@@ -14,13 +14,21 @@
   width: 45%;
 }
 
-#deimos-settings-container, #deimos-keyword-container {
+#deimos-settings-container, #deimos-keyword-container, #deimos-daemon-container {
   display: inline-block;
   text-align: center;
   float: left;
   width: 80%;
-  margin-top: 5%;
+  margin-top: 3%;
   margin-left: 10%;
+}
+#deimos-computer-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 60%;
+  margin-top: 3%;
+  margin-left: 20%;
 }
 #deimos-settings-1, #deimos-settings-2, #deimos-settings-3 {
   display: inline-block;
@@ -28,7 +36,19 @@
   float: left;
   width: 31%;
 }
+#deimos-computer-1, #deimos-computer-2, #deimos-computer-3 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 31%;
+}
 #deimos-keyword-container1, #deimos-keyword-container2, #deimos-keyword-container3, #deimos-keyword-container4 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 23%;
+}
+#deimos-daemon-1, #deimos-daemon-2, #deimos-daemon-3, #deimos-daemon-4 {
   display: inline-block;
   text-align: center;
   float: left;

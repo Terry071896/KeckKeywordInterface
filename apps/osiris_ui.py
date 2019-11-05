@@ -886,7 +886,7 @@ def populate_servers_computers(n_intervals1, n_intervals2):
                 stats.append('red')
                 stats.append(30)
         for x in computerUpQ:
-            if check_computers.ping_computer(list(x.keys())[0]):
+            if check_computers.ping_computer('osiris', list(x.keys())[0]):
                 stats.append('green')
                 stats.append(0)
                 counterC += 1

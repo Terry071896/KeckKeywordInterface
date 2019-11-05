@@ -425,7 +425,7 @@ def populate_computers(n_intervals1, n_intervals2):
                     stats.append('red')
                     stats.append(30)
             else:
-                if check_computers.ping_computer(x['SERVICE']):
+                if check_computers.ping_computer('esi', x['SERVICE']):
                     stats.append('green')
                     stats.append(0)
                     counter += 1
