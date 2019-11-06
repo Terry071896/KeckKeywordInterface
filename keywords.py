@@ -96,7 +96,18 @@ class Keywords(object):
                 data['y'].append(float(y))
         return data
 
-    def ping_computer(self, server):
+    def ping_computer(self, instrument, server):
+        #*******************************************************************************
+        # Once show -s kcwi_ping is a thing, UNCOMMENT and COMMENT the BOTTOM
+        #*******************************************************************************
+        # result = self.get_keyword('%s_ping'%(instrument), server)
+        # thresh = 20
+        # resultTime = datetime.datetime.strptime(result, '%Y-%m-%dT%H:%M:%S.%f')
+        # if resultTime < datetime.datetime.now()-datetime.timedelta(seconds=thresh):
+        #     return True
+        # else:
+        #     return False
+        #*******************************************************************************
         url = 'http://localhost:5002/ping?server=%s' % (server)
         try:
             response = requests.get(url)
@@ -104,7 +115,14 @@ class Keywords(object):
             print("Error in getting data from the server \'%s\' reading keyword \'%s\'" % (server, keyword))
 
         result = response.json()
+
         if result == "":
+            return False
+        else:
+            return True
+
+    def ps_process(self, instrument, process):
+        if self.get_keyword('%s_ps'%(instrument), process) == "":
             return False
         else:
             return True

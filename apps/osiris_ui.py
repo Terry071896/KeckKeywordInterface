@@ -815,7 +815,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='osiris-polling-interval',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='osiris-annotations-storage',
@@ -839,7 +839,7 @@ layout = [
                 ]),
             dcc.Interval(id='osiris-polling-interval2',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='osiris-annotations-storage2',
@@ -886,7 +886,7 @@ def populate_servers_computers(n_intervals1, n_intervals2):
                 stats.append('red')
                 stats.append(30)
         for x in computerUpQ:
-            if check_computers.ping_computer(list(x.keys())[0]):
+            if check_computers.ping_computer('osiris', list(x.keys())[0]):
                 stats.append('green')
                 stats.append(0)
                 counterC += 1

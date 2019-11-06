@@ -1,0 +1,48 @@
+#nirc2-summary-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 70%;
+  margin-top: 50px;
+  margin-left: 3%;
+}
+#nirc2-summary-container1, #nirc2-summary-container2, #nirc2-summary-container3, #nirc2-summary-container4, #nirc2-summary-container6 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 45%;
+}
+#nirc2-temperatures-container {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 99%;
+  margin-left: 0.5%;
+  margin-top: 5%;
+}
+#nirc2-temperatures-1 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 37%;
+}
+#nirc2-temperatures-2, #nirc2-temperatures-3, #nirc2-temperatures-4 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 19%;
+}
+#nirc2-temperatures-1.1, #nirc2-temperatures-1.2 {
+  display: inline-block;
+  text-align: center;
+  float: left;
+  width: 12%;
+}
+
+#nirc2-stop-button > div > button, #new-batch > div > button {
+    margin-right: 0px !important;
+    width: 100% !important;
+}
+#new-batch > div > button {
+    background-color: blue;
+}

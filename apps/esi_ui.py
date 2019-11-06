@@ -80,7 +80,9 @@ rootLayout1 = html.Div([
                 label='Loading...',
                 width = 50
             )
-        ])
+        ]),
+        html.Br(),
+        html.P('Daemon Check Not Ready Yet!!!!!!!')
     ]),
     html.Br(),
     html.Div(id='legend-container', children=[
@@ -157,11 +159,14 @@ computersRoot2 = html.Div([
     html.Div(id='esi-computers-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Computers'),
         html.Div(id='esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[:3]),
-        html.Div(id='esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[3:])
+        html.Div(id='esi-computers-1', className='indicator-box-no-border'+class_theme['dark'], children=computer[3:]),
+        html.Br(),
+        html.P('Lantronix and CCD crate Not Ready Yet!!!!!!')
     ]),
     html.Div(id='esi-daemons-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Daemons'),
-
+        html.Br(),
+        html.P('Daemons Not Ready Yet!!!!!!!')
     ])
 ])
 
@@ -188,7 +193,9 @@ for x in keywordsUpQ:
     ]))
 
 keywordRoot2 = html.Div([
-    html.Div(id='esi-keyword-container', className='indicator-box'+class_theme['dark'], children=keys)
+    html.Div(id='esi-keyword-container', className='indicator-box'+class_theme['dark'], children=keys),
+    html.Br(),
+    html.P('DCS Not Ready Yet!!!!!!!')
 ])
 
 check_settings = Keywords()
@@ -356,7 +363,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='esi-polling-interval',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='esi-annotations-storage',
@@ -380,7 +387,7 @@ layout = [
                 ]),
             dcc.Interval(id='esi-polling-interval2',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='esi-annotations-storage2',
@@ -425,7 +432,7 @@ def populate_computers(n_intervals1, n_intervals2):
                     stats.append('red')
                     stats.append(30)
             else:
-                if check_computers.ping_computer(x['SERVICE']):
+                if check_computers.ping_computer('esi', x['SERVICE']):
                     stats.append('green')
                     stats.append(0)
                     counter += 1
@@ -579,7 +586,7 @@ def populate_temperatures(n_intervals1, n_intervals2):
             else:
                 stats.append('red')
                 stats.append('ERROR')
-                stats.append(40)
+                stats.append(20)
         stats.append(current)
         if counter == len(tempCheckQ):
             stats.append('green')

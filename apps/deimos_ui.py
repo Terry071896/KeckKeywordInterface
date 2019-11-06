@@ -233,13 +233,15 @@ rootLayout1 = html.Div([
         ]),
         html.Br(),
         dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='deimos-welcome-link')
-    ])
+    ]),
+    html.Br(),
+    html.P('Computer and Daemon Check Not Ready Yet!!!!!!!')
 ])
 
 settingsRoot2 = html.Div([
     html.Div(id='deimos-settings-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Settings Check'),
-        html.Div(id='deimos-settings-1', children=[
+        html.Div(id='deimos-settings-1', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='tempset-check',
                 value=True,
@@ -290,7 +292,7 @@ settingsRoot2 = html.Div([
                 width = 30
             )
         ]),
-        html.Div(id='deimos-settings-2', children=[
+        html.Div(id='deimos-settings-2', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='ionpump2-check',
                 value=True,
@@ -341,7 +343,7 @@ settingsRoot2 = html.Div([
                 width = 30
             )
         ]),
-        html.Div(id='deimos-settings-3', children=[
+        html.Div(id='deimos-settings-3', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='fcsfoto2-check',
                 value=True,
@@ -388,10 +390,78 @@ settingsRoot2 = html.Div([
     ])
 ])
 
+
+computersUpQ = []
+check_computers = Keywords()
+computersUpQ.append({'NAME':'Supervisory Computer - Sun', 'LIBRARY':'keamanop'})
+computersUpQ.append({'NAME':'Rotator Control - Linux', 'LIBRARY':'rotop'})
+computersUpQ.append({'NAME':'Lantronix - cradle', 'LIBRARY':'deits2'})
+computersUpQ.append({'NAME':'Lantronix - barrel', 'LIBRARY':'deits3'})
+computersUpQ.append({'NAME':'Science CCD Crate', 'LIBRARY':'deivmep'})
+computersUpQ.append({'NAME':'FCS CCD Crate', 'LIBRARY':'fcsvmep'})
+computersUpQ.append({'NAME':'Sybase Server', 'LIBRARY':'waiaha'})
+
+computerInd = []
+for x in computersUpQ:
+    computerInd.append(daq.Indicator(
+        id='%s-check'%(x['LIBRARY']),
+        value=True,
+        color='blue',height=30,
+        label='%s (%s)'%(x['NAME'], x['LIBRARY']),
+        width = 30
+    ))
+
+daemonsUpQ = []
+check_daemons = Keywords()
+daemonsUpQ.append({'NAME':'traffic', 'PROCESS':'traffic'})
+daemonsUpQ.append({'NAME':'dispatcher.dinfo', 'PROCESS':'dispactcher.tcl deimos dinfo'})
+daemonsUpQ.append({'NAME':'watch_ccd', 'PROCESS':'watch_ccd'})
+daemonsUpQ.append({'NAME':'dispatcher2.1', 'PROCESS':'dispatcher2 -s deimot -n 1'})
+daemonsUpQ.append({'NAME':'dispatcher2.2', 'PROCESS':'dispatcher2 -s deimot -n 2'})
+daemonsUpQ.append({'NAME':'dispatcher.piezo', 'PROCESS':'dispactcher.tcl deimot piezo'})
+daemonsUpQ.append({'NAME':'dispatcher.hplog', 'PROCESS':'dispatcher.tcl deimot hplog'})
+daemonsUpQ.append({'NAME':'dispatcher.barco', 'PROCESS':'dispatcher.tcl deimot barco'})
+daemonsUpQ.append({'NAME':'dispatcher.bargun', 'PROCESS':'dispatcher.tcl deimot bargun'})
+daemonsUpQ.append({'NAME':'dremel', 'PROCESS':'dremel'})
+daemonsUpQ.append({'NAME':'monitor.deimos', 'PROCESS':'krul deimos.rul'})
+daemonsUpQ.append({'NAME':'monitor.deifcs', 'PROCESS':'krul deifcs.rul'})
+daemonsUpQ.append({'NAME':'monitor.deirot', 'PROCESS':'krul deirot.rul'})
+daemonsUpQ.append({'NAME':'lickserv2', 'PROCESS':'lickserv2'})
+daemonsUpQ.append({'NAME':'deirot.cache', 'PROCESS':'deirot.cache'})
+daemonsUpQ.append({'NAME':'deirot.dispatcher', 'PROCESS':'deirot.dispatcher'})
+daemonsUpQ.append({'NAME':'deirot.watchdcs', 'PROCESS':'deirot.watchdcs'})
+
+daemonInd = []
+for x in daemonsUpQ:
+    daemonInd.append(daq.Indicator(
+        id='%s-check'%(x['PROCESS']),
+        value=True,
+        color='blue',height=30,
+        label=x['NAME'],
+        width = 30
+    ))
+
+
+computersRoot2 = html.Div([
+    html.Div(id='deimos-daemon-container', className='indicator-box'+class_theme['dark'], children=[
+        html.H4('Daemons'),
+        html.Div(id='deimos-daemon-1', className='indicator-box-no-border'+class_theme['dark'], children=daemonInd[:4]),
+        html.Div(id='deimos-daemon-2', className='indicator-box-no-border'+class_theme['dark'], children=daemonInd[4:8]),
+        html.Div(id='deimos-daemon-3', className='indicator-box-no-border'+class_theme['dark'], children=daemonInd[8:12]),
+        html.Div(id='deimos-daemon-4', className='indicator-box-no-border'+class_theme['dark'], children=daemonInd[12:])
+    ]),
+    html.Div(id='deimos-computer-container', className='indicator-box'+class_theme['dark'], children=[
+        html.H4('Computers'),
+        html.Div(id='deimos-computer-1', className='indicator-box-no-border'+class_theme['dark'], children=computerInd[:3]),
+        html.Div(id='deimos-computer-2', className='indicator-box-no-border'+class_theme['dark'], children=computerInd[3:5]),
+        html.Div(id='deimos-computer-3', className='indicator-box-no-border'+class_theme['dark'], children=computerInd[5:])
+    ])
+])
+
 keywordsRoot2 = html.Div([
     html.Div(id='deimos-keyword-container', className='indicator-box'+class_theme['dark'], children=[
         html.H4('Keyword Library Checks'),
-        html.Div(id='deimos-keyword-container1', children=[
+        html.Div(id='deimos-keyword-container1', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='tvfilraw-check',
                 value=True,
@@ -414,7 +484,7 @@ keywordsRoot2 = html.Div([
                 width = 30
             )
         ]),
-        html.Div(id='deimos-keyword-container2', children=[
+        html.Div(id='deimos-keyword-container2', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='hplogtim-check',
                 value=True,
@@ -437,7 +507,7 @@ keywordsRoot2 = html.Div([
                 width = 30
             )
         ]),
-        html.Div(id='deimos-keyword-container3', children=[
+        html.Div(id='deimos-keyword-container3', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='two-check',
                 value=True,
@@ -460,7 +530,7 @@ keywordsRoot2 = html.Div([
                 width = 30
             )
         ]),
-        html.Div(id='deimos-keyword-container4', children=[
+        html.Div(id='deimos-keyword-container4', className='indicator-box-no-border'+class_theme['dark'], children=[
             daq.Indicator(
                 id='mode-check',
                 value=True,
@@ -476,7 +546,9 @@ keywordsRoot2 = html.Div([
                 width = 30
             ),
         ])
-    ])
+    ]),
+    html.Br(),
+    html.P('ACS Not Ready Yet!!!!!!!')
 ])
 
 temperature_layout_dark = go.Layout(
@@ -551,7 +623,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='deimos-polling-interval',
                 n_intervals=0,
-                interval=10*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='deimos-annotations-storage',
@@ -563,19 +635,19 @@ layout = [
             html.Div(id='deimos-dark-theme-component-demo2',
                 children=[
                     dcc.Tabs(id='deimos-subtabs', value='subtabs1', children=[
+                        dcc.Tab(id='deimos-subtab3', label='Computers/Daemons', value='subtab3', className='custom-tab'+class_theme['dark'],
+                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=computersRoot2)),
                         dcc.Tab(id='deimos-subtab4', label='Settings Checks', value='subtab4', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=settingsRoot2)),
                         dcc.Tab(id='deimos-subtab1', label='Keyword Library Checks', value='subtab1',className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=keywordsRoot2)),
                         dcc.Tab(id='deimos-subtab2', label='Temperature Graph', value='subtab2', className='custom-tab'+class_theme['dark'],
                             selected_className='custom-tab--selected'+class_theme['dark'], disabled=True, children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
-                        dcc.Tab(id='deimos-subtab3', label='[Maybe More...]', value='subtab3', className='custom-tab'+class_theme['dark'],
-                            selected_className='custom-tab--selected'+class_theme['dark'], children=daq.DarkThemeProvider(theme=theme, children=pressureRoot2))
                     ])
                 ]),
             dcc.Interval(id='deimos-polling-interval2',
                 n_intervals=0,
-                interval=10*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='deimos-annotations-storage2',
@@ -730,8 +802,10 @@ def settings_check(n_intervals2, n_intervals1):
                         counterYellow += 1
         len_stats = len(stats)
         for x in range(len_stats):
-            if stats[x] == 'green' or stats[x] == 'yellow':
+            if stats[x] == 'green':
                 stats.append(0)
+            elif stats[x] == 'yellow':
+                stats.append(20)
             else:
                 stats.append(30)
                 #print(30)

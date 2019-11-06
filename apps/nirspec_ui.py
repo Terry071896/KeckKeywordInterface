@@ -701,7 +701,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='nirspec-polling-interval',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='nirspec-annotations-storage',
@@ -725,7 +725,7 @@ layout = [
                 ]),
             dcc.Interval(id='nirspec-polling-interval2',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='nirspec-annotations-storage2',
@@ -772,7 +772,7 @@ def populate_servers_computers(n_intervals1, n_intervals2):
                 stats.append(30)
         counter2 = 0
         for x in computerUpQ:
-            if check_computers.ping_computer(x):
+            if check_computers.ping_computer('nirspec', x):
                 stats.append('green')
                 stats.append(0)
                 counter2 += 1
