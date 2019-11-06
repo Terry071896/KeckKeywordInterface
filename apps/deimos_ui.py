@@ -233,7 +233,9 @@ rootLayout1 = html.Div([
         ]),
         html.Br(),
         dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='deimos-welcome-link')
-    ])
+    ]),
+    html.Br(),
+    html.P('Computer and Daemon Check Not Ready Yet!!!!!!!')
 ])
 
 settingsRoot2 = html.Div([
@@ -544,7 +546,9 @@ keywordsRoot2 = html.Div([
                 width = 30
             ),
         ])
-    ])
+    ]),
+    html.Br(),
+    html.P('ACS Not Ready Yet!!!!!!!')
 ])
 
 temperature_layout_dark = go.Layout(
@@ -619,7 +623,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='deimos-polling-interval',
                 n_intervals=0,
-                interval=10*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='deimos-annotations-storage',
@@ -643,7 +647,7 @@ layout = [
                 ]),
             dcc.Interval(id='deimos-polling-interval2',
                 n_intervals=0,
-                interval=10*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='deimos-annotations-storage2',

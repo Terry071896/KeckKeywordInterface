@@ -269,7 +269,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=rootLayout1)),
             dcc.Interval(id='nirc2-polling-interval',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='nirc2-annotations-storage',
@@ -282,7 +282,7 @@ layout = [
                 children=daq.DarkThemeProvider(theme=theme, children=temperatureRoot2)),
             dcc.Interval(id='nirc2-polling-interval2',
                 n_intervals=0,
-                interval=2*1000,
+                interval=30*1000,
                 disabled=False
             ),
             dcc.Store(id='nirc2-annotations-storage2',

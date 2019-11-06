@@ -23,22 +23,23 @@ part1 = [html.H1('Welcome', style={'text-align': 'center', 'font-size':'75px'}),
         id='daq-light-dark-theme',
         label=['Light', 'Dark'],
         style={'width': '250px', 'margin': 'auto'},
-        value=False
+        value=False,
+        disabled=True
     ),
     html.Div(id='keck1-links', className='indicator-box', children=[
         html.H4('Keck I'),
-        html.P(dcc.Link('HIRES', href='/hires', style={'color': 'white'})),
-        html.P(dcc.Link('LRIS', href='/lris', style={'color': 'white'})),
-        html.P(dcc.Link('MOSFIRE', href='/mosfire', style={'color': 'white'})),
-        html.P(dcc.Link('OSIRIS', href='/osiris', style={'color': 'white'}))
+        html.P(dcc.Link('HIRES', href='/hires', style={'color': 'grey'})),
+        html.P(dcc.Link('LRIS', href='/lris', style={'color': 'grey'})),
+        html.P(dcc.Link('MOSFIRE', href='/mosfire', style={'color': 'grey'})),
+        html.P(dcc.Link('OSIRIS', href='/osiris', style={'color': 'grey'}))
     ]),
     html.Div(id='keck2-links', className='indicator-box', children=[
         html.H4('Keck II'),
         html.P(dcc.Link('DEIMOS', href='/deimos', style={'color': 'white'})),
         html.P(dcc.Link('ESI', href='/esi', style={'color': 'white'})),
         html.P(dcc.Link('KCWI', href='/kcwi', style={'color': 'white'})),
-        html.P(dcc.Link('NIRES', href='/nires', style={'color': 'white'})),
-        html.P(dcc.Link('NIRC2', href='/nirc2', style={'color': 'white'})),
+        html.P(dcc.Link('NIRES', href='/nires', style={'color': 'grey'})),
+        html.P(dcc.Link('NIRC2', href='/nirc2', style={'color': 'grey'})),
         html.P(dcc.Link('NIRSPEC', href='/nirspec', style={'color': 'white'}))
     ]
 )]
