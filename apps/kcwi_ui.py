@@ -194,7 +194,7 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
     html.Div(className='indicator-box'+class_theme['dark'], id='tmp7-container', children=[
         html.H4("Cab Interior Temperature"),
         daq.Thermometer(id='tmp7-temp',
-            min=0, max=273,
+            min=270, max=320,
             value=100,
             color='blue'
         ),
