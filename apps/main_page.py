@@ -28,7 +28,7 @@ part1 = [html.H1('Welcome', style={'text-align': 'center', 'font-size':'75px'}),
     ),
     html.Div(id='keck1-links', className='indicator-box', children=[
         html.H4('Keck I'),
-        html.P(dcc.Link('HIRES', href='/hires', style={'color': 'white'})),
+        html.P(dcc.Link('HIRES', href='/hires', style={'color': 'grey'})),
         html.P(dcc.Link('LRIS', href='/lris', style={'color': 'grey'})),
         html.P(dcc.Link('MOSFIRE', href='/mosfire', style={'color': 'grey'})),
         html.P(dcc.Link('OSIRIS', href='/osiris', style={'color': 'grey'}))
