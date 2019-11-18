@@ -108,7 +108,7 @@ class Keywords(object):
         # else:
         #     return False
         #*******************************************************************************
-        url = 'http://localhost:5002/ping?server=%s' % (server)
+        url = 'http://host.docker.internal:5002/ping?server=%s' % (server)
         try:
             response = requests.get(url)
         except requests.exceptions.RequestException as e:
