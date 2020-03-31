@@ -7,3 +7,6 @@ plotly
 datetime
 dash_daq
 requests
+dash_table_experiments
+pandas
+numpy

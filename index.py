@@ -69,4 +69,4 @@ def display_page(pathname):
         return [main_page.layout, {'background-color': 'white', 'color': 'black'}]
 
 if __name__ == '__main__':
-    app.run_server(debug=False, threaded=True)
+    app.run_server(host='0.0.0.0',port=8050, debug=True, threaded=True)

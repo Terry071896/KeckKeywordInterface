@@ -52,7 +52,7 @@ class Keywords(object):
             proc = ktl.cache(server, keyword)
             result = proc.read()
         elif self._mode == 'web':
-            url = 'http://localhost:5002/show?server=%s&keyword=%s' % (server, keyword)
+            url = 'http://host.docker.internal:5002/show?server=%s&keyword=%s' % (server, keyword)
             try:
                 response = requests.get(url)
             except requests.exceptions.RequestException as e:
@@ -73,7 +73,7 @@ class Keywords(object):
     def get_keyword_history(self, server, keyword, time, label=''):
         data = {'x' : [], 'y' : [], 'name' : label}
         if(self.server_up(server, keyword)):
-            url = 'http://localhost:5002/showHistory?server=%s&keyword=%s&time=%s' % (server, keyword, time)
+            url = 'http://host.docker.internal:5002/showHistory?server=%s&keyword=%s&time=%s' % (server, keyword, time)
             try:
                 response = requests.get(url)
             except requests.exceptions.RequestException as e:
@@ -108,7 +108,7 @@ class Keywords(object):
         # else:
         #     return False
         #*******************************************************************************
-        url = 'http://localhost:5002/ping?server=%s' % (server)
+        url = 'http://host.docker.internal:5002/ping?server=%s' % (server)
         try:
             response = requests.get(url)
         except requests.exceptions.RequestException as e:
