@@ -16,8 +16,6 @@ Welcome to KeckKeywordInterface's documentation!
 .. autofunction:: KeckKeywordInterface.keywords.Keywords
 .. autofunction:: KeckKeywordInterface.index.display_page
 
-.. automodule:: KeckKeywordInterface.apps
-
 Indices and tables
 ==================
 
