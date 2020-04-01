@@ -27,6 +27,7 @@ author = 'Terry Cox'
 # The full version, including alpha/beta/rc tags
 release = '1'
 
+master_doc = 'index'
 
 # -- General configuration ---------------------------------------------------
 
