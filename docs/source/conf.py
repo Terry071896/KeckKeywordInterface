@@ -16,9 +16,7 @@
 import os, sys
 sys.path.insert(0, os.path.abspath('../../KeckKeywordsInterface'))
 
-from importlib import import_module
 
-import_module("KeckKeywordInterface")
 
 # -- Project information -----------------------------------------------------
 
