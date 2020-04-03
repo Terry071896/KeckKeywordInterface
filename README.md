@@ -1,5 +1,9 @@
 ## Keck Keyword User Interface
 
+### Documentation
+
+https://keckkeywordinterface.readthedocs.io/en/latest/
+
 ### Introduction
 
 This repository runs a web page that provides a user interface for each of the Keck Instruments.
