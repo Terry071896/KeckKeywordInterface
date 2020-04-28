@@ -14,7 +14,7 @@ class Keywords(object):
     '''
     This class is strucutured to read the keywords from Keck instruments
 
-    ***
+    ...
 
     Attributes
     ----------
