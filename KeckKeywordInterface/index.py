@@ -1,10 +1,11 @@
+# !usr/bin/env python
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -25,6 +26,19 @@ app.layout = html.Div(id='full-page', children=[
                 Output('page-content', 'style')],
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
+    '''
+    A callback function scheduled print the correct layout from correct pathname
+
+    Parameters
+    ----------
+    pathname : str
+        the path for which is correlated to the page layout clicked.
+
+    Returns
+    -------
+    list
+        a list of 'dash' html components to build webpage layout.
+    '''
     if pathname == '/kcwi':
         return [kcwi_ui.layout, {'background-color': 'white', 'color': 'black'}]
     elif pathname == '/nirspec':
