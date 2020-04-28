@@ -1,11 +1,18 @@
-#tabs-to-spaces:untabify-all
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -28,21 +35,23 @@ allServers = ['kt1s',
 'kbms',
 'kros',
 'kcas',
-'kcwi']
+'kcwi'] # list of servers
 
 theme = {
         'dark': False,
         'detail': '#007439',
         'primary': '#00EA64',
         'secondary': '#6E6E6E'
-    }
+    } # overall theme of page, either 'dark' = False or 'dark' = True
 
-class_theme = {'dark' : ''}
+class_theme = {'dark' : ''} # the class theme, either '' or '-dark'
 
+
+###################### First Tab Layout ######################
 rootLayout1 = html.Div([
     html.Div(id='kcwi-summary-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], id='settings-container1', children=[
-            html.H4('Server Check'),
+            html.H4('Server Check'), # Indicator for all servers, green circle if all up, red box if one or more are down
             daq.Indicator(
                 id='kcwi-server-check',
                 value=True,
@@ -52,7 +61,7 @@ rootLayout1 = html.Div([
             ),
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='settings-container2', children=[
-            html.H4('Settings Check'),
+            html.H4('Settings Check'), # Indicator for all settings, green circle if all up, red box if one or more are down
             daq.Indicator(
                 id='kcwi-settings-check',
                 value=True,
@@ -62,7 +71,7 @@ rootLayout1 = html.Div([
             )
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='settings-container3', children=[
-            html.H4('Power Check'),
+            html.H4('Power Check'), # Indicator for all power, green circle if all up, red box if one or more are down
             daq.Indicator(
                 id='kcwi-power-check',
                 value=True,
@@ -74,10 +83,10 @@ rootLayout1 = html.Div([
     ]),
     html.Div(id='legend-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], children=[
-            daq.StopButton(id='stop-button')
+            daq.StopButton(id='stop-button') # stop button to stop updating
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='legend-status', children=[
-            html.H4("Legend"),
+            html.H4("Legend"), # Legend indicators, so nothing changes
             daq.Indicator( width = 30,
                 id='legend-green',
                 value=True,
@@ -105,7 +114,7 @@ rootLayout1 = html.Div([
             )
         ]),
         html.Br(),
-        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='welcome-link')
+        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='welcome-link') # link back to the welcome page
     ])
 ])
 
@@ -125,7 +134,7 @@ temperature_layout_dark = go.Layout(
     plot_bgcolor="#313336",
     paper_bgcolor="#303030",
     legend=go.layout.Legend(font=dict(color='white'))
-)
+) # temperature graph layout for dark theme
 temperature_layout = go.Layout(
     yaxis=dict(
         title='K',
@@ -136,11 +145,15 @@ temperature_layout = go.Layout(
     ),
     height=505,
     plot_bgcolor="#f3f3f3"
-)
+) # temperature graph layout for light theme
 
+####################### Second Tab Layouts #######################
+##################################################################
+
+####################### Temperature Tab #######################
 temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
     html.Div(className='indicator-box'+class_theme['dark'], id='graph-container1', children=[
-        html.H4('Blue CCD Temperature'),
+        html.H4('Blue CCD Temperature'), # temperature graph
         dcc.Graph(
             id='temperature-graph',
             figure=go.Figure({
@@ -151,7 +164,7 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
     ]),
     html.Div(id='legend-container2', children=[
         html.Div(className='indicator-box'+class_theme['dark'], id='dropdown-container1', children=[
-            html.H4('Temperature History'),
+            html.H4('Temperature History'), # drop down option for temperature history
             html.Div(className='dropdown-theme', id='dropdown1', children=[
                 dcc.Dropdown(
                     id='temperature-graph-dropdown',
@@ -168,14 +181,14 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
         ]),
     ]),
     html.Div(className='indicator-box'+class_theme['dark'], id='tmp1-container', children=[
-        html.H4("Blue CCD Temperature"),
+        html.H4("Blue CCD Temperature"), # Temperautre Thermometer for Blue CCD
         daq.Thermometer(id='tmp1-temp',
             min=0, max=273,
             value=100,
             color='blue'
         ),
         html.Br(),
-        daq.LEDDisplay(
+        daq.LEDDisplay( # display temperature as LED box in K for Blue CCD
             id='tmp1-k-temperature',
             value='000000',
             color='blue',
@@ -183,7 +196,7 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
             labelPosition='right'
         ),
         html.Br(),
-        daq.LEDDisplay(
+        daq.LEDDisplay( # display temperature in LED box in C for Blue CCD
             id='tmp1-c-temperature',
             value='000000',
             label={'label': 'C', 'style': {'font-size': '24pt'}},
@@ -192,14 +205,14 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
         )
     ]),
     html.Div(className='indicator-box'+class_theme['dark'], id='tmp7-container', children=[
-        html.H4("Cab Interior Temperature"),
+        html.H4("Cab Interior Temperature"), # Temperature Thermometer for Cab Interior Temperature
         daq.Thermometer(id='tmp7-temp',
             min=270, max=320,
             value=100,
             color='blue'
         ),
         html.Br(),
-        daq.LEDDisplay(
+        daq.LEDDisplay( # display temperature as LED box in K for Cab Interior Temperature
             id='tmp7-k-temperature',
             value='000000',
             label={'label': 'K', 'style': {'font-size': '24pt'}},
@@ -207,7 +220,7 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
             labelPosition='right'
         ),
         html.Br(),
-        daq.LEDDisplay(
+        daq.LEDDisplay( # display temperature as LED box in C for Cab Interior Temperature
             id='tmp7-c-temperature',
             value='000000',
             label={'label': 'C', 'style': {'font-size': '24pt'}},
@@ -216,14 +229,14 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
         )
     ]),
     html.Div(className='indicator-box'+class_theme['dark'], id='tmp8-container', children=[
-        html.H4("Blue Fill Temperature"),
+        html.H4("Blue Fill Temperature"), # Temperature Thermometer for Blue Fill
         daq.Thermometer(id='tmp8-temp',
             min=0, max=273,
             value=100,
             color='blue'
         ),
         html.Br(),
-        daq.LEDDisplay(
+        daq.LEDDisplay( # display temperature as LED box in K for Blue Fill
             id='tmp8-k-temperature',
             value='000000',
             label={'label': 'K', 'style': {'font-size': '24pt'}},
@@ -231,7 +244,7 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
             labelPosition='right'
         ),
         html.Br(),
-        daq.LEDDisplay(
+        daq.LEDDisplay( # display temperature as LED box in C for Blue Fill
             id='tmp8-c-temperature',
             value='000000',
             label={'label': 'C', 'style': {'font-size': '24pt'}},
@@ -241,14 +254,17 @@ temperatureRoot2 = html.Div(style={'overflow':'scroll'}, children=[
     ])
 ])
 
-powerOutlets = []
-powerChildren = []
+
+########################### Power Tab ###########################
+# Init keywords for all 3 power banks A, B, C
+powerOutlets = [] # list of dictionaries holding keyword, library/server, and name/label
+powerChildren = []  # the indicator list indexing with powerOutlets dictionaries
 check_power = Keywords()
 counter = 0
-for i in ['A','B','C']:
+for i in ['A','B','C']: # loop over the 3 different power banks
     counter += 1
     powerChildren.append(html.H4('Power Bank %s' %(i)))
-    for j in range(1,9):
+    for j in range(1,9): # loop over each power in bank
         powerOutlets.append({'KEYWORD':'PWSTAT'+str(j)+i, 'LIBRARY':'kp%ss'%(counter), 'NAME':'PWNAME'+str(j)+i})
         powerChildren.append(daq.Indicator( width = 30,
             id='PWSTAT'+str(j)+i+'-status',
@@ -260,15 +276,15 @@ for i in ['A','B','C']:
 
 powerRoot2 = html.Div([
     html.Div(id='PWSTATA-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='pwstata-status', children=powerChildren[:9]),
+        html.Div(className='indicator-box'+class_theme['dark'], id='pwstata-status', children=powerChildren[:9]), # Power Bank A, total of 9 keywords
     ]),
     html.Div(id='PWSTATB-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='pwstatb-status', children=powerChildren[9:18]),
+        html.Div(className='indicator-box'+class_theme['dark'], id='pwstatb-status', children=powerChildren[9:18]), # Power Bank B, total of 9 keywords
     ]),
     html.Div(id='PWSTATC-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='pwstatc-status', children=powerChildren[18:])
+        html.Div(className='indicator-box'+class_theme['dark'], id='pwstatc-status', children=powerChildren[18:]) # Power Bank C, total of 9 keywords
     ]),
-    dcc.ConfirmDialogProvider(
+    dcc.ConfirmDialogProvider( # help button and message
         children=html.Button(
             'Help',
             id='help-power-button'
@@ -279,6 +295,8 @@ powerRoot2 = html.Div([
     html.Div(id='output-provider')
 ])
 
+
+###################### Pressure Tab #############################
 pressure_layout_dark = go.Layout(
     yaxis=dict(
         title='\'Pressure\' (Torr)',
@@ -296,7 +314,7 @@ pressure_layout_dark = go.Layout(
     plot_bgcolor="#313336",
     paper_bgcolor="#303030",
     legend=go.layout.Legend(font=dict(color='white'))
-)
+) # pressure graph layout under a dark theme
 pressure_layout = go.Layout(
     yaxis=dict(
         title='\'Pressure\' (Torr)',
@@ -308,12 +326,12 @@ pressure_layout = go.Layout(
     ),
     height=505,
     plot_bgcolor="#f3f3f3"
-)
+) # pressure graph layout under a light theme
 
 pressureRoot2 = html.Div([
     html.Div(className='indicator-box'+class_theme['dark'], id='graph-container', children=[
         html.H4(check_power.get_keyword('kbvs', 'prname')),
-        dcc.Graph(
+        dcc.Graph( # pressure graph
             id='pressure-graph',
             figure=go.Figure({
                 'data': [{'x': [], 'y':[]}],
@@ -323,7 +341,7 @@ pressureRoot2 = html.Div([
     ]),
     html.Div(id='legend-container1', children=[
         html.Div(className='indicator-box'+class_theme['dark'], id='dropdown-container', children=[
-            html.H4('Pressure History'),
+            html.H4('Pressure History'), # drop down menu for history options
             html.Div(className='dropdown-theme', id='dropdown', children=[
                 dcc.Dropdown(
                     id='pressure-graph-dropdown',
@@ -341,14 +359,7 @@ pressureRoot2 = html.Div([
     ]),
     html.Br(),
     html.Div(className='indicator-box'+class_theme['dark'], id='pgpress-container', children=[
-        html.H4('Blue Pressure Gauge'),
-        # daq.Gauge(
-        #     id='pgpress-status',
-        #     logarithmic=True,
-        #     min=-4, max=1,
-        #     units="Torr",
-        #     showCurrentValue=True,
-        # ),
+        html.H4('Blue Pressure Gauge'), # pressure gauge for blue pressure
         html.Div([
             daq.Gauge(
                 id='pgpress-status1',
@@ -364,18 +375,11 @@ pressureRoot2 = html.Div([
                     }
                 },
             ),
-            dash_katex.DashKatex(expression='\\textrm{x } 10^{-4}')
+            dash_katex.DashKatex(expression='\\textrm{x } 10^{-4}') # scale
         ])
     ]),
     html.Div(className='indicator-box'+class_theme['dark'], id='thePressure-container', children=[
-        html.H4('Blue Vac Ion'),
-        # daq.Gauge(
-        #     id='thePressure-status',
-        #     logarithmic=True,
-        #     min=-8, max=-5,
-        #     units="Torr",
-        #     showCurrentValue=True,
-        # ),
+        html.H4('Blue Vac Ion'), # pressure gauge for blue vac ion
         html.Div([
             daq.Gauge(
                 id='thePressure-status1',
@@ -391,19 +395,21 @@ pressureRoot2 = html.Div([
                     }
                 },
             ),
-            dash_katex.DashKatex(expression='\\textrm{x } 10^{-7}')
+            dash_katex.DashKatex(expression='\\textrm{x } 10^{-7}') # scale
         ])
     ])
 ])
 
-serverUpQ = []
+
+####################### Servers and Settings Tab #####################
+serverUpQ = [] # list of dictionaries containing the server keyword and library/servers
 check_servers = Keywords()
 
-for library in allServers[:-1]:
+for library in allServers[:-1]: # loop through all the servers (not including 'kcwi') to make sure keyword 'uptime' has a value and therefore is up.
     serverUpQ.append({'KEYWORD':'uptime', 'LIBRARY':library})
-serverUpQ.append({'KEYWORD':'TESTINT', 'LIBRARY':'kcwi'})
+serverUpQ.append({'KEYWORD':'TESTINT', 'LIBRARY':'kcwi'}) # append 'kcwi' keyword to check to make sure server is up
 
-settingsCheckQ = []
+settingsCheckQ = [] # list of dictionaries containing the settings name, keyword, library/server, and other checks for indicator
 check_settings = Keywords()
 settingsCheckQ.append({'NAME':'Blue CCD Temperature Check', 'KEYWORD':'tmp1', 'LIBRARY':'kt1s', 'MINVALUE':161, 'MAXVALUE':165, 'BADSTATUS':'red', 'NORMAL':163})
 settingsCheckQ.append({'NAME':'CCD Power Check', 'KEYWORD':'ccdpower', 'LIBRARY':'kbds', 'GOODVALUE':1, 'BADSTATUS':'red'})
@@ -411,9 +417,9 @@ settingsCheckQ.append({'NAME':'Ion Pump Check', 'KEYWORD':'hvon', 'LIBRARY':'kbv
 
 serverRoot2 = html.Div([
     html.Div(id='SERVER-container', className='indicator-box'+class_theme['dark'], children=[
-        html.H4('All Servers'),
+        html.H4('All Servers'), # box of all the servers
         html.Div(className='indicator-box'+class_theme['dark'], id='temperature-servers', children=[
-            html.H4('Temperature'),
+            html.H4('Temperature'), # indicators of temperature servers
             daq.Indicator( width = 30,
                 id='kt1s-status',
                 value=True,
@@ -428,7 +434,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='power-servers', children=[
-            html.H4("Power"),
+            html.H4("Power"), # indicators of the power servers
             daq.Indicator( width = 30,
                 id='kp1s-status',
                 value=True,
@@ -449,7 +455,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='pressure-servers', children=[
-            html.H4("Pressure"),
+            html.H4("Pressure"), # indicators of the pressure servers
             daq.Indicator( width = 30,
                 id='kbgs-status',
                 value=True,
@@ -464,7 +470,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='detector-servers', children=[
-            html.H4("Detector"),
+            html.H4("Detector"), # indicators of the detector servers
             daq.Indicator( width = 30,
                 id='kbds-status',
                 value=True,
@@ -479,7 +485,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='mechanism-servers', children=[
-            html.H4("Mechanisms"),
+            html.H4("Mechanisms"), # indicators of the machanism servers
             daq.Indicator( width = 30,
                 id='kbes-status',
                 value=True,
@@ -506,7 +512,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(className='indicator-box'+class_theme['dark'], id='global-servers', children=[
-            html.H4("Global"),
+            html.H4("Global"), # indicator for global servers
             daq.Indicator( width = 30,
                 id='kcwi-status',
                 value=True,
@@ -517,9 +523,9 @@ serverRoot2 = html.Div([
     ]),
     html.Br(),
     html.Div(className='indicator-box'+class_theme['dark'], id='settings-container', children=[
-        html.H4('Settings Checks'),
+        html.H4('Settings Checks'), # settings box
         html.Div(id='settings-container1', className='indicator-box-no-border'+class_theme['dark'], children=[
-            daq.Indicator(
+            daq.Indicator( # temperature settings indicator check for blue CCD
                 id='tmp1-check',
                 value=True,
                 color='blue',height=30,
@@ -528,7 +534,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(id='settings-container2', className='indicator-box-no-border'+class_theme['dark'], children=[
-            daq.Indicator(
+            daq.Indicator( # power settings indicator check for ccd power
                 id='ccdpower-check',
                 value=True,
                 color='blue',height=30,
@@ -537,7 +543,7 @@ serverRoot2 = html.Div([
             )
         ]),
         html.Div(id='settings-container3', className='indicator-box-no-border'+class_theme['dark'], children=[
-            daq.Indicator(
+            daq.Indicator( # machanism settings indicator check for ion pump
                 id='hvon-check',
                 value=True,
                 color='blue',height=30,
@@ -549,7 +555,7 @@ serverRoot2 = html.Div([
 ])
 
 
-
+################################### OVERALL LAYOUT #######################################
 layout = [
     dcc.Tabs(id="tabs", value='tab-1', children=[
         dcc.Tab(id='tab1', label='KCWI Summary', value='tabs1', className='custom-tab'+class_theme['dark'],
@@ -603,19 +609,25 @@ check_temperature_pressure = Keywords()
     state=[State('polling-interval', 'disabled')]
 )
 def stop_production(_, current):
+    '''
+    Stop button activation, once pressed the current state is swiched and label switches to 'stop' or 'start'
+
+    Parameters
+    ----------
+    current : boolean
+        the state of which the page is updating or not.
+
+    Returns
+    -------
+    boolean
+        the opposite state of the parameter state with the purpose to switch states
+    str
+        the label of the button, either 'stop' or 'start'
+    '''
     return not current, "stop" if current else "start"
 
-# @app.callback(Output('output-provider', 'children'),
-#               [Input('help-power-provider', 'submit_n_clicks')])
-# def help_power_button(submit_n_clicks):
-#     if not submit_n_clicks:
-#         return ''
-#     return """
-#         It was dangerous but we did it!
-#         Submitted {} times
-#     """.format(submit_n_clicks)
 
-kcwi_semaphore = threading.Semaphore()
+kcwi_semaphore = threading.Semaphore() # init semaphore for temperature and pressure graphs page
 @app.callback(
     [Output('temperature-graph', 'figure'),
     Output('pressure-graph', 'figure')],
@@ -625,6 +637,25 @@ kcwi_semaphore = threading.Semaphore()
     State('temperature-graph', 'figure')]
 )
 def populate_temp_pressure_figs(valueP, valueT, current_figP, current_figT):
+    '''
+    Temperature and Pressure figures activation, display history as graph by dropdown request
+
+    Parameters
+    ----------
+    valueP : str
+        the history requested of the pressure keyword 'pressure' from server 'kbvs'.  Ex. 'second', 'day', 'month', etc.
+    valueT : str
+        the history requested of the temperature keyword 'tmp1' from server 'kt1s'.  Ex. 'second', 'day', 'month', etc.
+    current_figP : dcc.Graph
+        the current graph display for the pressure history figure
+    current_figT : dcc.Graph
+        the current graph display for the temperature history figure
+
+    Returns
+    -------
+    list
+        list of the temperature and pressure figures.
+    '''
     with kcwi_semaphore:
         bVw = list()
         current_data = current_figT['data'][0]
@@ -639,11 +670,9 @@ def populate_temp_pressure_figs(valueP, valueT, current_figP, current_figT):
         return bVw
 
 
-kcwi_semaphore1 = threading.Semaphore()
+kcwi_semaphore1 = threading.Semaphore() # init Semaphore for temperature thermometers and pressure gauges
 @app.callback(
-    [#Output('pgpress-status', 'value'),
-     Output('pgpress-status1', 'value'),
-     #Output('thePressure-status', 'value'),
+    [Output('pgpress-status1', 'value'),
      Output('thePressure-status1', 'value'),
      Output('tmp1-temp', 'value'),
      Output('tmp1-k-temperature', 'value'),
@@ -657,13 +686,24 @@ kcwi_semaphore1 = threading.Semaphore()
      [Input('polling-interval2', 'n_intervals')]
 )
 def populate_temp_pressure(n_intervals2):
+    '''
+    Temperature and Pressure thermometers and gauges activation, update values.
+
+    Parameters
+    ----------
+    n_intervals2 : int
+        number of milliseconds between updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with kcwi_semaphore1:
         stats=[]
         pgpress = float(check_temperature_pressure.get_keyword('kbgs', 'pgpress'))
-        # stats.append(pgpress)
         stats.append(pgpress*10**4)
         pressure = float(check_temperature_pressure.get_keyword('kbvs', 'pressure'))
-        # stats.append(pressure)
         stats.append(pressure*10**7)
         tmp1 = round(float(check_temperature_pressure.get_keyword('kt1s', 'tmp1')),3)
         tmp7 = round(float(check_temperature_pressure.get_keyword('kt2s', 'tmp7')),3)
@@ -675,33 +715,48 @@ def populate_temp_pressure(n_intervals2):
             stats.append(str(round(tmp-273,3)))
         return stats
 
-outputs = [Output('tmp1-check', 'color'),
+
+
+outputs = [Output('tmp1-check', 'color'), # settings indicator checks on page 2
  Output('tmp1-check', 'height'),
  Output('ccdpower-check', 'color'),
  Output('ccdpower-check', 'height'),
  Output('hvon-check', 'color'),
  Output('hvon-check', 'height'),
- Output('kcwi-settings-check', 'color'),
+ Output('kcwi-settings-check', 'color'), # settings global check on page 1
  Output('kcwi-settings-check', 'label'),
- Output('kcwi-settings-check', 'height')]
+ Output('kcwi-settings-check', 'height')] # init/create outputs list to populate the settings indicators
 
-
-
-for x in serverUpQ:
+for x in serverUpQ: # loop through all servers dictionaries
     outputs.append(Output('%s-status'%(x['LIBRARY']), 'color'))
     outputs.append(Output('%s-status'%(x['LIBRARY']), 'height'))
 
-outputs.append(Output('kcwi-server-check', 'color'))
+outputs.append(Output('kcwi-server-check', 'color')) # add server global indicator check on page 1
 outputs.append(Output('kcwi-server-check', 'label'))
 outputs.append(Output('kcwi-server-check', 'height'))
 
-kcwi_semaphore2 = threading.Semaphore()
+kcwi_semaphore2 = threading.Semaphore() # init semaphore for settings and server indicator values
 @app.callback(
     outputs,
     [Input('polling-interval', 'n_intervals'),
     Input('polling-interval2', 'n_intervals')]
 )
 def populate_settings_servers(n_intervals1, n_intervals2):
+    '''
+    Settings and Server indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds between updates for page 1.
+    n_intervals2 : int
+        number of milliseconds between updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with kcwi_semaphore2:
         stats=[]
         counterGreen = 0
@@ -768,24 +823,39 @@ def populate_settings_servers(n_intervals1, n_intervals2):
         print('ended kcwi settings and servers')
         return stats
 
-outputs = []
-for x in powerOutlets:
+outputs = [] # init outputs for power indicator checks
+for x in powerOutlets: # loop through power keyword dictionaries
     outputs.append(Output('%s-status'%(x['KEYWORD']), 'color'))
     outputs.append(Output('%s-status'%(x['KEYWORD']), 'label'))
     outputs.append(Output('%s-status'%(x['KEYWORD']), 'height'))
 
-outputs.append(Output('kcwi-power-check', 'color'))
+outputs.append(Output('kcwi-power-check', 'color')) # power global indicator check on page 1
 outputs.append(Output('kcwi-power-check', 'label'))
 outputs.append(Output('kcwi-power-check', 'height'))
-outputs.append(Output('tab1', 'disabled'))
-outputs.append(Output('tab2', 'disabled'))
-kcwi_semaphore3 = threading.Semaphore()
+outputs.append(Output('tab1', 'disabled')) # tab1 disabled state
+outputs.append(Output('tab2', 'disabled')) # tab2 disabled state
+kcwi_semaphore3 = threading.Semaphore() # init semaphore for power indicator updates
 @app.callback(
     outputs,
     [Input('polling-interval', 'n_intervals'),
     Input('polling-interval2', 'n_intervals')]
 )
-def update(n_intervals1, n_intervals2):
+def populate_power(n_intervals1, n_intervals2):
+    '''
+    Power indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds between updates for page 1.
+    n_intervals2 : int
+        number of milliseconds between updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with kcwi_semaphore3:
         print('power update started')
         stats = []
