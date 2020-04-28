@@ -1,15 +1,87 @@
+
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import requests
 import datetime
 class Keywords(object):
+    '''
+    This class is strucutured to read the keywords from Keck instruments
+
+    ***
+
+    Attributes
+    ----------
+    _servers : list
+        A list of servers to receive correct keyword (server that is correlated to the keyworks in '_keywords').
+    _keywords : list
+        A list of keywords to get value.
+    _mode : str
+        The vechical at which a keyword is to be obtained.
+
+    Methods
+    -------
+    get_keywords()
+        The method to get all the keywords in '_keywords' from servers in '_servers' and returns a dictionary of the values.
+    get_keyword(server, keyword)
+        The method to get fetch a single keyword.
+    server_up(server, keyword)
+        Checks to see if the server is up and will return a boolean.
+    get_keyword_history(server, keyword, time, label='')
+        The method to get the history of the given keyword
+    ping_computer(instrument, server)
+        The method to ping a computer to make sure the computer given has a heartbeat (will return a boolean)
+    ps_process(instrument, process)
+        The method to check to see if a process is running or not (will return a boolean)
+    '''
 
     def __init__(self, servers=None, keywords=None, mode='web'):
-        '''
-        testing
-        '''
+
         if keywords is None:
             keywords = []
         if servers is None:
             servers = []
+
+        try:
+            should_be_int = len(servers)
+            if isinstance(servers, str):
+                print('\'servers\' need to be a list of strings.')
+                exit()
+            if should_be_int > 0:
+                if not isinstance(servers[0], str):
+                    print('\'servers\' need to be a list of strings.')
+                    exit()
+        except:
+            print('\'servers\' need to be a list of strings.')
+            exit()
+
+        try:
+            should_be_int = len(keywords)
+            if isinstance(keywords, str):
+                print('\'keywords\' need to be a list of strings.')
+                exit()
+            if should_be_int > 0:
+                if not isinstance(keywords[0], str):
+                    print('\'keywords\' need to be a list of strings.')
+                    exit()
+        except:
+            print('\'keywords\' need to be a list of strings.')
+            exit()
+
+        if len(servers) != len(keywords):
+            print('\'servers\' (length = %s) and \'keywords\' (length = %s) need to be the same size.'%(len(servers), len(keywords)))
+            exit()
+
+        if not mode in ['web', 'local', 'ktlpython', 'simulate']:
+            print('\'mode\' must be one of the following: web, local, ktlpython, or simulate.')
+            print('Resetting to \'web\'...')
+            mode = 'web'
 
         self._servers = servers
         self._keywords = keywords
@@ -35,18 +107,18 @@ class Keywords(object):
                     keywordDict.update({pname : '0'})
             else:
                 if self.server_up(server, pname[:-1]):
-                    keywordDict.update({pname : self._find_keyword(server, pname[:-1])})
+                    keywordDict.update({pname : self.__find_keyword(server, pname[:-1])})
             counter += 1
         return keywordDict
 
     def get_keyword(self, server, keyword):
         if self.server_up(server, keyword):
-            return self._find_keyword(server, keyword)
+            return self.__find_keyword(server, keyword)
         else:
             print("Error in getting data from the server \'%s\' reading keyword \'%s\'" % (server, keyword))
             return -8675309
 
-    def _find_keyword(self, server, keyword):
+    def __find_keyword(self, server, keyword):
         if self._mode == 'local':
             proc = subprocess.Popen("show -terse -s %s %s " % (server, keyword), stdout=subprocess.PIPE, shell=True)
             result = proc.communicate()
@@ -67,7 +139,7 @@ class Keywords(object):
 
     def server_up(self, server, keyword):
         try:
-            temp = self._find_keyword(server, keyword)
+            temp = self.__find_keyword(server, keyword)
             return True
         except:
             return False
