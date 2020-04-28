@@ -88,30 +88,51 @@ class Keywords(object):
         self._mode = mode
 
     def get_keywords(self):
+        '''
+        The method to get all the keywords in '_keywords' from servers in '_servers' and returns a dictionary of the values.
+
+        Returns
+        -------
+        dict
+            A dictionary with the keys as the keywords in list '_keywords' and the values as the values of the keywords.
+        '''
         counter = 0
-        keywordDict = dict()
+        keyword_dict = dict()
         for pname in self._keywords:
             server = self._servers[counter]
-
-            #print(pname)
             if pname[0:6] == 'uptime':
                 pname = pname[0:6]
                 if self.server_up(server, pname):
-                    keywordDict.update({pname+server : '1'})
+                    keyword_dict.update({pname+server : '1'})
                 else:
-                    keywordDict.update({pname+server : '0'})
+                    keyword_dict.update({pname+server : '0'})
             elif pname == 'TESTINT':
                 if self.server_up(server, pname[:-1]):
-                    keywordDict.update({pname : '1'})
+                    keyword_dict.update({pname : '1'})
                 else:
-                    keywordDict.update({pname : '0'})
+                    keyword_dict.update({pname : '0'})
             else:
                 if self.server_up(server, pname[:-1]):
-                    keywordDict.update({pname : self.__find_keyword(server, pname[:-1])})
+                    keyword_dict.update({pname : self.__find_keyword(server, pname[:-1])})
             counter += 1
-        return keywordDict
+        return keyword_dict
 
     def get_keyword(self, server, keyword):
+        '''
+        The method to get fetch a single keyword.
+
+        Parameters
+        ----------
+        server : str
+            the server at which the keyword will be located.
+        keyword : str
+            the keyword that is being requested
+
+        Returns
+        -------
+        str
+            returns a string of the keyword value
+        '''
         if self.server_up(server, keyword):
             return self.__find_keyword(server, keyword)
         else:
@@ -119,6 +140,21 @@ class Keywords(object):
             return -8675309
 
     def __find_keyword(self, server, keyword):
+        '''
+        The private function to go get the keyword value.
+
+        Parameters
+        ----------
+        server : str
+            the server at which the keyword will be located.
+        keyword : str
+            the keyword that is being requested
+
+        Returns
+        -------
+        str
+            returns a string of the keyword value
+        '''
         if self._mode == 'local':
             proc = subprocess.Popen("show -terse -s %s %s " % (server, keyword), stdout=subprocess.PIPE, shell=True)
             result = proc.communicate()
@@ -138,6 +174,21 @@ class Keywords(object):
         return result
 
     def server_up(self, server, keyword):
+        '''
+        Checks to see if the server is up.  (This is mostly used before asking for a keyword.)
+
+        Parameters
+        ----------
+        server : str
+            the server at which the keyword will be located.
+        keyword : str
+            the keyword that is being requested
+
+        Returns
+        -------
+        boolean
+            returns whether or not the server is up.
+        '''
         try:
             temp = self.__find_keyword(server, keyword)
             return True
@@ -145,6 +196,25 @@ class Keywords(object):
             return False
 
     def get_keyword_history(self, server, keyword, time, label=''):
+        '''
+        The method to get the history of the given keyword.
+
+        Parameters
+        ----------
+        server : str
+            the server at which the keyword will be located.
+        keyword : str
+            the keyword that is being requested
+        time : str
+            the time of how far back what is being looked at ('second', 'day', 'week', 'month', etc.)
+        label : str, optional (default = '')
+            the label of for the keyword history values.
+
+        Returns
+        -------
+        dict
+            returns as dictionary of x (keyword value) and y (timestamp of value) lists.
+        '''
         data = {'x' : [], 'y' : [], 'name' : label}
         if(self.server_up(server, keyword)):
             url = 'http://host.docker.internal:5002/showHistory?server=%s&keyword=%s&time=%s' % (server, keyword, time)
@@ -171,6 +241,21 @@ class Keywords(object):
         return data
 
     def ping_computer(self, instrument, server):
+        '''
+        The method to ping a computer to make sure the computer given has a heartbeat (will return a boolean)
+
+        Parameters
+        ----------
+        instrument : str
+            the instrument in the server is contained
+        server : str
+            the server in which is in question of being up.
+
+        Returns
+        -------
+        boolean
+            returns whether or not their is a heartbeat to the server.
+        '''
         #*******************************************************************************
         # Once show -s kcwi_ping is a thing, UNCOMMENT and COMMENT the BOTTOM
         #*******************************************************************************
@@ -196,6 +281,21 @@ class Keywords(object):
             return True
 
     def ps_process(self, instrument, process):
+        '''
+        The method to ping a computer to make sure the computer given has a heartbeat (will return a boolean)
+
+        Parameters
+        ----------
+        instrument : str
+            the instrument in the server is contained
+        process : str
+            the process in which is in question of running.
+
+        Returns
+        -------
+        boolean
+            returns whether or not the process is running from the given instrument.
+        '''
         if self.get_keyword('%s_ps'%(instrument), process) == "":
             return False
         else:
