@@ -1,10 +1,18 @@
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -24,9 +32,8 @@ theme = {
 class_theme = {'dark' : ''}
 
 histKeys = Keywords()
-##### Check Settings Tab
-settings_keywords = Keywords()
 
+###################### First Tab Layout ######################
 rootLayout1 = html.Div([
     html.Div(id='osiris-summary-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], id='osiris-summary-container1', children=[
@@ -107,8 +114,10 @@ rootLayout1 = html.Div([
         dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='osiris-welcome-link')
     ])
 ])
+###################### Second Tab Layout ######################
+###############################################################
 
-#### Check Servers/Computers Tab
+###################### Check Servers/Computers Tab ######################
 check_servers = Keywords()
 serverUpQ = []
 serverKeyword = 'lastalive'
@@ -331,7 +340,7 @@ serversRoot2 = html.Div([
     ])
 ])
 
-
+###################### Power Tab ######################
 check_power = Keywords()
 powerOutlets = []
 powerOutlets.append({'NAME':'IMAG SAM',
@@ -514,6 +523,8 @@ powerRoot2 = html.Div([
         ])
     ])
 ])
+
+###################### Settings Tab ######################
 
 check_settings = Keywords()
 settingsCheckQ = []
@@ -727,6 +738,7 @@ settingsRoot2 = html.Div([
     ]),
 ])
 
+###################### Temperature/Pressure Tab ######################
 check_temperature = Keywords()
 tempCheckQ = []
 tempCheckQ.append({'NAME':'ECCS1 Intake', 'KEYWORD':'tmp1', 'LIBRARY':'ot1s', 'CURRENT':0, 'NORMAL':'Loading...'})
@@ -805,7 +817,7 @@ temperatureRoot2 = html.Div([
 
 
 
-
+###################### OVERALL LAYOUT ######################
 layout = [
     dcc.Tabs(id="osiris-tabs", value='osiris-tabs', children=[
         dcc.Tab(id='osiris-tab1', label='OSIRIS Summary', value='osiris-tabs1', className='custom-tab'+class_theme['dark'],
@@ -850,7 +862,7 @@ layout = [
     html.Div(id='osiris-tabs-content')
 ]
 
-inputs_intervals = [Input('osiris-polling-interval', 'n_intervals'), Input('osiris-polling-interval2', 'n_intervals')]
+inputs_intervals = [Input('osiris-polling-interval', 'n_intervals'), Input('osiris-polling-interval2', 'n_intervals')] # interval input list for all callbacks for updating both pages
 outputs = []
 for x in serverUpQ:
     outputs.append(Output('%s-check' % (x['LIBRARY']), 'color'))
@@ -873,6 +885,21 @@ osiris_semaphore = threading.Semaphore()
     inputs_intervals
 )
 def populate_servers_computers(n_intervals1, n_intervals2):
+    '''
+    Server and Computer indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with osiris_semaphore:
         stats = []
         counterS = 0
@@ -930,6 +957,21 @@ osiris_semaphore1 = threading.Semaphore()
     inputs_intervals
 )
 def populate_power(n_intervals1, n_intervals2):
+    '''
+    Power indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with osiris_semaphore1:
         stats = []
         counter = 0
@@ -968,6 +1010,21 @@ osiris_semaphore2 = threading.Semaphore()
     inputs_intervals
 )
 def populate_settings(n_intervals1, n_intervals2):
+    '''
+    Settings indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with osiris_semaphore2:
         stats = []
         counterGreen = 0
@@ -1033,6 +1090,21 @@ osiris_semaphore3 = threading.Semaphore()
     inputs_intervals
 )
 def populate_temperatures(n_intervals1, n_intervals2):
+    '''
+    Temperature indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with osiris_semaphore3:
         stats = []
         current = [html.H4('Current')]

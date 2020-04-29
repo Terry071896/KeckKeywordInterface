@@ -1,10 +1,18 @@
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime, timedelta
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -24,24 +32,99 @@ theme = {
 
 class_theme = {'dark' : ''}
 globalValueT = ''
-#### Check Keywords Tab
-check_keywords = Keywords()
-serverUpQ = []
-serverUpQ.append(['deimot','tvfilraw'])
-serverUpQ.append(['deimot','g4tltraw'])
-serverUpQ.append(['deimot','tmirrraw'])
-serverUpQ.append(['deimot','hplogtim'])
-serverUpQ.append(['deimot','slbarcfg'])
-serverUpQ.append(['deimot','bargncfg'])
-serverUpQ.append(['deiccd','tempdet,wcrate,observer'])
-serverUpQ.append(['deifcs','wcrate,observer'])
-serverUpQ.append(['deirot','rotatval'])
-serverUpQ.append(['acs','mode'])
-#serverUpQ.append(['dcs2','ra'])
-serverUpQ.append(['dcs2','ra'])
 
 histKeys = Keywords()
-##### Check Settings Tab
+
+
+###################### First Tab Layout ######################
+rootLayout1 = html.Div([
+    html.Div(id='deimos-summary-container', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container1', children=[
+            html.H4('Computer Check'),
+            daq.Indicator(
+                id='deimos-computer-check',
+                value=True,
+                color='blue',height=50,
+                label='Loading...',
+                width = 50
+            ),
+        ]),
+        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container2', children=[
+            html.H4('Daemons Check'),
+            daq.Indicator(
+                id='deimos-daemons-check',
+                value=True,
+                color='blue',height=50,
+                label='Loading...',
+                width = 50
+            )
+        ]),
+        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container3', children=[
+            html.H4('Keyword Librarys Check'),
+            daq.Indicator(
+                id='deimos-keyword-check',
+                value=True,
+                color='blue',height=50,
+                label='Loading...',
+                width = 50
+            )
+        ]),
+        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container4', children=[
+            html.H4('Settings Check'),
+            daq.Indicator(
+                id='deimos-settings-check',
+                value=True,
+                color='blue',height=50,
+                label='Loading...',
+                width = 50
+            )
+        ])
+    ]),
+    html.Br(),
+    html.Div(id='legend-container', children=[
+        html.Div(className='indicator-box'+class_theme['dark'], children=[
+            daq.StopButton(id='deimos-stop-button')
+        ]),
+        html.Div(className='indicator-box'+class_theme['dark'], id='legend-status', children=[
+            html.H4("Legend"),
+            daq.Indicator( width = 30,
+                id='legend-green',
+                value=True,
+                color='green',
+                label='OK ='
+            ),
+            daq.Indicator( width = 30,
+                id='legend-yellow',
+                value=True,
+                color='yellow',height=20,
+                label='Warning ='
+            ),
+            daq.Indicator( width = 30,
+                height = 30,
+                id='legend-red',
+                value=True,
+                color='red',
+                label='Off/Error ='
+            ),
+            daq.Indicator( width = 30,
+                id='legend-blue',
+                value=True,
+                color='blue',height=30,
+                label='Loading ='
+            )
+        ]),
+        html.Br(),
+        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='deimos-welcome-link')
+    ]),
+    html.Br(),
+    html.P('Computer and Daemon Check Not Ready Yet!!!!!!!')
+])
+
+
+###################### Second Tab Layout ######################
+###############################################################
+
+###################### Settings Tab ######################
 settings_keywords = Keywords()
 tempset = float(settings_keywords.get_keyword('deiccd', 'tempset'))
 rotccwlm = -330
@@ -153,90 +236,6 @@ settingsGoodQ.append({ 'NAME' : 'Rotator CW limit',
             'MINVALUE' : rotcwlm-1,
             'MAXVALUE' : rotcwlm+1,
             'BADSTATUS' : 'yellow'})
-
-
-rootLayout1 = html.Div([
-    html.Div(id='deimos-summary-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container1', children=[
-            html.H4('Computer Check'),
-            daq.Indicator(
-                id='deimos-computer-check',
-                value=True,
-                color='blue',height=50,
-                label='Loading...',
-                width = 50
-            ),
-        ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container2', children=[
-            html.H4('Daemons Check'),
-            daq.Indicator(
-                id='deimos-daemons-check',
-                value=True,
-                color='blue',height=50,
-                label='Loading...',
-                width = 50
-            )
-        ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container3', children=[
-            html.H4('Keyword Librarys Check'),
-            daq.Indicator(
-                id='deimos-keyword-check',
-                value=True,
-                color='blue',height=50,
-                label='Loading...',
-                width = 50
-            )
-        ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='deimos-summary-container4', children=[
-            html.H4('Settings Check'),
-            daq.Indicator(
-                id='deimos-settings-check',
-                value=True,
-                color='blue',height=50,
-                label='Loading...',
-                width = 50
-            )
-        ])
-    ]),
-    html.Br(),
-    html.Div(id='legend-container', children=[
-        html.Div(className='indicator-box'+class_theme['dark'], children=[
-            daq.StopButton(id='deimos-stop-button')
-        ]),
-        html.Div(className='indicator-box'+class_theme['dark'], id='legend-status', children=[
-            html.H4("Legend"),
-            daq.Indicator( width = 30,
-                id='legend-green',
-                value=True,
-                color='green',
-                label='OK ='
-            ),
-            daq.Indicator( width = 30,
-                id='legend-yellow',
-                value=True,
-                color='yellow',height=20,
-                label='Warning ='
-            ),
-            daq.Indicator( width = 30,
-                height = 30,
-                id='legend-red',
-                value=True,
-                color='red',
-                label='Off/Error ='
-            ),
-            daq.Indicator( width = 30,
-                id='legend-blue',
-                value=True,
-                color='blue',height=30,
-                label='Loading ='
-            )
-        ]),
-        html.Br(),
-        dcc.Link('Go to Welcome Page', href='/', className='indicator-box'+class_theme['dark'], id='deimos-welcome-link')
-    ]),
-    html.Br(),
-    html.P('Computer and Daemon Check Not Ready Yet!!!!!!!')
-])
 
 settingsRoot2 = html.Div([
     html.Div(id='deimos-settings-container', className='indicator-box'+class_theme['dark'], children=[
@@ -390,6 +389,7 @@ settingsRoot2 = html.Div([
     ])
 ])
 
+###################### Computer Tab ######################
 
 computersUpQ = []
 check_computers = Keywords()
@@ -457,6 +457,22 @@ computersRoot2 = html.Div([
         html.Div(id='deimos-computer-3', className='indicator-box-no-border'+class_theme['dark'], children=computerInd[5:])
     ])
 ])
+
+###################### Keyword and Server Tab ######################
+check_keywords = Keywords()
+serverUpQ = []
+serverUpQ.append(['deimot','tvfilraw'])
+serverUpQ.append(['deimot','g4tltraw'])
+serverUpQ.append(['deimot','tmirrraw'])
+serverUpQ.append(['deimot','hplogtim'])
+serverUpQ.append(['deimot','slbarcfg'])
+serverUpQ.append(['deimot','bargncfg'])
+serverUpQ.append(['deiccd','tempdet,wcrate,observer'])
+serverUpQ.append(['deifcs','wcrate,observer'])
+serverUpQ.append(['deirot','rotatval'])
+serverUpQ.append(['acs','mode'])
+serverUpQ.append(['dcs2','ra'])
+
 
 keywordsRoot2 = html.Div([
     html.Div(id='deimos-keyword-container', className='indicator-box'+class_theme['dark'], children=[
@@ -551,6 +567,8 @@ keywordsRoot2 = html.Div([
     html.P('ACS Not Ready Yet!!!!!!!')
 ])
 
+
+###################### Temperature Tab ######################
 temperature_layout_dark = go.Layout(
     yaxis=dict(
         title='Temperature (C)',
@@ -603,17 +621,19 @@ temperatureRoot2 = html.Div([
                         {'label': '1 Day Ago', 'value': 'day'},
                         {'label': '1 Week Ago', 'value': 'week'},
                         {'label': '1 Month Ago', 'value': 'month'},
-                        {'label': 'None', 'value': 'fake'}
+                        {'label': 'None', 'value': 'none'}
                     ],
-                    value='fake',
+                    value='none',
                     style=theme
                 )
             ])
         ])
     ]),
 ])
+###################### Pressure Tab ######################
 pressureRoot2 = html.Div([])
 
+###################### OVERALL LAYOUT ######################
 layout = [
     dcc.Tabs(id="deimos-tabs", value='deimos-tabs', children=[
         dcc.Tab(id='deimos-tab1', label='DEIMOS Summary', value='deimos-tabs1', className='custom-tab'+class_theme['dark'],
@@ -667,6 +687,25 @@ layout = [
     State('deimos-polling-interval2', 'disabled')]
 )
 def stop_production(_, current, current2):
+    '''
+    Stop button activation, once pressed the current state is swiched and label switches to 'stop' or 'start'
+
+    Parameters
+    ----------
+    current : boolean
+        the state of which page 1 is updating or not.
+    current2 : boolean
+        the state of which page 2 is updating or not.
+
+    Returns
+    -------
+    boolean
+        the opposite state of the parameter state with the purpose to switch states of page 1.
+    boolean
+        the opposite state of the parameter state with the purpose to switch states of page 2.
+    str
+        the label of the button, either 'stop' or 'start'
+    '''
     return not current, not current2, "stop" if current else "start"
 
 
@@ -703,6 +742,21 @@ deimos_semaphore1 = threading.Semaphore()
     Input('deimos-polling-interval', 'n_intervals')]
 )
 def keyword_library_check(n_intervals2, n_intervals1):
+    '''
+    Keyword and Library indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with deimos_semaphore1:
         stats = []
         counter = 0
@@ -776,6 +830,21 @@ deimos_semaphore2 = threading.Semaphore()
     Input('deimos-polling-interval', 'n_intervals')]
 )
 def settings_check(n_intervals2, n_intervals1):
+    '''
+    Settings indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with deimos_semaphore2:
         stats = []
         counterGreen = 0
@@ -848,13 +917,32 @@ def settings_check(n_intervals2, n_intervals1):
     state=[State('deimos-temperature-graph', 'figure')]
 )
 def populate_temp_graph(valueT, n_intervals, interval, current_figT):
+    '''
+    Temperature figures activation, display history as graph by dropdown request.
+
+    Parameters
+    ----------
+    valueT : str
+        the history requested of the CCD temperatures.  Ex. 'second', 'day', 'month', etc.
+    n_intervals : int
+        number of milliseconds passed since start updates for page 2.
+    interval : int
+        number of milliseconds between updates for page 2.
+    current_figt : dcc.Graph
+        the current graph display for the temperature history figure
+
+    Returns
+    -------
+    dcc.Graph
+        the graph with new data to plot.
+    '''
     with deimos_semaphore:
         print('starting figure')
         stats = []
         current_data = current_figT['data']
         global dataT
         global now
-        if valueT == 'fake':
+        if valueT == 'none':
             current_figT['data'] = [{'x' : [], 'y' : []}]
             for key in dataT.keys():
                 if dataT[key] == '':
@@ -896,8 +984,8 @@ def populate_temp_graph(valueT, n_intervals, interval, current_figT):
                         for i in range(len(new_data)):
                             dataT[key][i]['x'].append(new_data[i]['x'][0])
                             dataT[key][i]['y'].append(new_data[i]['y'][0])
-                            dataT[key][i] = {'x' : dataT[key][i]['x'],
-                            'y' : dataT[key][i]['y'],
+                            dataT[key][i] = {'x' : dataT[key][i]['x'][1:],
+                            'y' : dataT[key][i]['y'][1:],
                             'name' : dataT[key][i]['name']}
                         print('added new data point to %s' % (key))
                     else:

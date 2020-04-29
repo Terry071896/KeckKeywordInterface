@@ -1,10 +1,18 @@
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -24,9 +32,8 @@ theme = {
 class_theme = {'dark' : ''}
 
 histKeys = Keywords()
-##### Check Settings Tab
-settings_keywords = Keywords()
 
+###################### First Tab Layout ######################
 rootLayout1 = html.Div([
     html.Div(id='nirspec-summary-container', children=[
         html.Div(className='indicator-box', id='nirspec-summary-container1', children=[
@@ -127,8 +134,10 @@ rootLayout1 = html.Div([
         dcc.Link('Go to Welcome Page', href='/', className='indicator-box', id='nirspec-welcome-link')
     ])
 ])
+###################### Second Tab Layout ######################
+###############################################################
 
-#### Check Servers/Computers Tab
+###################### Check Servers/Computers Tab ######################
 check_servers = Keywords()
 serverUpQ = []
 serverUpQ.append(['nspec','uptime'])
@@ -234,6 +243,7 @@ serversRoot2 = html.Div([
     ])
 ])
 
+###################### Power Tab ######################
 check_power = Keywords()
 powerOutlets = []
 powerOutletNames = {}
@@ -481,6 +491,7 @@ powerRoot2 = html.Div([
     ])
 ])
 
+###################### Temperature Tab ######################
 check_temperature = Keywords()
 tempCheckQ = []
 tempCheckQ.append({'LIBRARY':'nsdewar', 'KEYWORD':'spectemp1val', 'MINVALUE':29, 'MAXVALUE':31, 'GOODVALUE':'green', 'BADSTATUS':'red'})
@@ -591,6 +602,7 @@ temperatureRoot2 = html.Div([
     ])
 ])
 
+###################### Mechanism Tab ######################
 check_mechanism = Keywords()
 mechanismCheckQ = []
 mechanismCheckQ.append(['nsmotor', 'rotatorsta'])
@@ -692,6 +704,7 @@ mechanismRoot2 = html.Div([
     ])
 ])
 
+###################### OVERALL LAYOUT ######################
 layout = [
     dcc.Tabs(id="nirspec-tabs", value='nirspec-tabs', children=[
         dcc.Tab(id='nirspec-tab1', label='NIRSPEC Summary', value='nirspec-tabs1', className='custom-tab'+class_theme['dark'],
@@ -759,6 +772,21 @@ nirspec_semaphore = threading.Semaphore()
     inputs_intervals
 )
 def populate_servers_computers(n_intervals1, n_intervals2):
+    '''
+    Server and Computer indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with nirspec_semaphore:
         stats = []
         counter1 = 0
@@ -814,6 +842,21 @@ nirspec_semaphore1 = threading.Semaphore()
     inputs_intervals
 )
 def populate_power(n_intervals1, n_intervals2):
+    '''
+    Power indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with nirspec_semaphore1:
         stats = []
         counter = 0
@@ -850,6 +893,21 @@ nirspec_semaphore2 = threading.Semaphore()
     inputs_intervals
 )
 def populate_temperatures(n_intervals1, n_intervals2):
+    '''
+    Temperature indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with nirspec_semaphore2:
         stats = []
         counter = 0
@@ -885,6 +943,21 @@ nirspec_semaphore3 = threading.Semaphore()
     inputs_intervals
 )
 def populate_mechanisms(n_intervals1, n_intervals2):
+    '''
+    Mechanism indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with nirspec_semaphore3:
         stats = []
         counterG = 0
@@ -926,6 +999,21 @@ nirspec_semaphore4 = threading.Semaphore()
     [Input('nirspec-polling-interval', 'n_intervals')]
 )
 def populate_pressure(n_intervals):
+    '''
+    Pressure indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with nirspec_semaphore4:
         stats = []
         if 10**(-9) <= float(check_servers.get_keyword('nsdewar', 'vacuum')) <= 10**(-7):

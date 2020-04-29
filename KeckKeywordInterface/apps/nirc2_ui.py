@@ -1,10 +1,18 @@
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -23,6 +31,8 @@ theme = {
 
 class_theme = {'dark' : ''}
 
+
+###################### First Tab Layout ######################
 summaryCheck = []
 check_summary = Keywords()
 
@@ -113,7 +123,10 @@ rootLayout1 = html.Div([
 ])
 
 
+###################### Second Tab Layout ######################
+###############################################################
 
+###################### Temperature Tab ######################
 check_temperature = Keywords()
 tempCheckQ = []
 tempCheckQ.append({'NAME':'', 'LIBRARY':'nirc2', 'KEYWORD':'tdetblck'})
@@ -258,7 +271,7 @@ temperatureRoot2 = html.Div([
 ])
 
 
-
+###################### OVERALL LAYOUT ######################
 
 layout = [
     dcc.Tabs(id="nirc2-tabs", value='nirc2-tabs', children=[
@@ -306,6 +319,21 @@ nirc2_semaphore = threading.Semaphore()
     inputs_intervals
 )
 def populate_servers_computers(n_intervals1, n_intervals2):
+    '''
+    Server indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with nirc2_semaphore:
         stats = []
         for x in summaryCheck:

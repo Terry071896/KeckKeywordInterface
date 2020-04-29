@@ -692,7 +692,7 @@ def populate_temp_pressure(n_intervals2):
     Parameters
     ----------
     n_intervals2 : int
-        number of milliseconds between updates for page 2.
+        number of milliseconds passed since start updates for page 2.
 
     Returns
     -------
@@ -748,9 +748,9 @@ def populate_settings_servers(n_intervals1, n_intervals2):
     Parameters
     ----------
     n_intervals1 : int
-        number of milliseconds between updates for page 1.
+        number of milliseconds passed since start updates for page 1.
     n_intervals2 : int
-        number of milliseconds between updates for page 2.
+        number of milliseconds passed since start updates for page 2.
 
     Returns
     -------
@@ -847,9 +847,9 @@ def populate_power(n_intervals1, n_intervals2):
     Parameters
     ----------
     n_intervals1 : int
-        number of milliseconds between updates for page 1.
+        number of milliseconds passed since start updates for page 1.
     n_intervals2 : int
-        number of milliseconds between updates for page 2.
+        number of milliseconds passed since start updates for page 2.
 
     Returns
     -------

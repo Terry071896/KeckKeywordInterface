@@ -1,10 +1,18 @@
+# Author: Terry Cox
+# GitHub: https://github.com/KeckObservatory/KeckKeywordInterface
+# Email: tcox@keck.hawaii.edu, tfcox1703@gmail.com
+
+__author__ = ['Terry Cox', 'Luca Rizzi']
+__version__ = '1.0.1'
+__email__ = ['tcox@keck.hawaii.edu', 'tfcox1703@gmail.com', 'lrizzi@keck.hawaii.edu']
+__github__ = 'https://github.com/KeckObservatory/KeckKeywordInterface'
+
 import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
 from datetime import datetime
-#import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import requests
 import dash_katex
@@ -26,9 +34,9 @@ theme = {
 class_theme = {'dark' : ''}
 
 histKeys = Keywords()
-##### Check Settings Tab
-settings_keywords = Keywords()
 
+
+###################### First Tab Layout ######################
 rootLayout1 = html.Div([
     html.Div(id='esi-summary-container', children=[
         html.Div(className='indicator-box'+class_theme['dark'], id='esi-summary-container1', children=[
@@ -124,7 +132,10 @@ rootLayout1 = html.Div([
     ])
 ])
 
-#### Check Computers Tab
+###################### Second Tab Layout ######################
+###############################################################
+
+###################### Check Computers Tab ######################
 
 check_computers = Keywords()
 computersUpQ = []
@@ -170,7 +181,7 @@ computersRoot2 = html.Div([
     ])
 ])
 
-
+###################### Check Keywords Tab ######################
 check_keywords = Keywords()
 keywordsUpQ = []
 keywordsUpQ.append({'LIBRARY':'esi', 'KEYWORD':'dwfillck', 'NAME':'dispatcher 0'})
@@ -198,6 +209,7 @@ keywordRoot2 = html.Div([
     html.P('DCS Not Ready Yet!!!!!!!')
 ])
 
+###################### Check Settings Tab ######################
 check_settings = Keywords()
 settingsCheckQ = []
 settingsCheckQ.append({ 'NAME':'Controller 0 5V Power',
@@ -300,6 +312,7 @@ settingsRoot2 = html.Div([
     ])
 ])
 
+###################### Check Temperature Tab ######################
 check_temperature = Keywords()
 tempCheckQ = []
 tempCheckQ.append({'NAME':'CCD utility board temp', 'LIBRARY':'esi', 'KEYWORD':'utbtemp', 'NORMAL':6.0, 'TOLERANCE':5})
@@ -353,7 +366,7 @@ temperatureRoot2 = html.Div([
     ])
 ])
 
-
+###################### OVERALL LAYOUT ######################
 layout = [
     dcc.Tabs(id="esi-tabs", value='esi-tabs', children=[
         dcc.Tab(id='esi-tab1', label='ESI Summary', value='esi-tabs1', className='custom-tab'+class_theme['dark'],
@@ -418,6 +431,21 @@ esi_semaphore = threading.Semaphore()
     inputs_intervals
 )
 def populate_computers(n_intervals1, n_intervals2):
+    '''
+    Computers indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with esi_semaphore:
         stats = []
         counter = 0
@@ -466,6 +494,21 @@ esi_semaphore1 = threading.Semaphore()
     inputs_intervals
 )
 def populate_keywords(n_intervals1, n_intervals2):
+    '''
+    Keywords indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with esi_semaphore1:
         stats = []
         counter = 0
@@ -505,6 +548,21 @@ esi_semaphore2 = threading.Semaphore()
     inputs_intervals
 )
 def populate_settings(n_intervals1, n_intervals2):
+    '''
+    Settings indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with esi_semaphore2:
         stats = []
         counterGreen = 0
@@ -571,6 +629,21 @@ esi_semaphore3 = threading.Semaphore()
     inputs_intervals
 )
 def populate_temperatures(n_intervals1, n_intervals2):
+    '''
+    Temperature indicator value checks, update values
+
+    Parameters
+    ----------
+    n_intervals1 : int
+        number of milliseconds passed since start updates for page 1.
+    n_intervals2 : int
+        number of milliseconds passed since start updates for page 2.
+
+    Returns
+    -------
+    list
+        list of values in order expressed in Output callback list.
+    '''
     with esi_semaphore3:
         stats = []
         counter = 0
