@@ -77,6 +77,12 @@ They're limited differences between the 'light' and 'dark' theme script in the `
 
 Make 'dark' = True in ``theme`` and 'dark' = '-dark' in ``class_theme`` to turn a page to have a dark theme.
 
+When editing, be aware:
+
+- The pages will update every 30 seconds
+- Tabs should be disabled until fully loaded
+- The app runs on a multithreaded system, so make sure to use semaphore/mutex locks
+
 From Docker
 ~~~~~~~~~~~
 
