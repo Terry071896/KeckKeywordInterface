@@ -11,11 +11,13 @@ the health of the instrument.
 
 Repository Structure
 ~~~~~~~~~~~~~~~~~~~~
-KeckKeywordsInterface
+> KeckKeywordsInterface
+
   - app.py
   - index.py
   - keywords.py
   - apps
+
     - deimos_ui_dark.py
     - deimos_ui.py
     - esi_ui_dark.py
@@ -37,7 +39,9 @@ KeckKeywordsInterface
     - nirspec_ui.py
     - osiris_ui_dark.py
     - osiris_ui.py
+
   - assets
+
     - deimos.css
     - esi.css
     - hires.css
