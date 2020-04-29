@@ -18,27 +18,27 @@ Repository Structure
   - keywords.py (contains Keywords class to read keywords)
   - apps
 
-    - deimos_ui_dark.py (deimos dark theme structure and callback update functions)
-    - deimos_ui.py (deimos light theme structure and callback update functions)
-    - esi_ui_dark.py (esi dark theme structure and callback update functions)
-    - esi_ui.py (esi light theme structure and callback update functions)
-    - hires_ui_dark.py (hires dark theme structure and callback update functions)
-    - hires_ui.py (hires light theme structure and callback update functions)
-    - kcwi_ui_dark.py (kcwi dark theme structure and callback update functions)
-    - kcwi_ui.py (kcwi light theme structure and callback update functions)
-    - lris_ui_dark.py (lris dark theme structure and callback update functions)
-    - lris_ui.py (lris light theme structure and callback update functions)
+    - deimos_ui_dark.py (deimos dark theme structure and callback functions)
+    - deimos_ui.py (deimos light theme structure and callback functions)
+    - esi_ui_dark.py (esi dark theme structure and callback functions)
+    - esi_ui.py (esi light theme structure and callback functions)
+    - hires_ui_dark.py (hires dark theme structure and callback functions)
+    - hires_ui.py (hires light theme structure and callback functions)
+    - kcwi_ui_dark.py (kcwi dark theme structure and callback functions)
+    - kcwi_ui.py (kcwi light theme structure and callback functions)
+    - lris_ui_dark.py (lris dark theme structure and callback functions)
+    - lris_ui.py (lris light theme structure and callback functions)
     - main_page.py (MAIN PAGE layout)
-    - mosfire_ui_dark.py (mosfire dark theme structure and callback update functions)
-    - mosfire_ui.py (mosfire light theme structure and callback update functions)
-    - nirc2_ui_dark.py (nirc2 dark theme structure and callback update functions)
-    - nirc2_ui.py (nirc2 light theme structure and callback update functions)
-    - nires_ui_dark.py (nires dark theme structure and callback update functions)
-    - nires_ui.py (nires light theme structure and callback update functions)
-    - nirspec_ui_dark.py (nirspec dark theme structure and callback update functions)
-    - nirspec_ui.py (nirspec light theme structure and callback update functions)
-    - osiris_ui_dark.py (osiris dark theme structure and callback update functions)
-    - osiris_ui.py (osiris light theme structure and callback update functions)
+    - mosfire_ui_dark.py (mosfire dark theme structure and callback functions)
+    - mosfire_ui.py (mosfire light theme structure and callback functions)
+    - nirc2_ui_dark.py (nirc2 dark theme structure and callback functions)
+    - nirc2_ui.py (nirc2 light theme structure and callback functions)
+    - nires_ui_dark.py (nires dark theme structure and callback functions)
+    - nires_ui.py (nires light theme structure and callback functions)
+    - nirspec_ui_dark.py (nirspec dark theme structure and callback functions)
+    - nirspec_ui.py (nirspec light theme structure and callback functions)
+    - osiris_ui_dark.py (osiris dark theme structure and callback functions)
+    - osiris_ui.py (osiris light theme structure and callback functions)
 
   - assets
 
@@ -57,7 +57,9 @@ Repository Structure
 
 
 Currently, instruments KCWI, NIRSPEC, ESI, and DEIMOS have fully functional pages once up and running.
+
 NIRC2 and OSIRIS have pages up, but the keywords for these instruments are not up on vm-history-1, but once the global server is up then these instruments can be activated (look and read notes in ``apps/main_page.py``).
+
 As for, HIRES, LRIS, MOSFIRE, and NIRES information is needed to build the page (``apps/kcwi_ui.py`` is the best base to work from)
 
 They're limited differences between the 'light' and 'dark' theme script in the ``apps`` folder. In each script, there are these two dictionaries:
