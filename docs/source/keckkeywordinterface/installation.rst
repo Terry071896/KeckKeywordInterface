@@ -13,48 +13,67 @@ Repository Structure
 ~~~~~~~~~~~~~~~~~~~~
 > KeckKeywordsInterface
 
-  - app.py
-  - index.py
-  - keywords.py
+  - app.py (initiates the app)
+  - index.py (runs the app)
+  - keywords.py (contains Keywords class to read keywords)
   - apps
 
-    - deimos_ui_dark.py
-    - deimos_ui.py
-    - esi_ui_dark.py
-    - esi_ui.py
-    - hires_ui_dark.py
-    - hires_ui.py
-    - kcwi_ui_dark.py
-    - kcwi_ui.py
-    - lris_ui_dark.py
-    - lris_ui.py
-    - main_page.py
-    - mosfire_ui_dark.py
-    - mosfire_ui.py
-    - nirc2_ui_dark.py
-    - nirc2_ui.py
-    - nires_ui_dark.py
-    - nires_ui.py
-    - nirspec_ui_dark.py
-    - nirspec_ui.py
-    - osiris_ui_dark.py
-    - osiris_ui.py
+    - deimos_ui_dark.py (deimos dark theme structure and callback update functions)
+    - deimos_ui.py (deimos light theme structure and callback update functions)
+    - esi_ui_dark.py (esi dark theme structure and callback update functions)
+    - esi_ui.py (esi light theme structure and callback update functions)
+    - hires_ui_dark.py (hires dark theme structure and callback update functions)
+    - hires_ui.py (hires light theme structure and callback update functions)
+    - kcwi_ui_dark.py (kcwi dark theme structure and callback update functions)
+    - kcwi_ui.py (kcwi light theme structure and callback update functions)
+    - lris_ui_dark.py (lris dark theme structure and callback update functions)
+    - lris_ui.py (lris light theme structure and callback update functions)
+    - main_page.py (MAIN PAGE layout)
+    - mosfire_ui_dark.py (mosfire dark theme structure and callback update functions)
+    - mosfire_ui.py (mosfire light theme structure and callback update functions)
+    - nirc2_ui_dark.py (nirc2 dark theme structure and callback update functions)
+    - nirc2_ui.py (nirc2 light theme structure and callback update functions)
+    - nires_ui_dark.py (nires dark theme structure and callback update functions)
+    - nires_ui.py (nires light theme structure and callback update functions)
+    - nirspec_ui_dark.py (nirspec dark theme structure and callback update functions)
+    - nirspec_ui.py (nirspec light theme structure and callback update functions)
+    - osiris_ui_dark.py (osiris dark theme structure and callback update functions)
+    - osiris_ui.py (osiris light theme structure and callback update functions)
 
   - assets
 
-    - deimos.css
-    - esi.css
-    - hires.css
-    - kcwi.css
-    - lris.css
-    - main-page.css
-    - mosfire.css
-    - nirc2.css
-    - nires.css
-    - nirspec.css
-    - osiris.css
-    - style.css
+    - deimos.css (deimos pages style and structure settings)
+    - esi.css (esi pages style and structure settings)
+    - hires.css (hires pages style and structure settings)
+    - kcwi.css (kcwi pages style and structure settings)
+    - lris.css (lris pages style and structure settings)
+    - main-page.css (main page style and structure settings)
+    - mosfire.css (mosfire pages style and structure settings)
+    - nirc2.css (nirc2 pages style and structure settings)
+    - nires.css (nires pages style and structure settings)
+    - nirspec.css (nirspec pages style and structure settings)
+    - osiris.css (osiris pages style and structure settings)
+    - style.css (all pages basic style and structure settings)
 
+
+Currently, instruments KCWI, NIRSPEC, ESI, and DEIMOS have fully functional pages once up and running.
+NIRC2 and OSIRIS have pages up, but the keywords for these instruments are not up on vm-history-1, but once the global server is up then these instruments can be activated (look and read notes in ``apps/main_page.py``).
+As for, HIRES, LRIS, MOSFIRE, and NIRES information is needed to build the page (``apps/kcwi_ui.py`` is the best base to work from)
+
+They're limited differences between the 'light' and 'dark' theme script in the ``apps`` folder. In each script, there are these two dictionaries:
+
+::
+
+  theme = {
+          'dark': False,
+          'detail': '#007439',
+          'primary': '#00EA64',
+          'secondary': '#6E6E6E'
+      } # overall theme of page, either 'dark' = False or 'dark' = True
+
+  class_theme = {'dark' : ''} # the class theme, either '' or '-dark'
+
+Make 'dark' = True in ``theme`` and 'dark' = '-dark' in ``class_theme`` to turn a page to have a dark theme.
 
 From Docker
 ~~~~~~~~~~~
