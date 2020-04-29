@@ -8,6 +8,50 @@ This repository runs a web page that provides a user interface for each
 of the Keck Instruments. Each page is to communicate the diagnoses of
 the health of the instrument.
 
+
+Repository Structure
+~~~~~~~~~~~~~~~~~~~~
+KeckKeywordsInterface
+  - app.py
+  - index.py
+  - keywords.py
+  - apps
+    - deimos_ui_dark.py
+    - deimos_ui.py
+    - esi_ui_dark.py
+    - esi_ui.py
+    - hires_ui_dark.py
+    - hires_ui.py
+    - kcwi_ui_dark.py
+    - kcwi_ui.py
+    - lris_ui_dark.py
+    - lris_ui.py
+    - main_page.py
+    - mosfire_ui_dark.py
+    - mosfire_ui.py
+    - nirc2_ui_dark.py
+    - nirc2_ui.py
+    - nires_ui_dark.py
+    - nires_ui.py
+    - nirspec_ui_dark.py
+    - nirspec_ui.py
+    - osiris_ui_dark.py
+    - osiris_ui.py
+  - assets
+    - deimos.css
+    - esi.css
+    - hires.css
+    - kcwi.css
+    - lris.css
+    - main-page.css
+    - mosfire.css
+    - nirc2.css
+    - nires.css
+    - nirspec.css
+    - osiris.css
+    - style.css
+
+
 From Docker
 ~~~~~~~~~~~
 
@@ -118,7 +162,7 @@ If none of these are the issue that you are experiencing, then
 
 ::
 
-     git clone https://github.com/Terry071896/KeckKeywordInterface/
+     git clone https://github.com/KeckObservatory/KeckKeywordInterface/
      cd .../KeckKeywordInterface
      docker build -t terry071896/keck_keyword_interface .
      docker run [...]
@@ -136,7 +180,7 @@ Install/Run
 
 ::
 
-     git clone https://github.com/Terry071896/KeckKeywordInterface/
+     git clone https://github.com/KeckObservatory/KeckKeywordInterface/
      cd .../KeckKeywordInterface
      sudo pip install -r requirements.txt
 
