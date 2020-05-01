@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Keck Keyword User Interface &#8212; KeckKeywordInterface 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Welcome to KeckKeywordInterface’s documentation!" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="keck-keyword-user-interface">
+<h1>Keck Keyword User Interface<a class="headerlink" href="#keck-keyword-user-interface" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This repository runs a web page that provides a user interface for each
+of the Keck Instruments. Each page is to communicate the diagnoses of
+the health of the instrument.</p>
+</div>
+<div class="section" id="from-docker">
+<h2>From Docker<a class="headerlink" href="#from-docker" title="Permalink to this headline">¶</a></h2>
+<p>Runs from docker container</p>
+<ul class="simple">
+<li><p>Install</p></li>
+<li><p>Run Options</p></li>
+<li><p>Troubleshooting</p></li>
+</ul>
+<div class="section" id="install">
+<h3>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h3>
+<p>This should import the container</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span>
+</pre></div>
+</div>
+<p>This is also the command used to install new updates.</p>
+</div>
+<div class="section" id="run-options">
+<h3>Run Options<a class="headerlink" href="#run-options" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="option-1-basic-run">
+<h4>Option 1- Basic Run:<a class="headerlink" href="#option-1-basic-run" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">8050</span><span class="p">:</span><span class="mi">8050</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span>
+</pre></div>
+</div>
+<p>This should run the container.</p>
+<p>You should see (or similar to)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Serving</span> <span class="n">Flask</span> <span class="n">app</span> <span class="s2">&quot;app&quot;</span> <span class="p">(</span><span class="n">lazy</span> <span class="n">loading</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">Environment</span><span class="p">:</span> <span class="n">production</span>
+  <span class="n">WARNING</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">development</span> <span class="n">server</span><span class="o">.</span> <span class="n">Do</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">production</span> <span class="n">deployment</span><span class="o">.</span>
+  <span class="n">Use</span> <span class="n">a</span> <span class="n">production</span> <span class="n">WSGI</span> <span class="n">server</span> <span class="n">instead</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Debug</span> <span class="n">mode</span><span class="p">:</span> <span class="n">off</span>
+<span class="o">*</span> <span class="n">Running</span> <span class="n">on</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">0.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8050</span><span class="o">/</span> <span class="p">(</span><span class="n">Press</span> <span class="n">CTRL</span><span class="o">+</span><span class="n">C</span> <span class="n">to</span> <span class="n">quit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>open a browser and go to the link specified (for me that is
+<code class="docutils literal notranslate"><span class="pre">localhost:8050/</span></code>).</p>
+</div>
+<div class="section" id="option-2-start-stop-run">
+<h4>Option 2- Start/Stop Run:<a class="headerlink" href="#option-2-start-stop-run" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">8050</span><span class="p">:</span><span class="mi">8050</span> <span class="o">--</span><span class="n">detach</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span>
+</pre></div>
+</div>
+<p>This will run the container in the background without any read out.</p>
+<p>In order to stop the container from running,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">stop</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span>
+</pre></div>
+</div>
+<p>and to start</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">start</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span>
+</pre></div>
+</div>
+<p>If you are starting and stopping the container many times, it could be
+ideal to rename the process. (If there are more updates to be installed,
+this is not recommended as you will have to remove the name)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">8050</span><span class="p">:</span><span class="mi">8050</span> <span class="o">--</span><span class="n">detach</span> <span class="o">--</span><span class="n">name</span> <span class="n">keckUI</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span>
+</pre></div>
+</div>
+<p>So then you can start stop using that name,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">start</span> <span class="n">keckUI</span>
+<span class="n">docker</span> <span class="n">stop</span> <span class="n">keckUI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
+<p>If you are getting the error <code class="docutils literal notranslate"><span class="pre">docker:</span> <span class="pre">Command</span> <span class="pre">not</span> <span class="pre">found.</span></code>, then go to
+the website <a class="reference external" href="https://www.docker.com/products/docker-desktop">https://www.docker.com/products/docker-desktop</a> and follow
+the instructions to download docker.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">[...]</span></code> or <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">[...]</span></code> are not found, check
+for spelling errors (it’s there).</p>
+<p>If the container appears to be running, but nothing is showing up on the
+localhost. Make sure that you are running from port <code class="docutils literal notranslate"><span class="pre">8050:8050</span></code>.</p>
+<p>If the app is not updating properly, then see the GitHub Troubleshooting
+section at the bottom of this page.</p>
+<p>If you renamed the docker container (such as “keckUI” above) and you are
+trying to update, then</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">container</span> <span class="n">rm</span> <span class="o">--</span><span class="n">force</span> <span class="n">keckUI</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>If none of these are the issue that you are experiencing, then</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Terry071896</span><span class="o">/</span><span class="n">KeckKeywordInterface</span><span class="o">/</span>
+<span class="n">cd</span> <span class="o">.../</span><span class="n">KeckKeywordInterface</span>
+<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">terry071896</span><span class="o">/</span><span class="n">keck_keyword_interface</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="from-github">
+<h2>From GitHub<a class="headerlink" href="#from-github" title="Permalink to this headline">¶</a></h2>
+<p>Runs from python3</p>
+<ul class="simple">
+<li><p>Install/Run</p></li>
+<li><p>Troubleshooting</p></li>
+</ul>
+<div class="section" id="install-run">
+<h3>Install/Run<a class="headerlink" href="#install-run" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Terry071896</span><span class="o">/</span><span class="n">KeckKeywordInterface</span><span class="o">/</span>
+<span class="n">cd</span> <span class="o">.../</span><span class="n">KeckKeywordInterface</span>
+<span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>This should import all the code and python packages necessary.</p>
+<p>Then, to run the app</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">index</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>You should then see</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Serving</span> <span class="n">Flask</span> <span class="n">app</span> <span class="s2">&quot;app&quot;</span> <span class="p">(</span><span class="n">lazy</span> <span class="n">loading</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">Environment</span><span class="p">:</span> <span class="n">production</span>
+  <span class="n">WARNING</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">development</span> <span class="n">server</span><span class="o">.</span> <span class="n">Do</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">production</span> <span class="n">deployment</span><span class="o">.</span>
+  <span class="n">Use</span> <span class="n">a</span> <span class="n">production</span> <span class="n">WSGI</span> <span class="n">server</span> <span class="n">instead</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Debug</span> <span class="n">mode</span><span class="p">:</span> <span class="n">off</span>
+<span class="o">*</span> <span class="n">Running</span> <span class="n">on</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">0.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8050</span><span class="o">/</span> <span class="p">(</span><span class="n">Press</span> <span class="n">CTRL</span><span class="o">+</span><span class="n">C</span> <span class="n">to</span> <span class="n">quit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>open a browser and go to the link specified (for me that is
+<code class="docutils literal notranslate"><span class="pre">http://0.0.0.1:8050/</span></code>). If there is a problem, then you are running
+python2, so <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">index.py</span></code> should work.</p>
+</div>
+<div class="section" id="id1">
+<h3>Troubleshooting<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>If the app is not updating or updating properly: - First, give it a few
+seconds as the program could be changing modes or reading in a large
+amount of data. - Second, either try refreshing the page or kill/rerun
+the program.</p>
+<p>If you are getting the error</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">getting</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">server</span>
+</pre></div>
+</div>
+<p>over and over, then there is a problem with the script
+“simple_server.py”, which should be running from “kroot”.</p>
+<p>Given that it is not running, then it can be ran from the home directory
+“vm-history-1”.</p>
+<p>Once logged in, then</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">KeckKeywords</span><span class="o">/</span><span class="n">keyword_server</span><span class="o">/</span>
+<span class="n">kpython3</span> <span class="n">simple_server</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KeckKeywordInterface</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Keck Keyword User Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#from-docker">From Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#from-github">From GitHub</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Welcome to KeckKeywordInterface’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Terry Cox.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/keckkeywordinterface/installation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

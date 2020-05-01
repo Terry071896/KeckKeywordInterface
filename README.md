@@ -1,5 +1,9 @@
 ## Keck Keyword User Interface
 
+### Documentation
+
+https://keckkeywordinterface.readthedocs.io/en/latest/
+
 ### Introduction
 
 This repository runs a web page that provides a user interface for each of the Keck Instruments.
@@ -89,7 +93,7 @@ docker run [...]
 
 If none of these are the issue that you are experiencing, then
 ```
-  git clone https://github.com/Terry071896/KeckKeywordInterface/
+  git clone https://github.com/KeckObservatory/KeckKeywordInterface/
   cd .../KeckKeywordInterface
   docker build -t terry071896/keck_keyword_interface .
   docker run [...]
@@ -105,7 +109,7 @@ Runs from python3
 #### Install/Run
 
 ```
-  git clone https://github.com/Terry071896/KeckKeywordInterface/
+  git clone https://github.com/KeckObservatory/KeckKeywordInterface/
   cd .../KeckKeywordInterface
   sudo pip install -r requirements.txt
 ```
